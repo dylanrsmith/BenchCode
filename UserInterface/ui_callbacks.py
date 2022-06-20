@@ -371,6 +371,9 @@ class ui_callbacks:
         new=1-current
         self._uc.SimMode = new
 
+    def reset_CAN(self):
+        os.system("sudo bash ./HwConnect/resetCAN.sh")
+
     def pass_to_board(self, spn_number, data):
         if self._uc.testing_active == 0:
             self.io_ob.data_to_board(SPN=spn_number, val=int(data))

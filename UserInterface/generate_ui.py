@@ -1234,3 +1234,9 @@ class generate_ui():
         label_sim.grid(row=4, column=1)
         self._ge.sim_button=tk.Button(label_frame_setting,height=1,width=4,bd=6, fg="black",font=('Geneva',6),bg="Red", command=self.ui_call.sim_callback)
         self._ge.sim_button.grid(row=4,column=2)
+
+        #Reset CAN button
+        label_reset_can = tk.Label(label_frame_setting, text='Reset CAN Network', bg="azure3", width=20)
+        label_reset_can.grid(row=5, column=1)
+        self._ge.reset_can_button=tk.Button(label_frame_setting, height=1, width=4, bd=6, fg="black", font=('Geneva',6),bg="skyblue",command=self.ui_call.reset_CAN)
+        self._ge.reset_can_button.grid(row=5,column=2)

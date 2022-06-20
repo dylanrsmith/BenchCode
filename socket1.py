@@ -15,9 +15,9 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)   # Socket Object
 print("Socket Successfully  Created")
 s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
 s.bind(('',port)) # Bind socket to a IP, and Port
-print("Server running on %s" %(IP))
-print("Socket binded to %s" %(port))
-s.listen(20)
+#print("Server running on %s" %(IP))
+#print("Socket binded to %s" %(port))
+#s.listen(20)
 print("Socket is in listening mode")
 
 class socketHandler(threading.Thread):
