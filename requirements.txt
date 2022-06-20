@@ -1,0 +1,9 @@
+pandas
+openpyxl
+spidev
+rpi.gpio
+smbus
+python-can
+numpy
+tk
+psutil
