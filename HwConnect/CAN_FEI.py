@@ -1,4 +1,3 @@
-from turtle import delay
 import can
 import os
 import time
@@ -76,9 +75,10 @@ class CAN_FEI:
         #Create a bool dictionary to list all online boards? Update when ping response is received?
         for i in range(5):
             ping_msg.arbitration_id = ((id_prefix << 8 | i) << 8 | id_suffix)
-            thread.send(ping_msg)
+            #thread.send(ping_msg)
+            thread.send_periodic(ping_msg,5.0,30,True)
             print(thread2.recv())
-            time.sleep(3)
+            
 
             #if can_bus.recv() != 'NaN':
                 #print(can_bus.recv())
@@ -145,12 +145,12 @@ class CAN_FEI:
 
 
 #TEST ENVIRONMENT:
-#can0 = CAN_FEI()
+can0 = CAN_FEI()
 # can0.initialize_can()
 #can0.flip_loop(1)
 
 # can0.flip_all_on()
 #time.sleep(5)
 #can0.flip_all_off()
-#can0.ping()
+can0.ping()
 #can0.output_test()
