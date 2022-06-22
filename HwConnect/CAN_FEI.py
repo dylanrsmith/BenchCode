@@ -33,7 +33,6 @@ class CAN_FEI:
         Using WaveShare 2-CH CAN HAT.
         """
         os.system('sudo ifconfig can0 down')
-        delay(.1)
         os.system('sudo ip link set can0 up type can bitrate 250000')
 
     def flip_one(board,relay,state):
