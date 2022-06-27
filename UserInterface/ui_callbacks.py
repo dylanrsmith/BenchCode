@@ -373,6 +373,12 @@ class ui_callbacks:
 
     def reset_CAN(self):
         os.system("sudo bash ./HwConnect/resetCAN.sh")
+        thread_1 = Thread(target=self.can2.receive_CAN)
+        thread_1.start()
+        print('thread_1 start')
+
+
+
 
     def pass_to_board(self, spn_number, data):
         if self._uc.testing_active == 0:
