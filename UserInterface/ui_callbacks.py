@@ -69,7 +69,7 @@ class ui_callbacks:
         state= self._uc.volt_state[sp]
 
         self.pass_to_board(spn_number=sp, data=new_data)
-        self.can2.flip_one(brd_num, rel_num,state)
+        self.can2.flip_one(brd_num,rel_num,state)
 
         #added function for toggle buttons on voltage tab. -Dylan
     def freqToggle(self,i):
@@ -372,10 +372,8 @@ class ui_callbacks:
         self._uc.SimMode = new
 
     def reset_CAN(self):
-        os.system("sudo bash ./HwConnect/resetCAN.sh")
-        thread_1 = Thread(target=self.can2.receive_CAN)
-        thread_1.start()
-        print('thread_1 start')
+        os.system("bash ./HwConnect/resetCAN.sh")
+        
 
 
 

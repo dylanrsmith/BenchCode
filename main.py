@@ -153,26 +153,7 @@ def plant_model_update_thread():
         rotor_obj.calculate_rotor()
         #rotor_time = time.time() # Ifdef
         feeder_obj.calculate_Feeder()
-        #feeder_time = time.time() # Ifdef
-
-#        print("\n")
-#         print("Drive Line : ",drivline_time -start_time)
-#         print("CLRM Time : ", clrm_time-drivline_time)
-#         print("GHCV Time : ", ghcv_time-clrm_time)
-#         print("RSCH Time : ", rsch_time-ghcv_time)
-#         print("GHTS Time : ", ghts_time-rsch_time)
-#         print("RSCK Time : ", rsck_time -ghts_time)
-#         print("GHPS Time :", ghps_time-rsck_time)
-#         print("THCC Time :", thcc_time-ghps_time)
-#         print("CLFN Time :", clfn_time-thcc_time)
-#         print("RSSP Time :", rssp_time-clfn_time)
-#         print("HDHR Time :", hdhr_time-rssp_time)
-#         print("HDFN Time :", hdfn_time-hdhr_time)
-#         print("AGGE Time :", agge_time-hdfn_time)
-#        print("Rotor Time :", rotor_time-agge_time)
-#         print("Feeder Time :", feeder_time-rotor_time)
-#         print("\n")
-        
+      
         threading.Timer(0.0001, plant_model_update_thread).start()  # 1 second read thread
     else:
         dv.calculate_speeds(gd_obj.current_spd)
@@ -188,16 +169,19 @@ def plant_model_update_thread():
         hdhr.calculate_hdr_volt()
         hdfn.calculate_hdr_pos()
         agge.agge_plant_cal()
+        cn.receive_CAN()
+        cn.ping()
         threading.Timer(0.0001, plant_model_update_thread).start()  # 2 second read thread
 
 if gd_obj.testing_active == 0:
     plant_model_update_thread()
 
 #CAN
-if gd_obj.testing_active == 0:
-    from HwConnect.CAN_interface import *
-    canbus1 = CANbus(gd_obj.canbus1, gd_obj.msg_buffer, gd_obj)
-    canbus1.RecvCAN()
+# if gd_obj.testing_active == 1:
+#     recv_thread = Thread(target=cn.receive_CAN, name='recv_thread')
+#     ping_thread = Thread(target=cn.ping, name='ping_thread')
+#     recv_thread.start()
+#     ping_thread.start()
 
 
 if gd_obj.testing_active == 0:

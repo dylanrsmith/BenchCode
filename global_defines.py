@@ -310,9 +310,10 @@ class global_defines:
     #Lists for Channel/Board
     #Maybe use dictionaries instead of lists to pair with spn #
     #-Dylan
-    board_dict={}                       #Dictionary with SPN and Board Number pairs
-    channel_dict={}                     #Dictionary with SPN and relay(channel) pairs
-    dig_state = {}                      #Dictionary with SPN and default state of 0(?)
+    ping_dict={}                        #Dictionary with Board Number : Boolean active value
+    board_dict={}                       #Dictionary with SPN : Board Number pairs
+    channel_dict={}                     #Dictionary with SPN : relay(channel) pairs
+    dig_state = {}                      #Dictionary with SPN : default state of 0
     volt_state = {}
     freq_state = {}
     pulse_state={}

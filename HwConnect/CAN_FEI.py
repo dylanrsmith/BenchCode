@@ -1,19 +1,20 @@
+from unittest import skip
 import can
 import os
-from time import *
+import time
 from threading import Thread
 import sys
+from global_defines import global_defines
 sys.path.insert(0, '/home/dev/Documents/Bench_Code_FEI_v6.01')
 
-
-#from global_defines import *
 
 
 class CAN_FEI:
     """
     This class will contain all of the main functions for Sending and receiving CAN messages between the Pi and relay boards.
     """
-    global can_bus,gd
+    global can_bus
+    global gd
     global msg
     global can1 
 
@@ -23,20 +24,19 @@ class CAN_FEI:
         self.id_prefix = 0x18DA
         self.id_suffix = 0xF9
         
+        
+    #def flip_one(self,board,relay,state):
     def flip_one(board,relay,state):
         """
         Sends a can message to change the state of a SINGLE relay
         """
-        
         can_bus=can.interface.Bus(channel='can0', bustype = 'socketcan')
         msg=can.Message(data=[0,0,0,0,0,0,0,0],is_extended_id=True)
-        id_prefix = 0x18DA
-        id_suffix = 0xF9
-
+        
         board = int(board)
         relay = int(relay)
         state = int(state)
-        msg.arbitration_id = ((id_prefix << 8 | board) << 8 | id_suffix)
+        msg.arbitration_id = ((0x18DA << 8 | board) << 8 | 0xF9)
         msg.data[7]=relay
         msg.data[6]=state
 
@@ -50,14 +50,16 @@ class CAN_FEI:
 
         Relay board should return same message, when response is received, that board will be updated as ready.
 
+        Handled by a thread.
         """
-        id_prefix = 0x18DA
-        id_suffix = 0xF9
+        boards = [0,1,2,3,81,82]
+        ping_msg=can.Message(data=[0,0,0,1,0,0,0,0],is_extended_id=True)
         thread = can.ThreadSafeBus(channel = 'can0', bustype='socketcan')
-        num=int(input("enter board number: "))
-        ping_msg=can.Message(arbitration_id=0x18DA51F9, data=[0,0,0,1,0,0,0,0],is_extended_id=True)
-        ping_msg.arbitration_id=((id_prefix << 8 | num) << 8 | id_suffix)
-        thread.send(ping_msg)
+        print("Polling...")
+        for i in (boards):
+            ping_msg.arbitration_id=((0x18DA << 8 | i) << 8 | 0xF9)
+            thread.send(ping_msg)
+        #time.sleep(60)
 
     
     #Add parameter to 
@@ -75,7 +77,6 @@ class CAN_FEI:
         msg.arbitration_id=((id_prefix << 8 | board_num) << 8 | id_suffix)
         can_bus.send(msg)
         print("All relays ON")
-
 
     def flip_all_off(self):
         """
@@ -120,8 +121,14 @@ class CAN_FEI:
 
         thread_bus = can.ThreadSafeBus(channel = 'can0', bustype='socketcan')
         message=thread_bus.recv()
-
         print(message)
+        address = (message.arbitration_id >> 0 & 0xFF) 
+        if (address != 0xF9):
+            #TODO update      
+            global_defines.ping_dict.update({int(address) : 1})
+        else:
+            skip
+             
 
     def initialize_can(self):
         """
@@ -141,12 +148,10 @@ class CAN_FEI:
             ping_msg2=can.Message(arbitration_id=0x18DA01F9, data=[0,0,0,1,0,0,0,0],is_extended_id=True)
             ping_msg3=can.Message(arbitration_id=0x18DA52F9, data=[0,0,0,1,0,0,0,0],is_extended_id=True)
             
-        
             thread.send(ping_msg1)
             thread.send(ping_msg2)
             thread.send(ping_msg3)
             time.sleep(.5)
-
 
 
 
@@ -158,6 +163,7 @@ can0 = CAN_FEI()
 #can0.flip_all_on()
 #time.sleep(5)
 #can0.flip_all_off()
-can0.pingTest()
+#can0.pingTest()
+#can0.ping()
 #can0.flip_one()
 #can0.output_test()
