@@ -1,4 +1,3 @@
-from unittest import skip
 import can
 import os
 import time
@@ -55,12 +54,9 @@ class CAN_FEI:
         boards = [0,1,2,3,81,82]
         ping_msg=can.Message(data=[0,0,0,1,0,0,0,0],is_extended_id=True)
         thread = can.ThreadSafeBus(channel = 'can0', bustype='socketcan')
-        print("Polling...")
         for i in (boards):
             ping_msg.arbitration_id=((0x18DA << 8 | i) << 8 | 0xF9)
             thread.send(ping_msg)
-        #time.sleep(60)
-
     
     #Add parameter to 
     def flip_all_on(self):
@@ -117,17 +113,18 @@ class CAN_FEI:
         can_bus.send(msg)
 
     def receive_CAN(self):
-        print('listening on canbus')
-
+        '''
+        Method for receiving and deciphering CAN.
+        '''
         thread_bus = can.ThreadSafeBus(channel = 'can0', bustype='socketcan')
-        message=thread_bus.recv()
-        print(message)
-        address = (message.arbitration_id >> 0 & 0xFF) 
-        if (address != 0xF9):
-            #TODO update      
-            global_defines.ping_dict.update({int(address) : 1})
-        else:
-            skip
+        try:
+            message=thread_bus.recv()
+            address = (message.arbitration_id >> 0 & 0xFF) 
+            if (address != 0xF9):
+                global_defines.ping_dict.update({int(address) : 1})
+                print(len(global_defines.ping_dict))
+        except TimeoutError:
+            print('got nothing')
              
 
     def initialize_can(self):
@@ -152,9 +149,6 @@ class CAN_FEI:
             thread.send(ping_msg2)
             thread.send(ping_msg3)
             time.sleep(.5)
-
-
-
 
 #TEST ENVIRONMENT:
 can0 = CAN_FEI()

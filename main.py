@@ -1,4 +1,6 @@
 import time
+start = time.time()
+import multiprocessing
 from global_defines import *
 
 gd_obj = global_defines()
@@ -120,6 +122,17 @@ def ui_update_thread():
         threading.Timer(1, ui_update_thread).start()  # 2 second read thread
 ui_update_thread()
 
+def ping_thread():
+    cn.ping()
+    threading.Timer(1,ping_thread).start()
+
+def listen_thread():
+    cn.receive_CAN()
+    threading.Timer(1,listen_thread).start()
+
+ping_thread()
+listen_thread()
+
 def plant_model_update_thread():
     if gd_obj.testing_active == 0:
         #start_time = time.time()  # Ifdef
@@ -169,8 +182,6 @@ def plant_model_update_thread():
         hdhr.calculate_hdr_volt()
         hdfn.calculate_hdr_pos()
         agge.agge_plant_cal()
-        cn.receive_CAN()
-        cn.ping()
         threading.Timer(0.0001, plant_model_update_thread).start()  # 2 second read thread
 
 if gd_obj.testing_active == 0:
@@ -190,5 +201,10 @@ if gd_obj.testing_active == 0:
     #start read thread
     read_ob = ReadThread(io)
     read_ob.read()
+
+end = time.time()
+
+timee = end-start
+print("Time = %s seconds" % timee) 
 
 ui.mainloop()

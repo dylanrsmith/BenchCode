@@ -36,13 +36,10 @@ class ui_callbacks:
 
     #Callback for dropdown menus (Output Boards)
     def output_send(self, spn, i):
-        #sp = self._uc.dig_ip_spn[i]
         sp=spn
         state = i
         brd_num = self._uc.board_dict[sp]
         rel_num = self._uc.channel_dict[sp]
-        #get option menu value:
-        #state = self._uc.dig_ip_option[i].get()
         if state == 'Normal':
             self.can2.flip_one(brd_num, rel_num, 0)
         elif state == 'Open_Circuit':
