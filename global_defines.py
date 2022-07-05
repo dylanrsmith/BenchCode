@@ -312,6 +312,7 @@ class global_defines:
     #-Dylan
     ping_dict={}                        #Dictionary with Board Number : Boolean active value
     board_dict={}                       #Dictionary with SPN : Board Number pairs
+    board_list=[] 
     channel_dict={}                     #Dictionary with SPN : relay(channel) pairs
     dig_state = {}                      #Dictionary with SPN : default state of 0
     volt_state = {}
@@ -804,7 +805,7 @@ class global_defines:
 
     #deemed defunct -dylan
     if testing_active == 0:
-        import can
+        #import can
         from collections import deque
 
         canbus_1 = can.interface.Bus(channel='slcan0', bustype='socketcan', bitrate=500000)

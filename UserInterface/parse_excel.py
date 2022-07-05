@@ -69,14 +69,14 @@ class parse_excel:
                     self._pe.openTo_str = str(openTo)
 
                     #Parse open_to, channel, and board number columns
-                    #Need to access these dictionaries from ui_callbacks/CAN_FEI
+                    #Also creating list of boards from excel
                     if board_no != 'nan':
                         self._pe.board_dict.update({spn:board_no})
+                        self._pe.board_list.append(board_no)
                     if channel != 'nan':
                         self._pe.channel_dict.update({spn:channel})
                     if self._pe.openTo_str != 'nan':
                         self._pe.ground_dict.update({spn:self._pe.openTo_str})
-
 
                     #Populate boolean dictionaries
                     #Check if Board Number and Channel are both configured
@@ -92,7 +92,6 @@ class parse_excel:
                     else:
                         self._pe.bool_all.update({spn:0})
                         
-
                     new_name = name_spn + ' : ' + name
                     if self._pe.dig_ip_str in spn_type:
                         self._pe.dig_ip_spn.append(spn)

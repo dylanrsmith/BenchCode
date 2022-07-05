@@ -52,11 +52,14 @@ class CAN_FEI:
         Handled by a thread.
         """
         boards = [0,1,2,3,81,82]
+        dict=global_defines.board_dict
         ping_msg=can.Message(data=[0,0,0,1,0,0,0,0],is_extended_id=True)
         thread = can.ThreadSafeBus(channel = 'can0', bustype='socketcan')
         for i in (boards):
             ping_msg.arbitration_id=((0x18DA << 8 | i) << 8 | 0xF9)
             thread.send(ping_msg)
+            online=global_defines.ping_dict.keys()
+            print("boards online : "+str(online))
     
     #Add parameter to 
     def flip_all_on(self):
@@ -120,9 +123,8 @@ class CAN_FEI:
         try:
             message=thread_bus.recv()
             address = (message.arbitration_id >> 0 & 0xFF) 
-            if (address != 0xF9):
+            if (address != 0xF9) and (address not in global_defines.ping_dict):
                 global_defines.ping_dict.update({int(address) : 1})
-                print(len(global_defines.ping_dict))
         except TimeoutError:
             print('got nothing')
              

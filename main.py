@@ -1,10 +1,5 @@
 import time
-start = time.time()
-import multiprocessing
 from global_defines import *
-
-gd_obj = global_defines()
-
 from socket1 import *
 from UserInterface.parse_excel import *
 from UserInterface.generate_ui import *
@@ -25,6 +20,8 @@ from PlantModels.UCM3_PlantModels.rssp import *
 from PlantModels.UCM2_PlantModels.rotor import *
 from PlantModels.UCM1_PlantModels.feeder import *
 
+start = time.time()
+gd_obj = global_defines()
 
 if gd_obj.testing_active == 0:
     from IOCtrl import *
@@ -33,7 +30,6 @@ if gd_obj.testing_active == 0:
 if gd_obj.testing_active == 0:
     #start IO control
     io = IOCtrl(gd_obj)
-    #initialize all freq to 200
     from startup_init import *
     st = start_init(gd_obj, io)
     st.init_key()
@@ -44,7 +40,6 @@ else:
     st = 0
 
 pe = parse_excel(gd_obj)
-#st.init_volt()
 sc = socket_py(io)  
 gu = generate_ui(gd_obj, io)
 ui = update_ui(gd_obj, io)
@@ -65,7 +60,10 @@ agge = agge_plant(gd_obj, io)
 rotor_obj = rotor_hydro(gd_obj, io)
 feeder_obj = Feeder_hydro(gd_obj, io)
 
+#parse_excel.py
 pe.parse_excel()
+
+#generate_ui.py
 gu.generate_spn_ui()
 gu.generate_open_ui()
 gu.generate_driveline_ui()
@@ -83,6 +81,7 @@ gu.generate_ui_hdfn()
 gu.generate_ui_agge()
 gu.generate_setting_ui()
 
+#update_ui.py 
 def ui_update_thread():
     if gd_obj.testing_active == 0:
         ui.update_ui_dict()
@@ -119,8 +118,7 @@ def ui_update_thread():
         ui.update_ui_agge()
         ui.update_settings()
         ui.update_cpu()
-        threading.Timer(1, ui_update_thread).start()  # 2 second read thread
-ui_update_thread()
+        threading.Timer(1, ui_update_thread).start()
 
 def ping_thread():
     cn.ping()
@@ -130,41 +128,27 @@ def listen_thread():
     cn.receive_CAN()
     threading.Timer(1,listen_thread).start()
 
+ui_update_thread()
 ping_thread()
 listen_thread()
 
 def plant_model_update_thread():
     if gd_obj.testing_active == 0:
-        #start_time = time.time()  # Ifdef
         dv.calculate_speeds(gd_obj.current_spd)
-        #drivline_time = time.time() # Ifdef
         cl.calculate_speed()
-        #clrm_time = time.time() # Ifdef
         gh.calculate_state()
-        #ghcv_time = time.time() # Ifdef
         #rs.calculate()
         rs.rsch_temp()
-        #rsch_time = time.time() # Ifddef
         gt.calculate()
-        #ghts_time = time.time() #Ifdef
         rsck.calculate()
-        #rsck_time = time.time() #Ifdef
         ghps.calculate()
-        #ghps_time = time.time() # Ifdef
         thcc.calculate()
-        #thcc_time = time.time() # Ifdef
         clfn.calculate_RPM()
-        #clfn_time = time.time() # Ifdef
         rssp.calculate_rpm()
-        #rssp_time = time.time() # Ifdef
         hdhr.calculate_hdr_volt()
-        #hdhr_time = time.time() # Ifdef
         hdfn.calculate_hdr_pos()
-        #hdfn_time = time.time() # Ifdef
         agge.agge_plant_cal()
-        #agge_time = time.time() # Ifdef
         rotor_obj.calculate_rotor()
-        #rotor_time = time.time() # Ifdef
         feeder_obj.calculate_Feeder()
       
         threading.Timer(0.0001, plant_model_update_thread).start()  # 1 second read thread
