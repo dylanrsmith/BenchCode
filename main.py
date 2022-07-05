@@ -23,6 +23,8 @@ from PlantModels.UCM1_PlantModels.feeder import *
 start = time.time()
 gd_obj = global_defines()
 
+#testing_active is set to 1...
+
 if gd_obj.testing_active == 0:
     from IOCtrl import *
     from ReadThread import *
@@ -43,7 +45,7 @@ pe = parse_excel(gd_obj)
 sc = socket_py(io)  
 gu = generate_ui(gd_obj, io)
 ui = update_ui(gd_obj, io)
-cn = CAN_FEI()
+cn = CAN_FEI(gd_obj)
 dv = driveline(gd_obj, io)
 cl = clrm_plant(gd_obj, io)
 gh = ghcv_plant(gd_obj, io)
@@ -137,7 +139,6 @@ def plant_model_update_thread():
         dv.calculate_speeds(gd_obj.current_spd)
         cl.calculate_speed()
         gh.calculate_state()
-        #rs.calculate()
         rs.rsch_temp()
         gt.calculate()
         rsck.calculate()
@@ -150,7 +151,6 @@ def plant_model_update_thread():
         agge.agge_plant_cal()
         rotor_obj.calculate_rotor()
         feeder_obj.calculate_Feeder()
-      
         threading.Timer(0.0001, plant_model_update_thread).start()  # 1 second read thread
     else:
         dv.calculate_speeds(gd_obj.current_spd)
@@ -171,14 +171,6 @@ def plant_model_update_thread():
 if gd_obj.testing_active == 0:
     plant_model_update_thread()
 
-#CAN
-# if gd_obj.testing_active == 1:
-#     recv_thread = Thread(target=cn.receive_CAN, name='recv_thread')
-#     ping_thread = Thread(target=cn.ping, name='ping_thread')
-#     recv_thread.start()
-#     ping_thread.start()
-
-
 if gd_obj.testing_active == 0:
     # Start Socket
     sc.accept_socket()
@@ -188,7 +180,6 @@ if gd_obj.testing_active == 0:
 
 end = time.time()
 
-timee = end-start
-print("Time = %s seconds" % timee) 
-
+boot_time = end-start
+print("Time = %s seconds" % boot_time) 
 ui.mainloop()

@@ -159,6 +159,22 @@ class global_defines:
     open_frame=Frame(open_canvas)
     open_canvas.create_window((0,0), window=open_frame, anchor="nw")
 
+    #Actuator Tab
+    tc_actuator = ttk.Frame(tc)
+    tc_actuator.pack(side='left')
+    actuator_canvas = Canvas(tc_actuator, width=6, height=6,scrollregion=(0,0,1450,1100))
+    hbar = Scrollbar(tc_actuator,orient=HORIZONTAL)
+    hbar.pack(side=BOTTOM,fill=X)
+    hbar.config(command=actuator_canvas.xview)
+    vbar = Scrollbar(tc_actuator,orient=VERTICAL)
+    vbar.pack(side=RIGHT, fill=Y)
+    vbar.config(command=actuator_canvas.yview)
+    actuator_canvas.config(width=6, height=6)
+    actuator_canvas.pack(side=LEFT,expand=True, fill=BOTH)
+    actuator_frame=Frame(actuator_canvas)
+    actuator_canvas.create_window((0,0),window=actuator_frame, anchor="nw")
+
+
 
     #Driveline
     tc_drive = ttk.Frame(tc)
@@ -248,6 +264,7 @@ class global_defines:
     tc.add(tc_freq_ip, text='Freq')
     tc.add(tc_pulse, text='Pulse')
     tc.add(tc_open, text='Open')
+    tc.add(tc_actuator, text='Actuator')
     tc.add(tc_drive, text='Driveline')
     tc.add(tc_plant_model_ucm1, text='PlantModel_UCM1')
     tc.add(tc_plant_model_ucm2, text='PlantModel_UCM2')
@@ -311,6 +328,7 @@ class global_defines:
     #Maybe use dictionaries instead of lists to pair with spn #
     #-Dylan
     ping_dict={}                        #Dictionary with Board Number : Boolean active value
+    time_dict={}                        #Dictionary containing CAN timestamps
     board_dict={}                       #Dictionary with SPN : Board Number pairs
     board_list=[] 
     channel_dict={}                     #Dictionary with SPN : relay(channel) pairs

@@ -72,7 +72,8 @@ class parse_excel:
                     #Also creating list of boards from excel
                     if board_no != 'nan':
                         self._pe.board_dict.update({spn:board_no})
-                        self._pe.board_list.append(board_no)
+                    if (pd.notna(board_no)) and (board_no not in self._pe.board_list):
+                        self._pe.board_list.append(int(board_no))
                     if channel != 'nan':
                         self._pe.channel_dict.update({spn:channel})
                     if self._pe.openTo_str != 'nan':

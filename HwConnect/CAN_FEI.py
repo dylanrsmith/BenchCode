@@ -3,7 +3,6 @@ import os
 import time
 from threading import Thread
 import sys
-from global_defines import global_defines
 sys.path.insert(0, '/home/dev/Documents/Bench_Code_FEI_v6.01')
 
 
@@ -14,14 +13,10 @@ class CAN_FEI:
     """
     global can_bus
     global gd
-    global msg
-    global can1 
 
-    def __init__(self):
+    def __init__(self,ob):
         self.can_bus = can.interface.Bus(channel='can0', bustype = 'socketcan')
-        self.msg = can.Message(data=[0,0,0,0,0,0,0,0], is_extended_id=True)
-        self.id_prefix = 0x18DA
-        self.id_suffix = 0xF9
+        self.gd=ob
         
         
     #def flip_one(self,board,relay,state):
@@ -50,18 +45,20 @@ class CAN_FEI:
         Relay board should return same message, when response is received, that board will be updated as ready.
 
         Handled by a thread.
+
+        [WIP]
         """
-        boards = [0,1,2,3,81,82]
-        dict=global_defines.board_dict
+        #boards = [0,1,2,3,81,82]
+        boards = self.gd.board_list
         ping_msg=can.Message(data=[0,0,0,1,0,0,0,0],is_extended_id=True)
         thread = can.ThreadSafeBus(channel = 'can0', bustype='socketcan')
         for i in (boards):
-            ping_msg.arbitration_id=((0x18DA << 8 | i) << 8 | 0xF9)
+            ping_msg.arbitration_id=(((0x18DA << 8) | i) << 8 | 0xF9)
             thread.send(ping_msg)
-            online=global_defines.ping_dict.keys()
-            print("boards online : "+str(online))
+            time.sleep(.05)
+            print("Dictionary : "+str(self.gd.ping_dict.copy()))
     
-    #Add parameter to 
+
     def flip_all_on(self):
         """
         Activates all relays on specified board.
@@ -76,6 +73,7 @@ class CAN_FEI:
         msg.arbitration_id=((id_prefix << 8 | board_num) << 8 | id_suffix)
         can_bus.send(msg)
         print("All relays ON")
+
 
     def flip_all_off(self):
         """
@@ -115,19 +113,48 @@ class CAN_FEI:
         can_bus=can.interface.Bus(channel='can0', bustype = 'socketcan')
         can_bus.send(msg)
 
+
     def receive_CAN(self):
         '''
         Method for receiving and deciphering CAN.
         '''
-        thread_bus = can.ThreadSafeBus(channel = 'can0', bustype='socketcan')
-        try:
-            message=thread_bus.recv()
-            address = (message.arbitration_id >> 0 & 0xFF) 
-            if (address != 0xF9) and (address not in global_defines.ping_dict):
-                global_defines.ping_dict.update({int(address) : 1})
-        except TimeoutError:
-            print('got nothing')
+        filters = [ {"can_id": 0x18DAF901, "can_mask": 0x18DAF900, "extended": True} ]
+        thread_bus = can.ThreadSafeBus(channel = 'can0', bustype='socketcan')#, can_filters=filters)
+        message=thread_bus.recv()
+        time_recv = time.time()
+        board = (message.arbitration_id >> 0 & 0xFF) 
+        #if (address != 0xF9) and (address not in self.gd.ping_dict):
+        if (board != 0xF9):
+            self.gd.ping_dict.update({int(board) : 1})
+            self.gd.time_dict.update({int(board) : time_recv})
+        if ((time.time() - self.gd.time_dict[board]) > 20.0):
+            #Update board to be offline if last response was received over 30 seconds ago:
+            self.gd.ping_dict.update({int(board) : 0})
+        time.sleep(0)
              
+
+    def ez_recv(self):
+        '''
+        modified version of original polling plan
+
+        here, only the esp32 is sending a broadcast message, and the pi will only be listening, instead of polling each board.
+        '''
+        filters = [ {"can_id": 0x18DAF901, "can_mask": 0x18DAF900, "extended": True} ]
+        thread_bus = can.ThreadSafeBus(channel = 'can0', bustype='socketcan', can_filters=filters)
+        message=thread_bus.recv()
+        time_recv = time.time()
+        address = (message.arbitration_id >> 0 & 0xFF) 
+        #if (address != 0xF9) and (address not in self.gd.ping_dict):
+        if (address != 0xF9):
+            self.gd.ping_dict.update({int(address) : 1})
+            self.gd.time_dict.update({int(address) : time_recv})
+        if  ((time.time() - self.gd.time_dict[address]) > 30.0):
+            #Update board to be offline if last response was received over 30 seconds ago:
+            self.gd.ping_dict.update({int(address) : 0})
+        
+        time.sleep(0)
+
+
 
     def initialize_can(self):
         """
@@ -143,19 +170,24 @@ class CAN_FEI:
         import time
         for i in range(30):
             thread = can.ThreadSafeBus(channel = 'can0', bustype='socketcan')
-            ping_msg1=can.Message(arbitration_id=0x18DA03F9, data=[0,0,0,1,0,0,0,0],is_extended_id=True)
+            ping_msg1=can.Message(arbitration_id=0x18DA02F9, data=[0,0,0,1,0,0,0,0],is_extended_id=True)
             ping_msg2=can.Message(arbitration_id=0x18DA01F9, data=[0,0,0,1,0,0,0,0],is_extended_id=True)
             ping_msg3=can.Message(arbitration_id=0x18DA52F9, data=[0,0,0,1,0,0,0,0],is_extended_id=True)
             
-            thread.send(ping_msg1)
-            thread.send(ping_msg2)
-            thread.send(ping_msg3)
-            time.sleep(.5)
+            while True:
+                thread.send(ping_msg1)
+                time.sleep(.05)
+                thread.send(ping_msg2)
+                time.sleep(.05)
+                thread.send(ping_msg3)
+                time.sleep(.05)
+            
 
 #TEST ENVIRONMENT:
-can0 = CAN_FEI()
+ob=0
+can0 = CAN_FEI(ob)
 #can0.initialize_can()
-#can0.flip_loop(1)
+can0.flip_loop(1)
 #can0.flip_all_on()
 #time.sleep(5)
 #can0.flip_all_off()
