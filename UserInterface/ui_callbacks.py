@@ -364,9 +364,17 @@ class ui_callbacks:
             self._uc.rssp_enable = 1
 
     def sim_callback(self):
+        '''
+        Toggles the UI between simulator mode and normal mode.
+
+        Greys out widgets when simulator mode is not active.
+        '''
         current = self._uc.SimMode
         new=1-current
         self._uc.SimMode = new
+        file=open("SimMode.txt","w+")
+        file.write(self._uc.SimMode)
+
 
     def reset_CAN(self):
         os.system("bash ./HwConnect/resetCAN.sh")

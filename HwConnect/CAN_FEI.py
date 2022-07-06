@@ -99,7 +99,7 @@ class CAN_FEI:
             can_bus2=can.interface.Bus(channel='can1', bustype = 'socketcan')
             msg2 = can.Message(arbitration_id=0x18DA51F9, data=[0,0,0,0,0,0,4,0], is_extended_id=True)
             msg3 = can.Message(arbitration_id=0x18DA51F9, data=[0,0,0,0,0,0,5,0], is_extended_id=True)
-
+  
             can_bus2.send(msg2)
             time.sleep(4)
             can_bus2.send(msg3)
@@ -191,5 +191,5 @@ can0 = CAN_FEI(0)
 #can0.flip_all_off()
 #can0.pingTest()
 #can0.ping()
-can0.flip_loop(1)
+#can0.flip_loop(1)
 #can0.output_test()
