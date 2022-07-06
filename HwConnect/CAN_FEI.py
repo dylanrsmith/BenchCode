@@ -15,7 +15,7 @@ class CAN_FEI:
     global gd
 
     def __init__(self,ob):
-        self.can_bus = can.interface.Bus(channel='can0', bustype = 'socketcan')
+        self.can_bus = can.interface.Bus(channel='can1', bustype = 'socketcan')
         self.gd=ob
         
         
@@ -24,7 +24,7 @@ class CAN_FEI:
         """
         Sends a can message to change the state of a SINGLE relay
         """
-        can_bus=can.interface.Bus(channel='can0', bustype = 'socketcan')
+        can_bus=can.interface.Bus(channel='can1', bustype = 'socketcan')
         msg=can.Message(data=[0,0,0,0,0,0,0,0],is_extended_id=True)
         
         board = int(board)
@@ -51,7 +51,7 @@ class CAN_FEI:
         #boards = [0,1,2,3,81,82]
         boards = self.gd.board_list
         ping_msg=can.Message(data=[0,0,0,1,0,0,0,0],is_extended_id=True)
-        thread = can.ThreadSafeBus(channel = 'can0', bustype='socketcan')
+        thread = can.ThreadSafeBus(channel = 'can1', bustype='socketcan')
         for i in (boards):
             ping_msg.arbitration_id=(((0x18DA << 8) | i) << 8 | 0xF9)
             thread.send(ping_msg)
@@ -63,7 +63,7 @@ class CAN_FEI:
         """
         Activates all relays on specified board.
         """
-        can_bus=can.interface.Bus(channel='can0', bustype = 'socketcan')
+        can_bus=can.interface.Bus(channel='can1', bustype = 'socketcan')
         msg=can.Message(data=[0,0,0,0,0,0,4,0], is_extended_id=True)
         
         id_prefix = 0x18DA
@@ -79,7 +79,7 @@ class CAN_FEI:
         """
         Deactivates all relays on specified board.
         """
-        can_bus=can.interface.Bus(channel='can0', bustype = 'socketcan')
+        can_bus=can.interface.Bus(channel='can1', bustype = 'socketcan')
         msg = can.Message(data=[0,0,0,0,0,0,5,0], is_extended_id=True)
 
         id_prefix = 0x18DA
@@ -96,7 +96,7 @@ class CAN_FEI:
         Will toggle all relays on and then off, x amount of times.
         """
         for i in range(x):
-            can_bus2=can.interface.Bus(channel='can0', bustype = 'socketcan')
+            can_bus2=can.interface.Bus(channel='can1', bustype = 'socketcan')
             msg2 = can.Message(arbitration_id=0x18DA51F9, data=[0,0,0,0,0,0,4,0], is_extended_id=True)
             msg3 = can.Message(arbitration_id=0x18DA51F9, data=[0,0,0,0,0,0,5,0], is_extended_id=True)
 
@@ -110,7 +110,7 @@ class CAN_FEI:
         num = int(input("Relay Number : "))
         msg = can.Message(arbitration_id=0x18DA51F9, data=[0,0,0,0,0,0,inp,num])
 
-        can_bus=can.interface.Bus(channel='can0', bustype = 'socketcan')
+        can_bus=can.interface.Bus(channel='can1', bustype = 'socketcan')
         can_bus.send(msg)
 
 
@@ -119,7 +119,7 @@ class CAN_FEI:
         Method for receiving and deciphering CAN.
         '''
         filters = [ {"can_id": 0x18DAF901, "can_mask": 0x18DAF900, "extended": True} ]
-        thread_bus = can.ThreadSafeBus(channel = 'can0', bustype='socketcan', can_filters=filters)
+        thread_bus = can.ThreadSafeBus(channel = 'can1', bustype='socketcan', can_filters=filters)
         message=thread_bus.recv()
         time_recv = time.time()
         board = (message.arbitration_id >> 0 & 0xFF) 
@@ -140,7 +140,7 @@ class CAN_FEI:
         here, only the esp32 is sending a broadcast message, and the pi will only be listening, instead of polling each board.
         '''
         filters = [ {"can_id": 0x18DAF901, "can_mask": 0x18DAF900, "extended": True} ]
-        thread_bus = can.ThreadSafeBus(channel = 'can0', bustype='socketcan', can_filters=filters)
+        thread_bus = can.ThreadSafeBus(channel = 'can1', bustype='socketcan', can_filters=filters)
         message=thread_bus.recv()
         time_recv = time.time()
         address = (message.arbitration_id >> 0 & 0xFF) 
@@ -162,14 +162,14 @@ class CAN_FEI:
 
         Using WaveShare 2-CH CAN HAT.
         """
-        os.system('sudo ifconfig can0 down')
-        os.system('sudo ip link set can0 up type can bitrate 250000')
+        os.system('sudo ifconfig can1 down')
+        os.system('sudo ip link set can1 up type can bitrate 250000')
 
 
     def pingTest(self):
         import time
         for i in range(30):
-            thread = can.ThreadSafeBus(channel = 'can0', bustype='socketcan')
+            thread = can.ThreadSafeBus(channel = 'can1', bustype='socketcan')
             ping_msg1=can.Message(arbitration_id=0x18DA02F9, data=[0,0,0,1,0,0,0,0],is_extended_id=True)
             ping_msg2=can.Message(arbitration_id=0x18DA01F9, data=[0,0,0,1,0,0,0,0],is_extended_id=True)
             ping_msg3=can.Message(arbitration_id=0x18DA52F9, data=[0,0,0,1,0,0,0,0],is_extended_id=True)
@@ -184,12 +184,12 @@ class CAN_FEI:
             
 
 #TEST ENVIRONMENT:
-# can0 = CAN_FEI(0)
+can0 = CAN_FEI(0)
 #can0.initialize_can()
 #can0.flip_all_on()
 #time.sleep(5)
 #can0.flip_all_off()
 #can0.pingTest()
 #can0.ping()
-#can0.flip_one()
+can0.flip_loop(1)
 #can0.output_test()

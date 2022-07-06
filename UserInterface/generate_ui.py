@@ -258,11 +258,11 @@ class generate_ui():
                 else:
                     label=tk.Label(self._ge.actuator_frame,text=self._ge.actuator_dict[i],bg="azure3",width=15)
                     label.grid(row=i, column=0)
-                    self._ge.actuator_load[i]=tk.Entry(self._ge.actuator_frame, bg="azure3", width=15)
+                    self._ge.actuator_load[i]=tk.Entry(self._ge.actuator_frame,width=15)
                     self._ge.actuator_load[i].grid(row=i, column=1)
                     self._ge.actuator_pos[i]=tk.Entry(self._ge.actuator_frame,bg="azure3", width=15)
                     self._ge.actuator_pos[i].grid(row=i, column=2)
-                    self._ge.actuator_set[i]=tk.Entry(self._ge.actuator_frame,bg="azure3", width=15)
+                    self._ge.actuator_set[i]=tk.Entry(self._ge.actuator_frame,width=15)
                     self._ge.actuator_set[i].grid(row=i, column=3)
                     self._ge.actuator_btn[i]=tk.Button(self._ge.actuator_frame,text="Update",fg="white",bg="Steel Blue")#TODO,command=)
                     self._ge.actuator_btn[i].grid(row=i, column=4)

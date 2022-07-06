@@ -807,6 +807,9 @@ class global_defines:
     # settings
     KeyIsON = 1
     Key_Button = 0
+
+    #This variable will control the ui Simulator mode or not.
+    #IF simmode=0,gray out all widgets,if simmode=1
     SimMode=1
     
     #rotor
