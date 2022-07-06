@@ -119,11 +119,11 @@ class CAN_FEI:
         Method for receiving and deciphering CAN.
         '''
         filters = [ {"can_id": 0x18DAF901, "can_mask": 0x18DAF900, "extended": True} ]
-        thread_bus = can.ThreadSafeBus(channel = 'can0', bustype='socketcan')#, can_filters=filters)
+        thread_bus = can.ThreadSafeBus(channel = 'can0', bustype='socketcan', can_filters=filters)
         message=thread_bus.recv()
         time_recv = time.time()
         board = (message.arbitration_id >> 0 & 0xFF) 
-        #if (address != 0xF9) and (address not in self.gd.ping_dict):
+        #if (board != 0xF9) and (board not in self.gd.ping_dict):
         if (board != 0xF9):
             self.gd.ping_dict.update({int(board) : 1})
             self.gd.time_dict.update({int(board) : time_recv})
@@ -148,9 +148,9 @@ class CAN_FEI:
         if (address != 0xF9):
             self.gd.ping_dict.update({int(address) : 1})
             self.gd.time_dict.update({int(address) : time_recv})
-        if  ((time.time() - self.gd.time_dict[address]) > 30.0):
-            #Update board to be offline if last response was received over 30 seconds ago:
-            self.gd.ping_dict.update({int(address) : 0})
+        if address in self.gd.time_dict:                                #Update board to be offline if last response was received over 30 seconds ago:
+            if  ((time.time() - self.gd.time_dict[address]) > 30.0):
+                self.gd.ping_dict.update({int(address) : 0})
         
         time.sleep(0)
 
@@ -184,10 +184,8 @@ class CAN_FEI:
             
 
 #TEST ENVIRONMENT:
-ob=0
-can0 = CAN_FEI(ob)
+# can0 = CAN_FEI(0)
 #can0.initialize_can()
-can0.flip_loop(1)
 #can0.flip_all_on()
 #time.sleep(5)
 #can0.flip_all_off()

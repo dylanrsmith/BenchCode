@@ -1,3 +1,4 @@
+from cProfile import label
 import tkinter as tk
 from tkinter import ttk
 from functools import partial
@@ -231,7 +232,42 @@ class generate_ui():
                 label.grid(row=i,column=0)
 
     #Actuator Tab
+    def generate_actuator_ui(self):
+        '''
+        Generates Widgets under 'Actuator' UI Tab.
 
+        actuator_dict={1:"act1",2:"act2",3:"act3"}  #Dictionary with Actuator # : Actuator Name pair
+        actuator_label=[]
+        actuator_load=[]
+        actuator_pos=[]
+        actuator_set=[]
+        actuator_btn=[]
+        '''
+        for i in range(len(self._ge.actuator_dict)):            
+            self._ge.actuator_label.append(0)
+            self._ge.actuator_load.append(0)
+            self._ge.actuator_pos.append(0)
+            self._ge.actuator_set.append(0)
+            self._ge.actuator_btn.append(0)
+            
+            try:
+                if i==0:
+                    tk.Label(self._ge.actuator_frame, text="Load",width=20).grid(row=i,column=1)
+                    tk.Label(self._ge.actuator_frame,text="Actual Position", width=20).grid(row=i,column=2)
+                    tk.Label(self._ge.actuator_frame,text="Set Position",width=20).grid(row=i,column=3)
+                else:
+                    label=tk.Label(self._ge.actuator_frame,text=self._ge.actuator_dict[i],bg="azure3",width=15)
+                    label.grid(row=i, column=0)
+                    self._ge.actuator_load[i]=tk.Entry(self._ge.actuator_frame, bg="azure3", width=15)
+                    self._ge.actuator_load[i].grid(row=i, column=1)
+                    self._ge.actuator_pos[i]=tk.Entry(self._ge.actuator_frame,bg="azure3", width=15)
+                    self._ge.actuator_pos[i].grid(row=i, column=2)
+                    self._ge.actuator_set[i]=tk.Entry(self._ge.actuator_frame,bg="azure3", width=15)
+                    self._ge.actuator_set[i].grid(row=i, column=3)
+                    self._ge.actuator_btn[i]=tk.Button(self._ge.actuator_frame,text="Update",fg="white",bg="Steel Blue")#TODO,command=)
+                    self._ge.actuator_btn[i].grid(row=i, column=4)
+            except KeyError:
+                pass
 
     #Driveline Tab
     def generate_driveline_ui(self):

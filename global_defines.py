@@ -325,21 +325,27 @@ class global_defines:
     pulse_str = "PulseInput"
     
     #Lists for Channel/Board
-    #Maybe use dictionaries instead of lists to pair with spn #
-    #-Dylan
-    ping_dict={}                        #Dictionary with Board Number : Boolean active value
-    time_dict={}                        #Dictionary containing CAN timestamps
-    board_dict={}                       #Dictionary with SPN : Board Number pairs
+    ping_dict={}                                #Dictionary with Board Number : Boolean active value
+    time_dict={}                                #Dictionary containing CAN timestamps
+    board_dict={}                               #Dictionary with SPN : Board Number pairs
+    #Actuator Widgets
+    actuator_dict={0:0,1:"actuator_1",2:"actuator_2",3:"actuator_3",4:"actuator_4",5:"actuator_5"}
+    actuator_label=[]
+    actuator_load=[]
+    actuator_pos=[]
+    actuator_set=[]
+    actuator_btn=[]
+
     board_list=[] 
-    channel_dict={}                     #Dictionary with SPN : relay(channel) pairs
-    dig_state = {}                      #Dictionary with SPN : default state of 0
-    volt_state = {}
+    channel_dict={}                             #Dictionary with SPN : relay(channel) pairs
+    dig_state = {}                              #Dictionary with SPN : default state of 0
+    volt_state = {}     
     freq_state = {}
     pulse_state={}
     pwm_state = {}
-    ground_dict={}                      #Contains SPNs that are open to battery xor ground
-    bool_both = {}                      #indicate if both Channel and Board number are listed
-    bool_all = {}                       #Indicate if all board, channel, and openTo(Ground or Board or Both) are listed
+    ground_dict={}                              #Contains SPNs that are open to battery xor ground
+    bool_both = {}                              #Indicate if both Channel and Board number are listed
+    bool_all = {}                               #Indicate if all board, channel, and openTo(Ground or Board or Both) are listed
     UI_dict = {}
     UI_spn = []
     button_list = []
@@ -370,7 +376,7 @@ class global_defines:
     volt_scale_max_dict = {}
     volt_scale_default_dict = {}
 
-    # driveline
+    #driveline
     sp_name = ['Aux_PTO', 'Aux_PTO_Thresher', 'Pumps_ZE', 'Cross_Over_Belt', 'Unload_Belt_Drive',
                'Integral_Chopper',
                'HHMC', 'Unloading_stubshaft',

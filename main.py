@@ -68,6 +68,7 @@ pe.parse_excel()
 #generate_ui.py
 gu.generate_spn_ui()
 gu.generate_open_ui()
+gu.generate_actuator_ui()
 gu.generate_driveline_ui()
 gu.generate_clrm_ui()
 gu.generate_ghcv_ui()
@@ -131,8 +132,10 @@ def listen_thread():
     threading.Timer(1,listen_thread).start()
 
 ui_update_thread()
-ping_thread()
-listen_thread()
+#Begin Polling threads | May cause 'Main Thread is not in Main loop' Error
+#Non essential to main functionality
+# ping_thread()
+# listen_thread()
 
 def plant_model_update_thread():
     if gd_obj.testing_active == 0:
