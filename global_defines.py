@@ -810,7 +810,11 @@ class global_defines:
 
     #This variable will control the ui Simulator mode or not.
     #IF simmode=0,gray out all widgets,if simmode=1
-    SimMode=1
+    #SimMode=0
+    file=open("SimMode.txt","r")
+    SimMode=file.read()
+    SimMode=int(SimMode)
+    file.close()
     
     #rotor
     rotor_gear_0 = 0.26

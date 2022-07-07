@@ -368,20 +368,20 @@ class ui_callbacks:
         Toggles the UI between simulator mode and normal mode.
 
         Greys out widgets when simulator mode is not active.
+
+        Writes state of simMode to text file.
         '''
-        current = self._uc.SimMode
-        new=1-current
+        new=1-self._uc.SimMode
         self._uc.SimMode = new
-        file=open("SimMode.txt","w+")
-        file.write(self._uc.SimMode)
+        file=open("SimMode.txt","w")
+        a=str(self._uc.SimMode)
+        file.write(a)
+        file.close()
+
 
 
     def reset_CAN(self):
-        os.system("bash ./HwConnect/resetCAN.sh")
-        
-
-
-
+        os.system("bash ./HwConnect/resetCAN.sh")   
 
     def pass_to_board(self, spn_number, data):
         if self._uc.testing_active == 0:
