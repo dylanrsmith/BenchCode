@@ -19,7 +19,8 @@ class generate_ui():
         self._ge = ob1
         self.ui = update_ui(self._ge, ob2)
         self.ui_call = ui_callbacks(self._ge, ob2)
-        self._ge.dig_ip_options=["Normal", "Open_Circuit"]
+        #self._ge.dig_ip_options=["Normal", "Open_Circuit"]
+        self._ge.dig_ip_options=["Open_Circuit"]
                
 
     #Generates first 7 UI Tabs
@@ -188,6 +189,7 @@ class generate_ui():
             if self._ge.bool_both.get(self._ge.fq_ip_spn[i]):
                 self._ge.pulse_toggle[i].grid(row=i, column=3)
 
+
     #Open_To Tab:
     def generate_open_ui(self):
         '''
@@ -225,11 +227,12 @@ class generate_ui():
 
                 if self._ge.bool_all.get(self._ge.dig_ip_spn[i]):
                     label.grid(row=i, column=0)
-                    self._ge.open_button[i].grid(row=i,column=1)
-                    self._ge.open_option[i].grid(row=i, column=2)
+                    #self._ge.open_button[i].grid(row=i,column=2)
+                    self._ge.open_option[i].grid(row=i, column=1)
 
             except IndexError:
                 label.grid(row=i,column=0)
+
 
     #Actuator Tab
     def generate_actuator_ui(self):
@@ -268,6 +271,7 @@ class generate_ui():
                     self._ge.actuator_btn[i].grid(row=i, column=4)
             except KeyError:
                 pass
+
 
     #Driveline Tab
     def generate_driveline_ui(self):
@@ -343,6 +347,7 @@ class generate_ui():
         b2 = tk.Button(self._ge.driveline_frame, text='Update',fg="white",bg="Steel Blue", command=self.ui_call.frfr_callback)
         b2.grid(row=11, column=5)
 
+
     #UCM_1 Tab
     def generate_clrm_ui(self):
 
@@ -384,6 +389,7 @@ class generate_ui():
         self._ge.clrm_label.grid(row=6, column=2)
         self._ge.clrm_label.insert(0, '0')
         
+
     def generate_ui_hdhr(self):
 
         # This will create a LabelFrame
@@ -442,6 +448,7 @@ class generate_ui():
         self._ge.hdhr_ext2_volt_label = tk.Entry(label_frame_hdhr, font=('calibre', 10, 'normal'))
         self._ge.hdhr_ext2_volt_label.grid(row=5, column=2)
         self._ge.hdhr_ext2_volt_label.insert(0, '0')
+
 
     def generate_ui_hdfn(self):
 
@@ -626,6 +633,7 @@ class generate_ui():
                             command=self.ui_call.hdfn_callback)
         sub_btn.grid(row=13, column=3)
 
+
     def generate_ui_agge(self):
 
         # This will create a LabelFrame
@@ -717,6 +725,7 @@ class generate_ui():
         self._ge.agge_cid_var.set('CALIB_NONE')
         menu.grid(row=5, column=2)
 
+
     #UCM_2 Tab
     def generate_ghcv_ui(self):
 
@@ -787,6 +796,7 @@ class generate_ui():
         self._ge.close_label.grid(row=9, column=2)
         self._ge.close_label.insert(0, self._ge.cover_close_sensor)
 
+
     def generate_ui_rsch(self):
         label_frame_rsch = tk.LabelFrame(self._ge.plant_model_ucm2_frame, text='RSCH')
         label_frame_rsch.pack(expand='yes', fill='both')
@@ -828,6 +838,7 @@ class generate_ui():
         self._ge.rsch_label.grid(row=6, column=2)
         self._ge.rsch_label.insert(0, self._ge.rsch_spd)
 
+
     def generate_clfn_ui(self):
 
         # This will create a LabelFrame
@@ -855,6 +866,7 @@ class generate_ui():
         self._ge.clfn_RPM_label = tk.Entry(label_frame_clfn, font=('calibre', 10, 'normal'))
         self._ge.clfn_RPM_label.grid(row=3, column=2)
         self._ge.clfn_RPM_label.insert(0, '0')
+
 
     #UCM_3 Tab
     def generate_ui_ghts(self):
@@ -940,6 +952,7 @@ class generate_ui():
         sub_btn = tk.Button(label_frame_ghts, text='Update',fg="white",bg="Steel Blue", command=self.ui_call.ghts_callback)
         sub_btn.grid(row=6, column=3)
 
+
     def generate_ui_rsck(self):
 
         # This will create a LabelFrame
@@ -1024,6 +1037,7 @@ class generate_ui():
         self._ge.rsck_label_volt.grid(row=6, column=5)
         self._ge.rsck_label_volt.insert(0, self._ge.rsck_volt)
 
+
     def generate_ui_ghps(self):
 
         # This will create a LabelFrame
@@ -1091,6 +1105,7 @@ class generate_ui():
         self._ge.ghps_pos_volt_label = tk.Entry(label_frame_ghps, font=('calibre', 10, 'normal'))
         self._ge.ghps_pos_volt_label.grid(row=6, column=5)
         self._ge.ghps_pos_volt_label.insert(0, self._ge.ghps_pos_volt)
+
 
     def generate_ui_thcc(self):
 
@@ -1167,6 +1182,7 @@ class generate_ui():
         self._ge.rotor_gear.set('single_rotor')
         menu.grid(row=1, column=5)
 
+
     def generate_ui_rssp(self):
 
         # This will create a LabelFrame
@@ -1240,6 +1256,7 @@ class generate_ui():
         self._ge.rssp_left_curr_label = tk.Entry(label_frame_rssp, font=('calibre', 10, 'normal'))
         self._ge.rssp_left_curr_label.grid(row=5, column=5)
         self._ge.rssp_left_curr_label.insert(0, '0')
+
 
     #Settings Tab
     def generate_setting_ui(self):

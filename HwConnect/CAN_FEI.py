@@ -18,7 +18,6 @@ class CAN_FEI:
         self.can_bus = can.interface.Bus(channel='can1', bustype = 'socketcan')
         self.gd=ob
         
-        
     #def flip_one(self,board,relay,state):
     def flip_one(board,relay,state):
         """
@@ -35,8 +34,7 @@ class CAN_FEI:
         msg.data[6]=state
 
         can_bus.send(msg)
-        
-        
+   
 
     def ping(self):
         """
@@ -59,7 +57,7 @@ class CAN_FEI:
             print("Dictionary : "+str(self.gd.ping_dict.copy()))
     
 
-    def flip_all_on(self):
+    def flip_all_on(self, n):
         """
         Activates all relays on specified board.
         """
@@ -68,14 +66,14 @@ class CAN_FEI:
         
         id_prefix = 0x18DA
         id_suffix = 0xF9
-        board_num=int(input("Enter Board Number: "))
+        board_num=int(n)
 
         msg.arbitration_id=((id_prefix << 8 | board_num) << 8 | id_suffix)
         can_bus.send(msg)
-        print("All relays ON")
+        #print("All relays ON")
 
 
-    def flip_all_off(self):
+    def flip_all_off(self, n):
         """
         Deactivates all relays on specified board.
         """
@@ -84,12 +82,12 @@ class CAN_FEI:
 
         id_prefix = 0x18DA
         id_suffix = 0xF9
-
-        board_num = int(input("Enter Board Number: "))
+        board_num = int(n)
         
         msg.arbitration_id=((id_prefix << 8 | board_num) << 8 | id_suffix)
         can_bus.send(msg)
-        print("All relays OFF")
+        #print("All relays OFF")
+
 
     def flip_loop(self, x):
         """
@@ -104,6 +102,7 @@ class CAN_FEI:
             time.sleep(4)
             can_bus2.send(msg3)
             time.sleep(4)
+
 
     def output_test(self):
         inp = int(input("Enter 0-Normal 1-Open 2-Ground 3-Battery : "))
@@ -153,7 +152,6 @@ class CAN_FEI:
                 self.gd.ping_dict.update({int(address) : 0})
         
         time.sleep(0)
-
 
 
     def initialize_can(self):

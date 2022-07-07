@@ -52,9 +52,9 @@ gh = ghcv_plant(gd_obj, io)
 rs = rsch_plant(gd_obj, io)
 gt = ghts_plant(gd_obj, io)
 rsck = rsck_plant(gd_obj, io)
-ghps = ghps_plant(gd_obj)
-thcc = thcc_plant(gd_obj)
-clfn = clfn_plant(gd_obj, io)
+ghps = ghps_plant(gd_obj) 
+thcc = thcc_plant(gd_obj) 
+clfn = clfn_plant(gd_obj, io) 
 rssp = rssp_plant(gd_obj, io)
 hdhr = hdhr_plant(gd_obj, io)
 hdfn = hdfn_plant(gd_obj, io)
@@ -180,6 +180,8 @@ if gd_obj.testing_active == 0:
     #start read thread
     read_ob = ReadThread(io)
     read_ob.read()
+
+gd_obj = global_defines()
 
 end = time.time()
 

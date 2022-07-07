@@ -1,3 +1,4 @@
+import itertools
 from tkinter import ttk
 import tkinter as tk
 from tkinter import *
@@ -286,7 +287,7 @@ class global_defines:
     feeder_type = tk.StringVar()
     unload_rate = tk.StringVar()
 
-    # general spn
+    # general spn/widgets
     toggle = 0                              #Used for update_ui dictionary
     dig_ip_button = []                      #Array of buttons listed on DIG I/P
     dig_ip_options=[]                       #Array of option menus listed on DIG I/P
@@ -314,6 +315,12 @@ class global_defines:
     brand = 0  # 0 = CIH, 1 = NH
     board_Num = 0 # 0 or Empty = Invalid Board.
     config_dict = {}
+
+
+    #Create a list of all buttons and options for disabling at once.    
+    all_widgets=list(itertools.chain(dig_ip_button,dig_ip_options,dig_op_button,open_option,open_button,volt_button,volt_toggle,pwm_ip_button,pwm_ip_toggle,freq_button,freq_toggle,button_pulse,pulse_toggle))
+
+
 
     #Parse Strings
     dig_ip_str = "DigitalInput"
