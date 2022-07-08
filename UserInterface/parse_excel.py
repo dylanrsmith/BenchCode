@@ -40,11 +40,10 @@ class parse_excel:
                 spn_type = str(spn_data)
 
                 #Check if 3 columns are configured:
-                #dont foreget to swap
                 if ('Board_Num' in self.df.columns) and ('Channel' in self.df.columns) and ('open_to' in self.df.columns):
-                    self._pe.fei_compatible = 0
-                else:
                     self._pe.fei_compatible = 1
+                else:
+                    self._pe.fei_compatible = 0
 
                 #Only if type column has valid entries
                 if (self._pe.dig_ip_str in spn_type) or (self._pe.dig_op_str in spn_type) \
