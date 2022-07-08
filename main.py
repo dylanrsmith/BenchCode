@@ -64,11 +64,10 @@ feeder_obj = Feeder_hydro(gd_obj, io)
 
 #parse_excel.py
 pe.parse_excel()
+gd_obj.add_compatible()
 
 #generate_ui.py
 if gd_obj.fei_compatible==1:
-
-    gd_obj.add_compatible()
     gu.generate_actuator_ui()
     gu.generate_open_ui()
 
