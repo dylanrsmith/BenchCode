@@ -5,7 +5,8 @@ The code largely consists of a tkinter-generated user interface, where a user ca
 
 
 v7.08:
-    Added Backwards Compatibility: Open and Actuator Tabs will only show if ConfigSheet is properly configured.
+    Added Backwards Compatibility: 
+        Open and Actuator Tabs will only show if ConfigSheet is properly configured.
 
     Added Simulator Mode: 
         Turn Off to disable Relay controls and Enable Bypass Relay Boards. 
