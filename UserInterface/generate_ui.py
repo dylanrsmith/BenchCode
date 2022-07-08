@@ -1277,20 +1277,21 @@ class generate_ui():
         self._ge.debug_mode_button = tk.Button(label_frame_setting, height=1, width=4, bd=6, fg="black",font=('Geneva', 6),bg="Red", command=self.ui_call.debug_callback)
         self._ge.debug_mode_button.grid(row=2, column=2)
 
-        #CPU Usage 
-        label_cpu = tk.Label(label_frame_setting, text='CPU Usage', bg='azure3', width=20)
-        label_cpu.grid(row=3, column=1)
-        self._ge.cpu_entry = tk.Entry(label_frame_setting,bd=0,justify=CENTER, bg='#f0f0f0')
-        self._ge.cpu_entry.grid(row=3,column=2)
+        if self._ge.fei_compatible == 1:
+            #CPU Usage 
+            label_cpu = tk.Label(label_frame_setting, text='CPU Usage', bg='azure3', width=20)
+            label_cpu.grid(row=3, column=1)
+            self._ge.cpu_entry = tk.Entry(label_frame_setting,bd=0,justify=CENTER, bg='#f0f0f0')
+            self._ge.cpu_entry.grid(row=3,column=2)
 
-        #Simulator Mode Toggle
-        label_sim = tk.Label(label_frame_setting, text='Simulator Mode', bg="azure3", width=20)
-        label_sim.grid(row=4, column=1)
-        self._ge.sim_button=tk.Button(label_frame_setting,height=1,width=4,bd=6, fg="black",font=('Geneva',6),bg="Red", command=self.ui_call.sim_callback)
-        self._ge.sim_button.grid(row=4,column=2)
+            #Simulator Mode Toggle
+            label_sim = tk.Label(label_frame_setting, text='Simulator Mode', bg="azure3", width=20)
+            label_sim.grid(row=4, column=1)
+            self._ge.sim_button=tk.Button(label_frame_setting,height=1,width=4,bd=6, fg="black",font=('Geneva',6),bg="Red", command=self.ui_call.sim_callback)
+            self._ge.sim_button.grid(row=4,column=2)
 
-        #Reset CAN button
-        label_reset_can = tk.Label(label_frame_setting, text='Reset CAN Network', bg="azure3", width=20)
-        label_reset_can.grid(row=5, column=1)
-        self._ge.reset_can_button=tk.Button(label_frame_setting, height=1, width=4, bd=6, fg="black", font=('Geneva',6),bg="skyblue",command=self.ui_call.reset_CAN)
-        self._ge.reset_can_button.grid(row=5,column=2)
+            #Reset CAN button
+            label_reset_can = tk.Label(label_frame_setting, text='Reset CAN Network', bg="azure3", width=20)
+            label_reset_can.grid(row=5, column=1)
+            self._ge.reset_can_button=tk.Button(label_frame_setting, height=1, width=4, bd=6, fg="black", font=('Geneva',6),bg="skyblue",command=self.ui_call.reset_CAN)
+            self._ge.reset_can_button.grid(row=5,column=2)

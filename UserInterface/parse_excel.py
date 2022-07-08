@@ -26,9 +26,9 @@ class parse_excel:
         """
         Opens the file specified by `path` variable, and parses data listed in SPN table.
 
-        Based on the values listed in that table, the UI will generate necessary components.
+        Tkinter will generate necessary components, based on the excel configuration.
         """
-        for i in range(1452):                           #does this need to loop 1452 times? 
+        for i in range(1452):      
             if self._pe.brand == 0:
                 valid_bit = self.df.loc[i, 'Used on CIH']
             else:
@@ -38,6 +38,13 @@ class parse_excel:
                 self._pe.spn_list.append(spn)
                 spn_data = self.df.loc[i, 'UI_type']
                 spn_type = str(spn_data)
+
+                #Check if 3 columns are configured:
+                #dont foreget to swap
+                if ('Board_Num' in self.df.columns) and ('Channel' in self.df.columns) and ('open_to' in self.df.columns):
+                    self._pe.fei_compatible = 0
+                else:
+                    self._pe.fei_compatible = 1
 
                 #Only if type column has valid entries
                 if (self._pe.dig_ip_str in spn_type) or (self._pe.dig_op_str in spn_type) \

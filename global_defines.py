@@ -145,35 +145,35 @@ class global_defines:
     pulse_frame = Frame(pulse_canvas)
     pulse_canvas.create_window((0, 0), window=pulse_frame, anchor="nw")
 
-    #Open_to Tab
-    tc_open = ttk.Frame(tc)
-    tc_open.pack(side='left')
-    open_canvas = Canvas(tc_open, width=6, height=6, scrollregion=(0,0,1450,1100))
-    hbar = Scrollbar(tc_open, orient=HORIZONTAL)
-    hbar.pack(side=BOTTOM, fill=X)
-    hbar.config(command=open_canvas.xview)
-    vbar= Scrollbar(tc_open, orient=VERTICAL)
-    vbar.pack(side=RIGHT, fill=Y)
-    vbar.config(command=pulse_canvas.yview)
-    open_canvas.config(width=6,height=6)
-    open_canvas.pack(side=LEFT, expand=True, fill=BOTH)
-    open_frame=Frame(open_canvas)
-    open_canvas.create_window((0,0), window=open_frame, anchor="nw")
+    # #Open_to Tab
+    # tc_open = ttk.Frame(tc)
+    # tc_open.pack(side='left')
+    # open_canvas = Canvas(tc_open, width=6, height=6, scrollregion=(0,0,1450,1100))
+    # hbar = Scrollbar(tc_open, orient=HORIZONTAL)
+    # hbar.pack(side=BOTTOM, fill=X)
+    # hbar.config(command=open_canvas.xview)
+    # vbar= Scrollbar(tc_open, orient=VERTICAL)
+    # vbar.pack(side=RIGHT, fill=Y)
+    # vbar.config(command=pulse_canvas.yview)
+    # open_canvas.config(width=6,height=6)
+    # open_canvas.pack(side=LEFT, expand=True, fill=BOTH)
+    # open_frame=Frame(open_canvas)
+    # open_canvas.create_window((0,0), window=open_frame, anchor="nw")
 
-    #Actuator Tab
-    tc_actuator = ttk.Frame(tc)
-    tc_actuator.pack(side='left')
-    actuator_canvas = Canvas(tc_actuator, width=6, height=6,scrollregion=(0,0,1450,1100))
-    hbar = Scrollbar(tc_actuator,orient=HORIZONTAL)
-    hbar.pack(side=BOTTOM,fill=X)
-    hbar.config(command=actuator_canvas.xview)
-    vbar = Scrollbar(tc_actuator,orient=VERTICAL)
-    vbar.pack(side=RIGHT, fill=Y)
-    vbar.config(command=actuator_canvas.yview)
-    actuator_canvas.config(width=6, height=6)
-    actuator_canvas.pack(side=LEFT,expand=True, fill=BOTH)
-    actuator_frame=Frame(actuator_canvas)
-    actuator_canvas.create_window((0,0),window=actuator_frame, anchor="nw")
+    # #Actuator Tab
+    # tc_actuator = ttk.Frame(tc)
+    # tc_actuator.pack(side='left')
+    # actuator_canvas = Canvas(tc_actuator, width=6, height=6,scrollregion=(0,0,1450,1100))
+    # hbar = Scrollbar(tc_actuator,orient=HORIZONTAL)
+    # hbar.pack(side=BOTTOM,fill=X)
+    # hbar.config(command=actuator_canvas.xview)
+    # vbar = Scrollbar(tc_actuator,orient=VERTICAL)
+    # vbar.pack(side=RIGHT, fill=Y)
+    # vbar.config(command=actuator_canvas.yview)
+    # actuator_canvas.config(width=6, height=6)
+    # actuator_canvas.pack(side=LEFT,expand=True, fill=BOTH)
+    # actuator_frame=Frame(actuator_canvas)
+    # actuator_canvas.create_window((0,0),window=actuator_frame, anchor="nw")
 
 
 
@@ -257,6 +257,43 @@ class global_defines:
     setting_frame = Frame(settings_canvas)
     settings_canvas.create_window((0, 0), window=setting_frame, anchor="nw")
 
+
+    def add_compatible(self):
+        
+        if self.fei_compatible == 1:
+            #Open_to Tab
+            tc_open = ttk.Frame(self.tc)
+            tc_open.pack(side='left')
+            open_canvas = Canvas(tc_open, width=6, height=6, scrollregion=(0,0,1450,1100))
+            hbar = Scrollbar(tc_open, orient=HORIZONTAL)
+            hbar.pack(side=BOTTOM, fill=X)
+            hbar.config(command=open_canvas.xview)
+            vbar= Scrollbar(tc_open, orient=VERTICAL)
+            vbar.pack(side=RIGHT, fill=Y)
+            vbar.config(command=open_canvas.yview)
+            open_canvas.config(width=6,height=6)
+            open_canvas.pack(side=LEFT, expand=True, fill=BOTH)
+            open_frame=Frame(open_canvas)
+            open_canvas.create_window((0,0), window=open_frame, anchor="nw")
+
+            #Actuator Tab
+            tc_actuator = ttk.Frame(self.tc)
+            tc_actuator.pack(side='left')
+            actuator_canvas = Canvas(tc_actuator, width=6, height=6,scrollregion=(0,0,1450,1100))
+            hbar = Scrollbar(tc_actuator,orient=HORIZONTAL)
+            hbar.pack(side=BOTTOM,fill=X)
+            hbar.config(command=actuator_canvas.xview)
+            vbar = Scrollbar(tc_actuator,orient=VERTICAL)
+            vbar.pack(side=RIGHT, fill=Y)
+            vbar.config(command=actuator_canvas.yview)
+            actuator_canvas.config(width=6, height=6)
+            actuator_canvas.pack(side=LEFT,expand=True, fill=BOTH)
+            actuator_frame=Frame(actuator_canvas)
+            actuator_canvas.create_window((0,0),window=actuator_frame, anchor="nw")
+            
+            self.tc.add(self.tc_open, text='Open')
+            self.tc.add(self.tc_actuator, text='Actuator')
+
     tc.add(tc_dig_ip, text='DIG I/P')
     tc.add(tc_dig_op, text='DIG O/P')
     tc.add(tc_vol_ip, text='VOLTAGE')
@@ -264,8 +301,6 @@ class global_defines:
     tc.add(tc_pwm_op, text='PWM O/P')
     tc.add(tc_freq_ip, text='Freq')
     tc.add(tc_pulse, text='Pulse')
-    tc.add(tc_open, text='Open')
-    tc.add(tc_actuator, text='Actuator')
     tc.add(tc_drive, text='Driveline')
     tc.add(tc_plant_model_ucm1, text='PlantModel_UCM1')
     tc.add(tc_plant_model_ucm2, text='PlantModel_UCM2')
@@ -814,6 +849,7 @@ class global_defines:
     # settings
     KeyIsON = 1
     Key_Button = 0
+    fei_compatible = 1
 
     #This variable will control the ui Simulator mode or not.
     #IF simmode=0,gray out all widgets,if simmode=1
