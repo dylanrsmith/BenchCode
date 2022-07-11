@@ -37,6 +37,13 @@ class update_ui:
 
         self.update_ui_spn()
 
+    def update_ui_open(self):
+        '''
+        Make sure option menus are displaying the correct value.
+        '''
+        if self._ui.fei_compatible == 1:
+            pass 
+
 
     def update_ui_spn(self):
         '''

@@ -48,8 +48,7 @@ class ui_callbacks:
             self.can2.flip_one(brd_num, rel_num, 2)
         elif state =='Battery':
             self.can2.flip_one(brd_num, rel_num, 3)
-
-
+        
     def buttonVolt(self,i):
         new_data = self._uc.volt_string[i].get()
         sp = self._uc.vol_ip_spn[i]

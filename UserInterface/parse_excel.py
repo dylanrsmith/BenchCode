@@ -19,6 +19,7 @@ class parse_excel:
         """
         path = os.path.dirname(__file__)
         path += "/Config_sheet.xlsx"
+        #path += "/Config_sheet_old.xlsx"  #Legacy Config for backwards compatibility testing
         self.df = pd.read_excel(path, 'SPN', header=1)
         self._pe = ob
         
@@ -65,39 +66,41 @@ class parse_excel:
                     self._pe.pulse_state.update({spn: 0})
                     self._pe.pwm_state.update({spn: 0})
 
-                    board_no = self.df.loc[spn, 'Board_Num']  #Parses excel for Board Number Entries
-                    self._pe.board_no_str = str(board_no)
+                    #Read Relay Columns if they exist
+                    if self._pe.fei_compatible ==1:
+                        board_no = self.df.loc[spn, 'Board_Num']  #Parses excel for Board Number Entries
+                        self._pe.board_no_str = str(board_no)
 
-                    channel = self.df.loc[spn, 'Channel']     #Parses for Channel(Relay)
-                    self._pe.channel_no_str= str(channel)
+                        channel = self.df.loc[spn, 'Channel']     #Parses for Channel(Relay)
+                        self._pe.channel_no_str= str(channel)
 
-                    openTo =self.df.loc[spn, 'open_to']       #Parses for O2B/G
-                    self._pe.openTo_str = str(openTo)
+                        openTo =self.df.loc[spn, 'open_to']       #Parses for O2B/G
+                        self._pe.openTo_str = str(openTo)
 
-                    #Parse open_to, channel, and board number columns
-                    #Also creating list of boards from excel
-                    if board_no != 'nan':
-                        self._pe.board_dict.update({spn:board_no})
-                    if (pd.notna(board_no)) and (board_no not in self._pe.board_list):
-                        self._pe.board_list.append(int(board_no))
-                    if channel != 'nan':
-                        self._pe.channel_dict.update({spn:channel})
-                    if self._pe.openTo_str != 'nan':
-                        self._pe.ground_dict.update({spn:self._pe.openTo_str})
-
-                    #Populate boolean dictionaries
-                    #Check if Board Number and Channel are both configured
-                    if self._pe.board_no_str and self._pe.channel_no_str != 'nan':
-                        self._pe.bool_both.update({spn:1})
-                    else:
-                        self._pe.bool_both.update({spn:0})
-
-                    #Check if Board Number and Channel and OpenToB/G are all configured
-                    if self._pe.board_no_str and self._pe.channel_no_str != 'nan':
+                        #Parse open_to, channel, and board number columns
+                        #Also creating list of boards from excel
+                        if board_no != 'nan':
+                            self._pe.board_dict.update({spn:board_no})
+                        if (pd.notna(board_no)) and (board_no not in self._pe.board_list):
+                            self._pe.board_list.append(int(board_no))
+                        if channel != 'nan':
+                            self._pe.channel_dict.update({spn:channel})
                         if self._pe.openTo_str != 'nan':
-                            self._pe.bool_all.update({spn:1})
-                    else:
-                        self._pe.bool_all.update({spn:0})
+                            self._pe.ground_dict.update({spn:self._pe.openTo_str})
+
+                        #Populate boolean dictionaries
+                        #Check if Board Number and Channel are both configured
+                        if self._pe.board_no_str and self._pe.channel_no_str != 'nan':
+                            self._pe.bool_both.update({spn:1})
+                        else:
+                            self._pe.bool_both.update({spn:0})
+
+                        #Check if Board Number and Channel and OpenToB/G are all configured
+                        if self._pe.board_no_str and self._pe.channel_no_str != 'nan':
+                            if self._pe.openTo_str != 'nan':
+                                self._pe.bool_all.update({spn:1})
+                        else:
+                            self._pe.bool_all.update({spn:0})
                         
                     new_name = name_spn + ' : ' + name
                     if self._pe.dig_ip_str in spn_type:
