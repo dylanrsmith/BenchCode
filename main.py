@@ -108,6 +108,7 @@ def ui_update_thread():
         ui.update_ui_agge()
         ui.update_settings()
         ui.update_cpu()
+        ui.update_ui_open()
         threading.Timer(1, ui_update_thread).start()  # 1 second read thread
     else:
         ui.update_ui_dict()
@@ -126,6 +127,7 @@ def ui_update_thread():
         ui.update_ui_agge()
         ui.update_settings()
         ui.update_cpu()
+        ui.update_ui_open()
         threading.Timer(1, ui_update_thread).start()
 
 def ping_thread():

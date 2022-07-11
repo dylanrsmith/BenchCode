@@ -41,8 +41,9 @@ class update_ui:
         '''
         Make sure option menus are displaying the correct value.
         '''
-        if self._ui.fei_compatible == 1:
-            pass 
+        # if self._ui.fei_compatible == 1:
+        #     for i in range(len(self._ui.open_option)):
+        #         print(self._ui.open_option[i].configure())
 
 
     def update_ui_spn(self):
