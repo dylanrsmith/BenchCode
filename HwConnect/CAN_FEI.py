@@ -57,7 +57,7 @@ class CAN_FEI:
             print("Dictionary : "+str(self.gd.ping_dict.copy()))
     
 
-    def flip_all_on(self, n):
+    def flip_all_on(n):
         """
         Activates all relays on specified board.
         """
@@ -73,7 +73,7 @@ class CAN_FEI:
         #print("All relays ON")
 
 
-    def flip_all_off(self, n):
+    def flip_all_off(n):
         """
         Deactivates all relays on specified board.
         """

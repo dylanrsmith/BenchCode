@@ -377,12 +377,12 @@ class ui_callbacks:
         file.write(a)
         file.close()
 
-        # if self._uc.SimMode ==1:
-        #     for i in range(80):
-        #         self.can2.flip_all_on(i)
-        # else:
-        #     for i in range(80):
-        #         self.can2.flip_all_off(i)
+        if self._uc.SimMode ==1:
+            for i in range(80):
+                self.can2.flip_all_on(i)
+        else:
+            for i in range(80):
+                self.can2.flip_all_off(i)
 
 
     def reset_CAN(self):

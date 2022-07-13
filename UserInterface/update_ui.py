@@ -328,14 +328,14 @@ class update_ui:
             self._ui.debug_mode_button.config(bg="Green")
         
 
-        if self._ui.fei_compatible == 1:
+        # if self._ui.fei_compatible == 1:
 
-            if self._ui.SimMode ==1:
-                for i in range(80):
-                    self.can2.flip_all_off(i)
-            else:
-                for i in range(80):
-                    self.can2.flip_all_on(i)
+        #     if self._ui.SimMode ==1:
+        #         for i in range(80):
+        #             self.can2.flip_all_off(i)
+        #     else:
+        #         for i in range(80):
+        #             self.can2.flip_all_on(i)
 
             if self._ui.SimMode==1:
                 self._ui.sim_button.config(bg="Green")
