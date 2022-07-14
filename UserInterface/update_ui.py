@@ -40,6 +40,7 @@ class update_ui:
     def update_ui_open(self):
         '''
         Make sure option menus are displaying the correct value.
+        Cause the option menus to reset after 5 seconds automatically
         '''
         # if self._ui.fei_compatible == 1:
         #     for i in range(len(self._ui.open_option)):
@@ -55,100 +56,104 @@ class update_ui:
         for key in self._ui.UI_dict:
             data = self._ui.UI_dict[key]
 
-            #DIG I/P
-            if key in self._ui.dig_ip_spn:
-                ind = self._ui.dig_ip_spn.index(key)  
-                if self._ui.dig_state[key] == 1:      
-                    self._ui.dig_ip_button[ind].config( bg="Green")
-                else:
-                    self._ui.dig_ip_button[ind].config( bg="Red")
-                i = ind
-                if i < 19:
-                    self._ui.dig_ip_button[i].grid(row=i, column=1)
-                else:
-                    self._ui.dig_ip_button[i].grid(row=i - 19, column=4)
-
-            #DIG O/P
-            elif key in self._ui.dig_op_spn:
-                ind = self._ui.dig_op_spn.index(key)  # find position of that spn
-                if data == 1:
-                    self._ui.dig_op_button[ind].config(bg="Green")
-                else:
-                    self._ui.dig_op_button[ind].config( bg="Red")
-                i = ind
-                if 0 <= i < 31:
-                    row = i
-                    column = 1
-                elif 31 <= i < 62:
-                    row = i - 31
-                    column = 3
-                elif 62 <= i < 94:
-                    row = i - 62
-                    column = 5
-                self._ui.dig_op_button[i].grid(row=row, column=column + 2)
-
-            #Update Voltage Tab
-            elif key in self._ui.vol_ip_spn:
-                ind = self._ui.vol_ip_spn.index(key)
-
-                i = ind
-                if i < 29:
-                    self._ui.volt_label[i].grid(row=i, column=1)
-                else:
-                    self._ui.volt_label[i].grid(row=i - 29, column=5)
-
-                if self._ui.SimMode == 1:
-                    if self._ui.volt_state[key] == 1:
-                        self._ui.volt_toggle[ind].config(bg="Green")
+            try:
+                #DIG I/P
+                if key in self._ui.dig_ip_spn:
+                    ind = self._ui.dig_ip_spn.index(key)  
+                    if self._ui.dig_state[key] == 1:      
+                        self._ui.dig_ip_button[ind].config( bg="Green")
                     else:
-                        self._ui.volt_toggle[ind].config(bg="Red")
-    
-                self._ui.volt_label[ind].delete(0, 100)
-                self._ui.volt_label[ind].insert(0, data)
-
-            #Update PWM I/P tab
-            elif key in self._ui.pwm_ip_spn:
-                ind = self._ui.pwm_ip_spn.index(key)
-                self._ui.pwm_ip_label[ind].delete(0, 100)
-                self._ui.pwm_ip_label[ind].insert(0, data)
-
-                if self._ui.SimMode==1:
-                    if self._ui.pwm_state[key] == 1:
-                        self._ui.pwm_ip_toggle[ind].config(bg="Green")
+                        self._ui.dig_ip_button[ind].config( bg="Red")   #runtime error
+                    i = ind
+                    if i < 19:
+                        self._ui.dig_ip_button[i].grid(row=i, column=1)
                     else:
-                        self._ui.pwm_ip_toggle[ind].config(bg="Red")
-
+                        self._ui.dig_ip_button[i].grid(row=i - 19, column=4)
             
-            #Update PWM O/P tab
-            elif key in self._ui.pwm_op_spn:
-                ind = self._ui.pwm_op_spn.index(key)
-                self._ui.pwm_op_label[ind].delete(0, 100)
-                self._ui.pwm_op_label[ind].insert(0, data)
 
-            #Update Freq Tab
-            elif key in self._ui.fq_ip_spn:
-                ind = self._ui.fq_ip_spn.index(key)
-                self._ui.freq_label[ind].delete(0, 100)
-                self._ui.freq_label[ind].insert(0, data)
-
-                if self._ui.SimMode==1:
-                    if self._ui.freq_state[key]==1:
-                        self._ui.freq_toggle[ind].config(bg="Green")
+                #DIG O/P
+                elif key in self._ui.dig_op_spn:
+                    ind = self._ui.dig_op_spn.index(key)  # find position of that spn
+                    if data == 1:
+                        self._ui.dig_op_button[ind].config(bg="Green")
                     else:
-                        self._ui.freq_toggle[ind].config(bg="Red")
+                        self._ui.dig_op_button[ind].config( bg="Red")
+                    i = ind
+                    if 0 <= i < 31:
+                        row = i
+                        column = 1
+                    elif 31 <= i < 62:
+                        row = i - 31
+                        column = 3
+                    elif 62 <= i < 94:
+                        row = i - 62
+                        column = 5
+                    self._ui.dig_op_button[i].grid(row=row, column=column + 2)
 
-            #Update Pulse tab
-            elif key in self._ui.pulse_spn:
-                ind = self._ui.pulse_spn.index(key)
-                self._ui.pulse_label[ind].delete(0, 100)
-                self._ui.pulse_label[ind].insert(0, data)
+                #Update Voltage Tab
+                elif key in self._ui.vol_ip_spn:
+                    ind = self._ui.vol_ip_spn.index(key)
 
-                if self._ui.SimMode==1:
-                    if self._ui.pulse_state[key]==1:
-                        self._ui.pulse_toggle[ind].config(bg="Green")
+                    i = ind
+                    if i < 29:
+                        self._ui.volt_label[i].grid(row=i, column=1)
                     else:
-                        self._ui.pulse_toggle[ind].config(bg="Red")
+                        self._ui.volt_label[i].grid(row=i - 29, column=5)
+    
+                    if self._ui.SimMode == 1:
+                        if self._ui.volt_state[key] == 1:
+                            self._ui.volt_toggle[ind].config(bg="Green")
+                        else:
+                            self._ui.volt_toggle[ind].config(bg="Red")
+        
+                    self._ui.volt_label[ind].delete(0, 100)
+                    self._ui.volt_label[ind].insert(0, data)
 
+                #Update PWM I/P tab
+                elif key in self._ui.pwm_ip_spn:
+                    ind = self._ui.pwm_ip_spn.index(key)
+                    self._ui.pwm_ip_label[ind].delete(0, 100)
+                    self._ui.pwm_ip_label[ind].insert(0, data)
+
+                    if self._ui.SimMode==1:
+                        if self._ui.pwm_state[key] == 1:
+                            self._ui.pwm_ip_toggle[ind].config(bg="Green")
+                        else:
+                            self._ui.pwm_ip_toggle[ind].config(bg="Red")
+
+                
+                #Update PWM O/P tab
+                elif key in self._ui.pwm_op_spn:
+                    ind = self._ui.pwm_op_spn.index(key)
+                    self._ui.pwm_op_label[ind].delete(0, 100)
+                    self._ui.pwm_op_label[ind].insert(0, data)
+
+                #Update Freq Tab
+                elif key in self._ui.fq_ip_spn:
+                    ind = self._ui.fq_ip_spn.index(key)
+                    self._ui.freq_label[ind].delete(0, 100)
+                    self._ui.freq_label[ind].insert(0, data)
+
+                    if self._ui.SimMode==1:
+                        if self._ui.freq_state[key]==1:
+                            self._ui.freq_toggle[ind].config(bg="Green")
+                        else:
+                            self._ui.freq_toggle[ind].config(bg="Red")
+
+                #Update Pulse tab
+                elif key in self._ui.pulse_spn:
+                    ind = self._ui.pulse_spn.index(key)
+                    self._ui.pulse_label[ind].delete(0, 100)
+                    self._ui.pulse_label[ind].insert(0, data)
+
+                    if self._ui.SimMode==1:
+                        if self._ui.pulse_state[key]==1:
+                            self._ui.pulse_toggle[ind].config(bg="Green")
+                        else:
+                            self._ui.pulse_toggle[ind].config(bg="Red")
+
+            except RuntimeError:
+                pass
 
     def update_ui_driveline(self):
         for i in range(len(self._ui.sp_val)):
@@ -318,9 +323,9 @@ class update_ui:
         #all_widgets=list(itertools.chain(self._ui.dig_ip_button,self._ui.dig_op_button,self._ui.open_option,self._ui.open_button,self._ui.volt_button,self._ui.volt_toggle,self._ui.pwm_ip_button,self._ui.pwm_ip_toggle,self._ui.freq_button,self._ui.freq_toggle,self._ui.button_pulse,self._ui.pulse_toggle))
         all_widgets=list(itertools.chain(self._ui.dig_ip_option,self._ui.open_option,self._ui.volt_toggle,self._ui.pwm_ip_toggle,self._ui.freq_toggle,self._ui.pulse_toggle,self._ui.actuator_load,self._ui.actuator_set))
         if self._ui.KeyIsON == 1:
-            self._ui.Key_Button.config(bg="Red")
-        elif self._ui.KeyIsON == 0:
             self._ui.Key_Button.config(bg="Green")
+        elif self._ui.KeyIsON == 0:
+            self._ui.Key_Button.config(bg="Red")
         
         if self._ui.debug_mode == 0:
             self._ui.debug_mode_button.config(bg="Red")
@@ -337,27 +342,27 @@ class update_ui:
         #         for i in range(80):
         #             self.can2.flip_all_on(i)
 
-            if self._ui.SimMode==1:
-                self._ui.sim_button.config(bg="Green")
-                #for i in range(len(list(itertools.chain(self._ui.dig_ip_button,self._ui.dig_op_button,self._ui.volt_toggle,self._ui.pwm_ip_toggle,self._ui.freq_toggle,self._ui.pulse_toggle)))):
-                for i in range(len(all_widgets)):
-                    try:
-                        all_widgets[i].config(state=tk.NORMAL)
-                    except AttributeError:
-                        pass
-                for i in range(80):
-                    self.can2.flip_all_on(i)
-            elif self._ui.SimMode==0: 
-                self._ui.sim_button.config(bg="Red")
-                #for i in range(len(list(itertools.chain(self._ui.dig_ip_button,self._ui.dig_op_button,self._ui.volt_toggle,self._ui.pwm_ip_toggle,self._ui.freq_toggle,self._ui.pulse_toggle)))):
-                for i in range(len(all_widgets)):
-                    try:
-                        all_widgets[i].config(state=tk.DISABLED,bg="azure3")
-                    except AttributeError:
-                        #all_widgets[i].config(state=tk.DISABLED)
-                        pass
-                for i in range(80):
-                    self.can2.flip_all_off(i)
+            # if self._ui.SimMode==1:
+            #     self._ui.sim_button.config(bg="Green")
+            #     #for i in range(len(list(itertools.chain(self._ui.dig_ip_button,self._ui.dig_op_button,self._ui.volt_toggle,self._ui.pwm_ip_toggle,self._ui.freq_toggle,self._ui.pulse_toggle)))):
+            #     for i in range(len(all_widgets)):
+            #         try:
+            #             all_widgets[i].config(state=tk.NORMAL)
+            #         except AttributeError:
+            #             pass
+            #     for i in range(80):
+            #         self.can2.flip_all_on(i)
+            # elif self._ui.SimMode==0: 
+            #     self._ui.sim_button.config(bg="Red")
+            #     #for i in range(len(list(itertools.chain(self._ui.dig_ip_button,self._ui.dig_op_button,self._ui.volt_toggle,self._ui.pwm_ip_toggle,self._ui.freq_toggle,self._ui.pulse_toggle)))):
+            #     for i in range(len(all_widgets)):
+            #         try:
+            #             all_widgets[i].config(state=tk.DISABLED,bg="azure3")
+            #         except AttributeError:
+            #             #all_widgets[i].config(state=tk.DISABLED)
+            #             pass
+            #     for i in range(80):
+            #         self.can2.flip_all_off(i)
 
             
     def update_cpu(self):          
