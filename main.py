@@ -19,9 +19,12 @@ from PlantModels.UCM3_PlantModels.thcc import *
 from PlantModels.UCM3_PlantModels.rssp import *
 from PlantModels.UCM2_PlantModels.rotor import *
 from PlantModels.UCM1_PlantModels.feeder import *
+#import threading
+
 
 start = time.time()
 gd_obj = global_defines()
+
 
 #testing_active is set to 1...
 
@@ -65,7 +68,8 @@ feeder_obj = Feeder_hydro(gd_obj, io)
 #parse_excel.py
 pe.parse_excel()
 gd_obj.add_compatible()
-
+cn.start_thread()
+cn.ping()
 #generate_ui.py
 if gd_obj.fei_compatible==1:
     gu.generate_actuator_ui()
@@ -88,10 +92,12 @@ gu.generate_ui_hdhr()
 gu.generate_ui_hdfn()
 gu.generate_ui_agge()
 gu.generate_setting_ui()
+gu.get_sim_mode()
 
 #update_ui.py 
 def ui_update_thread():
     if gd_obj.testing_active == 0:
+        ui.update_ui_spn()
         ui.update_ui_dict()
         ui.update_ui_driveline()
         ui.update_ui_clrm()
@@ -109,8 +115,10 @@ def ui_update_thread():
         ui.update_settings()
         ui.update_cpu()
         ui.update_ui_open()
+        ui.update_ui_offline()
         threading.Timer(1, ui_update_thread).start()  # 1 second read thread
     else:
+        ui.update_ui_spn()
         ui.update_ui_dict()
         ui.update_ui_driveline()
         ui.update_ui_clrm()
@@ -128,21 +136,29 @@ def ui_update_thread():
         ui.update_settings()
         ui.update_cpu()
         ui.update_ui_open()
+        ui.update_ui_offline()
         threading.Timer(1, ui_update_thread).start()
 
-def ping_thread():
-    cn.ping()
-    threading.Timer(1,ping_thread).start()
+# def ping_thread():
+#     cn.ping()
+#     threading.Timer(30,ping_thread).start()
 
-def listen_thread():
-    cn.receive_CAN()
-    threading.Timer(1,listen_thread).start()
+# def listen_thread():
+#     cn.receive_CAN()
+#     threading.Timer(0.050,listen_thread).start()
 
 ui_update_thread()
 #Begin Polling threads | May cause 'Main Thread is not in Main loop' Error
-#Non essential to main functionality
 # ping_thread()
 # listen_thread()
+
+# ping = threading.Thread(target= cn.ping())
+# ping.setDaemon(True)
+# rcv = threading.Thread(target = cn.receive_CAN())
+# rcv.setDaemon(True)
+# ping.start()
+# rcv.start()
+
 
 def plant_model_update_thread():
     if gd_obj.testing_active == 0:

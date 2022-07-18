@@ -5,7 +5,8 @@ from functools import partial
 from UserInterface.update_ui import *
 from UserInterface.ui_callbacks import *
 from global_defines import *
-import pandas as pd                                         
+import pandas as pd              
+from HwConnect.CAN_FEI import *                           
 
 
 class generate_ui():
@@ -21,6 +22,7 @@ class generate_ui():
         self.ui_call = ui_callbacks(self._ge, ob2)
         #self._ge.dig_ip_options=["Normal", "Open_Circuit"]
         self._ge.dig_ip_options=["Open_Circuit"]
+        self._ge.can2 = CAN_FEI(0)
                
 
     #Generates first 7 UI Tabs
@@ -36,11 +38,23 @@ class generate_ui():
             self._ge.dig_ip_option_var.append(tk.StringVar())
    
             self._ge.dig_ip_button[i] = tk.Button(self._ge.dig_ip_frame, height=1, width=4, bd=6, fg="black",font=('Geneva', 6),bg="Green", command=partial(self.ui_call.dig_ip_callback, i))
+           
             self._ge.dig_ip_option[i] = tk.OptionMenu(self._ge.dig_ip_frame, self._ge.dig_ip_option_var[i], *self._ge.dig_ip_options, command=partial(self.ui_call.output_send,self._ge.dig_ip_spn[i]))
 
             label = tk.Label(self._ge.dig_ip_frame, text=self._ge.dig_ip_name[i], bg="azure3", width=55)
 
             self._ge.dig_ip_mode.update({i:0})
+
+            spn = self._ge.dig_ip_spn[i]
+            bno = self._ge.board_dict[spn]
+
+            tempList = []
+            if(bno in self._ge.board_wid_dict):
+                tempList = self._ge.board_wid_dict[bno]
+                
+            tempList.append(self._ge.dig_ip_option[i])
+
+            self._ge.board_wid_dict.update({bno : tempList})
 
             #first column
             if i < 19:
@@ -88,7 +102,7 @@ class generate_ui():
             # Update Button
             self._ge.volt_button[i] = tk.Button(self._ge.volt_ip_frame, height=1, width=11, bd=8, fg="white",font=('Geneva', 6),text="Update",bg="Steel Blue", command=partial(self.ui_call.buttonVolt, i))
             #Create another Button for toggling Relay on/off
-            self._ge.volt_toggle[i] = tk.Button(self._ge.volt_ip_frame, height=1, width=4, bd=6, fg="black",font=('Geneva', 6),bg="Green", command=partial(self.ui_call.voltToggle, i))
+            self._ge.volt_toggle[i] = tk.Button(self._ge.volt_ip_frame, height=1, width=4, bd=6, fg="black",font=('Geneva', 6),bg="Red", command=partial(self.ui_call.voltToggle, i))
 
 
             #Only add Toggle Button if Channel and Board Number are listed.
@@ -161,7 +175,6 @@ class generate_ui():
             if self._ge.bool_both.get(self._ge.fq_ip_spn[i]):
                 self._ge.freq_toggle[i].grid(row=i, column=3)
 
-
         #Pulse Tab
         for i in range(len(self._ge.pulse_spn)):
             self._ge.pulse_label.append(i)
@@ -188,6 +201,27 @@ class generate_ui():
             #Append based on excel config
             if self._ge.bool_both.get(self._ge.fq_ip_spn[i]):
                 self._ge.pulse_toggle[i].grid(row=i, column=3)
+
+
+    def get_sim_mode(self):
+        '''
+        Check sim_state in text file and update UI accordingly.
+        '''
+        if self._ge.SimMode == 0:
+            all_widgets=list(itertools.chain(self._ge.dig_ip_option,self._ge.open_option,self._ge.volt_toggle,self._ge.pwm_ip_toggle,self._ge.freq_toggle,self._ge.pulse_toggle,self._ge.actuator_load,self._ge.actuator_set))
+            self._ge.sim_button.config(bg="Red")
+            for i in range(len(all_widgets)):
+                try:
+                    all_widgets[i].config(state=tk.DISABLED)
+                    all_widgets[i].config(bg="azure3")
+                except AttributeError:
+                    pass
+            for i in range(80):
+                self._ge.can2.flip_all_on(i)
+        else:
+            self._ge.sim_button.config(bg="Green")
+            for i in range(80):
+                self._ge.can2.flip_all_off(i)
 
 
     #Open_To Tab:
@@ -1287,11 +1321,11 @@ class generate_ui():
             #Simulator Mode Toggle
             label_sim = tk.Label(label_frame_setting, text='Simulator Mode', bg="azure3", width=20)
             label_sim.grid(row=4, column=1)
-            self._ge.sim_button=tk.Button(label_frame_setting,height=1,width=4,bd=6, fg="black",font=('Geneva',6),bg="Red", command=self.ui_call.sim_callback)
+            self._ge.sim_button=tk.Button(label_frame_setting,height=1,width=4,bd=6, fg="black",font=('Geneva',6), command=self.ui_call.sim_callback)
             self._ge.sim_button.grid(row=4,column=2)
 
             #Reset CAN button
             label_reset_can = tk.Label(label_frame_setting, text='Reset CAN Network', bg="azure3", width=20)
             label_reset_can.grid(row=5, column=1)
             self._ge.reset_can_button=tk.Button(label_frame_setting, height=1, width=4, bd=6, fg="black", font=('Geneva',6),bg="skyblue",command=self.ui_call.reset_CAN)
-            self._ge.reset_can_button.grid(row=5,column=2)
+            self._ge.reset_can_button.grid(row=5,column=2)     #error, missing selection parameter     #error, missing selection parameter

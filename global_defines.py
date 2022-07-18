@@ -381,7 +381,8 @@ class global_defines:
 
     board_list=[] 
     channel_dict={}                             #Dictionary with SPN : relay(channel) pairs
-    dig_state = {}                              #Dictionary with SPN : default state of 0
+    dig_state = {}                              #Dictionary with SPN : default state of 0   
+    board_wid_dict = {}                         #Dictionary with Board No : [list of widget] pairs
     volt_state = {}     
     freq_state = {}
     pulse_state={}
