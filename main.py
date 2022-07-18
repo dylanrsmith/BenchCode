@@ -19,7 +19,6 @@ from PlantModels.UCM3_PlantModels.thcc import *
 from PlantModels.UCM3_PlantModels.rssp import *
 from PlantModels.UCM2_PlantModels.rotor import *
 from PlantModels.UCM1_PlantModels.feeder import *
-#import threading
 
 
 start = time.time()
@@ -70,14 +69,13 @@ pe.parse_excel()
 gd_obj.add_compatible()
 cn.start_thread()
 cn.ping()
+
 #generate_ui.py
 if gd_obj.fei_compatible==1:
     gu.generate_actuator_ui()
     gu.generate_open_ui()
 
 gu.generate_spn_ui()
-# gu.generate_open_ui()
-# gu.generate_actuator_ui()
 gu.generate_driveline_ui()
 gu.generate_clrm_ui()
 gu.generate_ghcv_ui()

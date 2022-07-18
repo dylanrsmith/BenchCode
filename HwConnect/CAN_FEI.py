@@ -6,7 +6,6 @@ import sys
 sys.path.insert(0, '/home/dev/Documents/Bench_Code_FEI_v6.01')
 
 
-
 class CAN_FEI:
     """
     This module contains all of the main functions for Sending and receiving CAN messages between the Pi and relay boards.

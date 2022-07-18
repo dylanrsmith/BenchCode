@@ -1,22 +1,24 @@
 import itertools
 import tkinter as tk
-from tkinter import ttk
-from functools import partial
-import threading
 import psutil
 from HwConnect.CAN_FEI import *
-#from IOCtrl import *
 
 class update_ui:
 
     global _ui, io_ob
 
     def __init__(self, ob1, ob2):
+        """
+        This module handles all updating of UI widgets and displayed values
+        :param ob1: Set to _ui...references global_defines
+        :param ob2: Set to io_ob...initially referenced IO_Ctrl(deprecated)
+        """
         self._ui = ob1
-        self.can2 = CAN_FEI(0)
+        self.can2 = CAN_FEI(ob1)
 
         if self._ui.testing_active == 0:
             self.io_ob = ob2
+
 
     def update_ui_dict(self):
         for key in self._ui.UI_dict:
@@ -37,22 +39,15 @@ class update_ui:
 
         self.update_ui_spn()
 
-    def update_ui_open(self):
-        '''
-        Make sure option menus are displaying the correct value.
-        Cause the option menus to reset after 5 seconds automatically
-        '''
-        # if self._ui.fei_compatible == 1:
-        #     for i in range(len(self._ui.open_option)):
-        #         print(self._ui.open_option[i].configure())
-
-
+    
     def update_ui_spn(self):
-        '''
-        Function to update UI based on dictionary data
+        """
+        Function to update UI based on dictionary data.
+
+        Tied to First 7 SPN Tabs.
         
         This is what causes the buttons to flash red and green in testing mode.
-        '''
+        """
         for key in self._ui.UI_dict:
             data = self._ui.UI_dict[key]
 
@@ -155,6 +150,7 @@ class update_ui:
             except RuntimeError:
                 pass
 
+
     def update_ui_driveline(self):
         for i in range(len(self._ui.sp_val)):
             self._ui.drive_label[i].delete(0, 100)
@@ -162,10 +158,12 @@ class update_ui:
         self._ui.current_spd_label.delete(0, 100)
         self._ui.current_spd_label.insert(0, "{:.2f}".format(float(self._ui.current_spd)))
 
+
     def update_ui_clrm(self):
         if self._ui.clrm_enabled == 1:
             self._ui.clrm_label.delete(0, 100)
             self._ui.clrm_label.insert(0, "{:.2f}".format(float(self._ui.tail_sensor_spd)))
+
 
     def update_ui_ghcv(self):
         self._ui.open_label.delete(0, 100)
@@ -178,9 +176,11 @@ class update_ui:
         self._ui.ghcv_label_close.delete(0, 100)
         self._ui.ghcv_label_close.insert(0, "{:.2f}".format(float(self._ui.g_closed_tmr_ms_u16)))
 
+
     def update_ui_rsch(self):
         self._ui.rsch_label.delete(0, 100)
         self._ui.rsch_label.insert(0, "{:.2f}".format(float(self._ui.rsch_spd)))
+
 
     def update_ui_ghts(self):
         self._ui.ghts_label_pwm.delete(0, 100)
@@ -199,6 +199,7 @@ class update_ui:
             self._ui.cradle_button.config(bg="Red")
         else:
             self._ui.cradle_button.config(bg="Green")
+
 
     def update_ui_rsck(self):
         self._ui.rsck_label_in_out_current.delete(0, 100)
@@ -219,6 +220,7 @@ class update_ui:
         self._ui.rsck_label_volt.delete(0, 100)
         self._ui.rsck_label_volt.insert(0, "{:.2f}".format(float(self._ui.rsck_volt)))
 
+
     def update_ui_ghps(self):
         self._ui.ghps_curr_label.delete(0, 100)
         self._ui.ghps_curr_label.insert(0, "{:.2f}".format(float(self._ui.ghps_curr)))
@@ -236,6 +238,7 @@ class update_ui:
             self._ui.ghps_bridge_button.config(bg="Red")
         else:
             self._ui.ghps_bridge_button.config(bg="Green")
+
 
     def update_ui_thcc(self):
         self._ui.thcc_curr_label.delete(0, 100)
@@ -255,9 +258,11 @@ class update_ui:
         else:
             self._ui.thcc_bridge_button.config(bg="Green")
 
+
     def update_ui_clfn(self):
         self._ui.clfn_RPM_label.delete(0, 100)
         self._ui.clfn_RPM_label.insert(0, "{:.2f}".format(float(self._ui.clfn_rpm)))
+
 
     def update_ui_rssp(self):
         self._ui.rssp_right_spd_label.delete(0, 100)
@@ -272,6 +277,7 @@ class update_ui:
         self._ui.rssp_left_curr_label.delete(0, 100)
         self._ui.rssp_left_curr_label.insert(0, "{:.2f}".format(float(self._ui.rssp_left_curr)))
 
+
     def update_ui_hdhr(self):
         self._ui.hdhr_type_volt_label.delete(0, 100)
         self._ui.hdhr_type_volt_label.insert(0, "{:.2f}".format(float(self._ui.hdhr_type_volt)))
@@ -281,6 +287,7 @@ class update_ui:
 
         self._ui.hdhr_ext2_volt_label.delete(0, 100)
         self._ui.hdhr_ext2_volt_label.insert(0, "{:.2f}".format(float(self._ui.hdhr_ext2_volt)))
+
 
     def update_ui_hdfn(self):
         self._ui.hdfn_hor_pos_label.delete(0, 100)
@@ -298,6 +305,7 @@ class update_ui:
         self._ui.hdfn_ffa_spd_label.delete(0, 100)
         self._ui.hdfn_ffa_spd_label.insert(0, "{:.2f}".format(float(self._ui.hdfn_ffa_spd)))
 
+
     def update_ui_agge(self):
         self._ui.agge_angle_label.delete(0, 100)
         self._ui.agge_angle_label.insert(0, "{:.2f}".format(float(self._ui.agge_angle)))
@@ -307,18 +315,10 @@ class update_ui:
         elif self._ui.agge_wheel == 7000:
             self._ui.agge_wheel_button.config(bg="Green")
 
+
     def update_settings(self):
         """
         Updates Color Of Settings Buttons depending on their linked value.
-        
-        [ButtonName] -> [ValueName]:
-
-        Key_Button -> KeyIsON
-
-        debug_mode_button -> debug_mode
-
-        sim_button -> SimMode
-
         """
         #all_widgets=list(itertools.chain(self._ui.dig_ip_button,self._ui.dig_op_button,self._ui.open_option,self._ui.open_button,self._ui.volt_button,self._ui.volt_toggle,self._ui.pwm_ip_button,self._ui.pwm_ip_toggle,self._ui.freq_button,self._ui.freq_toggle,self._ui.button_pulse,self._ui.pulse_toggle))
         all_widgets=list(itertools.chain(self._ui.dig_ip_option,self._ui.open_option,self._ui.volt_toggle,self._ui.pwm_ip_toggle,self._ui.freq_toggle,self._ui.pulse_toggle,self._ui.actuator_load,self._ui.actuator_set))
@@ -336,6 +336,8 @@ class update_ui:
     def update_cpu(self):          
         """
         Displays CPU usage under Settings tab
+
+        Uses 'psutil'
         """
         if self._ui.fei_compatible == 1:
             cpu=str(psutil.cpu_percent(0.5))+'%'
@@ -344,7 +346,11 @@ class update_ui:
         
 
     def update_ui_offline(self):
+        """
+        Part of ui_update thread.
         
+        Checks to see if any boards are offline. If so, linked UI widgets will be disabled.
+        """
         for bno in self._ui.board_wid_dict:
             online = 0
             if(bno in self._ui.ping_dict and self._ui.ping_dict[bno] == 1):
@@ -362,7 +368,12 @@ class update_ui:
                     pass
 
 
-
-    #Don't touch this
     def mainloop(self):
+        """
+        Holds Tkinter .mainloop()
+
+        Main function for running UI. 
+
+        DO NOT REMOVE
+        """
         tk.mainloop()
