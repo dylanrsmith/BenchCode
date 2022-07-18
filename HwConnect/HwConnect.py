@@ -5,6 +5,11 @@ import smbus
 
 
 class HwConnect:
+    """
+    Module used for communicating to Pi peripheral Boards.
+
+    Using SPI and I2C interfaces.
+    """
     i2cbusRack1 = 1#smbus.SMBus(11)
     i2cbusRack2 = 1#smbus.SMBus(12)
     i2cbusRack3 = 1#smbus.SMBus(13)
