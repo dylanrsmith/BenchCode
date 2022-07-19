@@ -9,9 +9,10 @@ Welcome to NGC's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-   can <can.rst>
-   ui <ui.rst>
+   
 
+   can
+   ui
 
 
 Indices and tables

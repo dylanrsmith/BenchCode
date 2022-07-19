@@ -112,7 +112,6 @@ def ui_update_thread():
         ui.update_ui_agge()
         ui.update_settings()
         ui.update_cpu()
-        ui.update_ui_open()
         ui.update_ui_offline()
         threading.Timer(1, ui_update_thread).start()  # 1 second read thread
     else:
@@ -133,30 +132,10 @@ def ui_update_thread():
         ui.update_ui_agge()
         ui.update_settings()
         ui.update_cpu()
-        ui.update_ui_open()
         ui.update_ui_offline()
         threading.Timer(1, ui_update_thread).start()
 
-# def ping_thread():
-#     cn.ping()
-#     threading.Timer(30,ping_thread).start()
-
-# def listen_thread():
-#     cn.receive_CAN()
-#     threading.Timer(0.050,listen_thread).start()
-
 ui_update_thread()
-#Begin Polling threads | May cause 'Main Thread is not in Main loop' Error
-# ping_thread()
-# listen_thread()
-
-# ping = threading.Thread(target= cn.ping())
-# ping.setDaemon(True)
-# rcv = threading.Thread(target = cn.receive_CAN())
-# rcv.setDaemon(True)
-# ping.start()
-# rcv.start()
-
 
 def plant_model_update_thread():
     if gd_obj.testing_active == 0:

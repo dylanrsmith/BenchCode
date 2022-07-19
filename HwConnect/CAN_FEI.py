@@ -18,7 +18,8 @@ class CAN_FEI:
         """
         Constructor Method for Creating an Instance of CAN_FEI
 
-        :param ob (Object): Used to hold an instance of global_defines(Global Variables)
+        :param ob: Used to hold an instance of global_defines(Global Variables)
+        :type ob: Object
         """
         self.can_bus = can.interface.Bus(channel='can1', bustype = 'socketcan')
         self.gd=ob
@@ -28,9 +29,12 @@ class CAN_FEI:
         """
         Sends a can message to change the state of a SINGLE relay
 
-        :param board(int) : Target Board Number to receive CAN message.
-        :param relay(int) : Relay Number to be manipulated.
-        :param state(int) : State to set target relay to (on/off).     
+        :param board: Target Board Number to receive CAN message.
+        :type board: int
+        :param relay: Relay Number to be manipulated.
+        :type relay: int
+        :param state: State to set target relay to (on/off).     
+        :type state: int or boolean
         """
 
         can_bus=can.interface.Bus(channel='can1', bustype = 'socketcan')
@@ -59,15 +63,17 @@ class CAN_FEI:
         ping_msg=can.Message(data=[0,0,0,1,0,0,0,0],is_extended_id=True)
         thread = can.ThreadSafeBus(channel = 'can1', bustype='socketcan')
         for i in (boards):
-            ping_msg.arbitration_id=(((0x18DA << 8) | i) << 8 | 0xF9)
+            ping_msg.arbitration_id=(((0x18DA << 8) | i) << 8 | 0xF9)   
             thread.send(ping_msg)
-            time.sleep(.05)
+            print(ping_msg)
+            time.sleep(0.5)
 
         time.sleep(1)
 
         for board in self.gd.time_dict:
+            #Update board to be offline if last response was received over 30 seconds ago:
             if ((time.time() - self.gd.time_dict[board]) > 35.0 and board in self.gd.ping_dict and self.gd.ping_dict[board] != 0):
-                self.gd.ping_dict.update({int(board) : 0})              #Update board to be offline if last response was received over 30 seconds ago:
+                self.gd.ping_dict.update({int(board) : 0})              
                 print("Dictionary : "+str(self.gd.ping_dict.copy()))
                 
     
@@ -76,7 +82,8 @@ class CAN_FEI:
         """
         Activates all relays on specified board.
 
-        :param n(int): Board Number to receive CAN message.
+        :param n: Board Number to receive CAN message.
+        :type n: int
         """
         can_bus=can.interface.Bus(channel='can1', bustype = 'socketcan')
         msg=can.Message(data=[0,0,0,0,0,0,4,0], is_extended_id=True)
@@ -93,7 +100,8 @@ class CAN_FEI:
         """
         Deacivates all relays on specified board.
 
-        :param n(int): Board Number to receive CAN message.
+        :param n: Board Number to receive CAN message
+        :type n: int
         """
         can_bus=can.interface.Bus(channel='can1', bustype = 'socketcan')
         msg = can.Message(data=[0,0,0,0,0,0,5,0], is_extended_id=True)
@@ -112,26 +120,18 @@ class CAN_FEI:
 
         NOTE: Board Number is hard coded in the Message Constructor.
 
-        :param x (int): Number of loops the relays will be toggled.
+        :param x: Number of loops the relays will be toggled.
+        :type x: int
         """
         for i in range(x):
             can_bus2=can.interface.Bus(channel='can1', bustype = 'socketcan')
-            msg2 = can.Message(arbitration_id=0x18DA52F9, data=[0,0,0,0,0,0,4,0], is_extended_id=True)
-            msg3 = can.Message(arbitration_id=0x18DA52F9, data=[0,0,0,0,0,0,5,0], is_extended_id=True)
+            msg2 = can.Message(arbitration_id=0x18DA01F9, data=[0,0,0,0,0,0,4,0], is_extended_id=True)
+            msg3 = can.Message(arbitration_id=0x18DA01F9, data=[0,0,0,0,0,0,5,0], is_extended_id=True)
   
             can_bus2.send(msg2)
             time.sleep(4)
             can_bus2.send(msg3)
             time.sleep(4)
-
-
-    def output_test(self):
-        inp = int(input("Enter 0-Normal 1-Open 2-Ground 3-Battery : "))
-        num = int(input("Relay Number : "))
-        msg = can.Message(arbitration_id=0x18DA51F9, data=[0,0,0,0,0,0,inp,num])
-
-        can_bus=can.interface.Bus(channel='can1', bustype = 'socketcan')
-        can_bus.send(msg)
 
 
     def receive_CAN_while(self):
@@ -160,15 +160,6 @@ class CAN_FEI:
             time.sleep(0)
     
 
-    def initialize_can(self):
-        """
-        Runs command to activate Raspberry Pi CAN interface.
-
-        Using WaveShare 2-CH CAN HAT.
-        """
-        os.system('sudo ifconfig can1 down')
-        os.system('sudo ip link set can1 up type can bitrate 250000')
-
     def ping_thread(self):
         """
         Thread to handle periodic sending of polling messages.
@@ -177,6 +168,7 @@ class CAN_FEI:
         """
         self.ping()
         threading.Timer(30,self.ping_thread).start()
+
 
     def start_thread(self):
         """
@@ -188,4 +180,7 @@ class CAN_FEI:
 
 
 #TEST ENVIRONMENT:
-#can0 = CAN_FEI(0)
+# can0 = CAN_FEI(0)
+
+# while True:
+#     can0.ping()

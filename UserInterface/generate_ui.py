@@ -1,34 +1,37 @@
-from cProfile import label
 import tkinter as tk
-from tkinter import ttk
 from functools import partial
 from UserInterface.update_ui import *
 from UserInterface.ui_callbacks import *
 from global_defines import *
-import pandas as pd              
 from HwConnect.CAN_FEI import *                           
 
 
 class generate_ui():
     """
-    This module is responsible for initializing each component of the UI, as well as its placement.
+    This module is responsible for initializing each component of the UI, as well as it's grid placement.
     """
     global _ge, ui, ui_call
     
 
     def __init__(self, ob1, ob2):
+        """
+        Constructor used to create an instance of generate_ui.
+
+        :param ob1 (Object): Used to pass an instance of global_defines.
+        :param ob2 (Object): Used to pass an instance of IOCtrl.
+        """
         self._ge = ob1
         self.ui = update_ui(self._ge, ob2)
         self.ui_call = ui_callbacks(self._ge, ob2)
-        #self._ge.dig_ip_options=["Normal", "Open_Circuit"]
         self._ge.dig_ip_options=["Open_Circuit"]
-        self._ge.can2 = CAN_FEI(0)
+        self._ge.can2 = CAN_FEI(ob1)
                
 
     #Generates first 7 UI Tabs
     def generate_spn_ui(self):
         """
-        The function `generate_spn_ui` is responsible for creating these UI tabs:
+        The function `generate_spn_ui` is responsible for creating these UI tabs and their widgets:
+        
         DIG I/P | DIG O/P | VOLTAGE | PWM I/P | PWM O/P | Freq | Pulse
         """
         #Digital Input Tab
@@ -62,8 +65,7 @@ class generate_ui():
                 self._ge.dig_ip_button[i].grid(row=i, column=1)
                 #If Board and Channel are configured
                 if self._ge.bool_both.get(self._ge.vol_ip_spn[i]):
-                    #if self._ge.board_dict[i] > 80:
-                        self._ge.dig_ip_option[i].grid(row=i, column=2)
+                    self._ge.dig_ip_option[i].grid(row=i, column=2)
             #second column
             else:
                 label.grid(row=i - 19, column=3)
@@ -99,13 +101,9 @@ class generate_ui():
             self._ge.volt_string.append(tk.StringVar())
             label = tk.Label(self._ge.volt_ip_frame,text=self._ge.vol_ip_name[i], bg="azure3", width=55)
             self._ge.volt_label[i] = tk.Entry(self._ge.volt_ip_frame, bd=2, validate='key', width=6, font=('courier', 10),textvariable=self._ge.volt_string[i])
-            # Update Button
             self._ge.volt_button[i] = tk.Button(self._ge.volt_ip_frame, height=1, width=11, bd=8, fg="white",font=('Geneva', 6),text="Update",bg="Steel Blue", command=partial(self.ui_call.buttonVolt, i))
-            #Create another Button for toggling Relay on/off
             self._ge.volt_toggle[i] = tk.Button(self._ge.volt_ip_frame, height=1, width=4, bd=6, fg="black",font=('Geneva', 6),bg="Red", command=partial(self.ui_call.voltToggle, i))
 
-
-            #Only add Toggle Button if Channel and Board Number are listed.
             if i < 29:
                 label.grid(row=i, column=0)
                 self._ge.volt_label[i].grid(row=i, column=1)
@@ -160,18 +158,14 @@ class generate_ui():
             self._ge.freq_toggle.append(0)
             self._ge.freq_string.append(tk.StringVar())
             label = tk.Label(self._ge.freq_ip_frame, text=self._ge.fq_ip_name[i], bg="azure3", width=55, )
-            self._ge.freq_label[i] = tk.Entry(self._ge.freq_ip_frame, bd=2, validate='key', width=6, font=('courier', 10),
-                                              textvariable=self._ge.freq_string[i])
-            # Create a Button widget
+            self._ge.freq_label[i] = tk.Entry(self._ge.freq_ip_frame, bd=2, validate='key', width=6, font=('courier', 10),textvariable=self._ge.freq_string[i])
             self._ge.freq_button[i] = tk.Button(self._ge.freq_ip_frame, height=1, width=11, bd=8, fg="white",font=('Geneva', 6),text="Update",bg="Steel Blue", command=partial(self.ui_call.buttonFreq, i))
             label.grid(row=i, column=0)
             self._ge.freq_label[i].grid(row=i, column=1)
             self._ge.freq_button[i].grid(row=i, column=2)
             self._ge.freq_label[i].insert(0, '0')
-            #Create Toggle Button
             self._ge.freq_toggle[i] = tk.Button(self._ge.freq_ip_frame, height=1, width=4, bd=6, fg="black", font=('Geneva',6),bg="Green", command=partial(self.ui_call.freqToggle, i))
 
-            #Append Based on Excel config
             if self._ge.bool_both.get(self._ge.fq_ip_spn[i]):
                 self._ge.freq_toggle[i].grid(row=i, column=3)
 
@@ -184,29 +178,24 @@ class generate_ui():
             self._ge.pulse_string[i] = tk.StringVar()
 
             label = tk.Label(self._ge.pulse_frame, text=self._ge.pulse_name[i], bg="azure3", width=55)
-            self._ge.pulse_label[i] = tk.Entry(self._ge.pulse_frame, bd=2, validate='key', width=6, font=('courier', 10),
-                                               textvariable=self._ge.pulse_string[i])
-            # Create a Button widget
-            self._ge.button_pulse[i] = tk.Button(self._ge.pulse_frame, height=1, width=11, bd=8, fg="white",
-                                                 font=('Geneva', 6),
-                                                 text="Update",
-                                                 bg="Steel Blue", command=partial(self.ui_call.buttonPulse, i))
+            self._ge.pulse_label[i] = tk.Entry(self._ge.pulse_frame, bd=2, validate='key', width=6, font=('courier', 10),textvariable=self._ge.pulse_string[i])
+            self._ge.button_pulse[i] = tk.Button(self._ge.pulse_frame, height=1, width=11, bd=8, fg="white",font=('Geneva', 6),text="Update",bg="Steel Blue", command=partial(self.ui_call.buttonPulse, i))
             label.grid(row=i, column=0)
             self._ge.pulse_label[i].grid(row=i, column=1)
             self._ge.button_pulse[i].grid(row=i, column=2)
             self._ge.pulse_label[i].insert(0, '0')
-            #Create Toggle Button
             self._ge.pulse_toggle[i] = tk.Button(self._ge.pulse_frame, height=1, width=4, bd=6, fg="black",font=('Geneva',6),bg="Green", command=partial(self.ui_call.pulseToggle, i))
 
-            #Append based on excel config
             if self._ge.bool_both.get(self._ge.fq_ip_spn[i]):
                 self._ge.pulse_toggle[i].grid(row=i, column=3)
 
 
     def get_sim_mode(self):
-        '''
-        Check sim_state in text file and update UI accordingly.
-        '''
+        """
+        When called, will read save state of Simulator Mode, and will disable/enable all widgets depending on value.
+
+        Value is stored in SimMode.txt (0 or 1)
+        """
         if self._ge.SimMode == 0:
             all_widgets=list(itertools.chain(self._ge.dig_ip_option,self._ge.open_option,self._ge.volt_toggle,self._ge.pwm_ip_toggle,self._ge.freq_toggle,self._ge.pulse_toggle,self._ge.actuator_load,self._ge.actuator_set))
             self._ge.sim_button.config(bg="Red")
@@ -226,7 +215,7 @@ class generate_ui():
 
     #Open_To Tab:
     def generate_open_ui(self):
-        '''
+        """
         Function for generating components in the 'Open' UI tab
 
         Will Show Configured SPN's with a drop down menu to select open configuration.
@@ -234,7 +223,7 @@ class generate_ui():
         Searches for 'Open_to' value in column D of `config_sheet.xlsx`
 
         Value should either be B(open to battery), G(open to ground) or Both(where we can select between B or G in the UI, not open to both at the same time)
-        '''      
+        """      
         for i in range(len(self._ge.dig_ip_spn)):
             self._ge.open_option_var.append(tk.StringVar())
             self._ge.open_option.append(0)
@@ -250,7 +239,8 @@ class generate_ui():
                 self._ge.open_button[i] = tk.Button(self._ge.open_frame, text='Update',fg="white",bg="Steel Blue", command = partial(self.ui_call.open_button_callback, self._ge.dig_ip_spn[i])) #TODO, command=self.ui_call.callback) #Might have to make button list
                 
                 #Check each SPN value of column D in config_sheet
-                #Value should either be B(open to battery), G(open to ground) or Both(choose either B or G in the UI, not open to both at the same time)
+                
+                
                 if parse =='B':
                     self._ge.open_option[i] = tk.OptionMenu(self._ge.open_frame, self._ge.open_option_var[i],*self._ge.battery_option, command=partial(self.ui_call.output_send, self._ge.dig_ip_spn[i]))
                 elif parse == 'G':
