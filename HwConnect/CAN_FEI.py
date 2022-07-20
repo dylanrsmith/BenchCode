@@ -3,6 +3,7 @@ import can
 import os
 import time
 import sys
+from datetime import datetime
 sys.path.insert(0, '/home/dev/Documents/Bench_Code_FEI_v6.01')
 
 
@@ -13,6 +14,7 @@ class CAN_FEI:
     global can_bus
     global gd
     global time 
+    global i
 
     def __init__(self,ob):
         """
@@ -65,10 +67,12 @@ class CAN_FEI:
         for i in (boards):
             ping_msg.arbitration_id=(((0x18DA << 8) | i) << 8 | 0xF9)   
             thread.send(ping_msg)
-            print(ping_msg)
-            time.sleep(0.5)
+            time.sleep(0.05)
 
-        time.sleep(1)
+        i=i+1
+        if i%10==0:
+            print(datetime.now.strftime("%H:%M:%S"))
+        time.sleep(.5)
 
         for board in self.gd.time_dict:
             #Update board to be offline if last response was received over 30 seconds ago:

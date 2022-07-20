@@ -186,5 +186,5 @@ gd_obj = global_defines()
 end = time.time()
 
 boot_time = end-start
-print("Time = %s seconds" % boot_time) 
+print("Boot Time = %s seconds" % boot_time) 
 ui.mainloop()
