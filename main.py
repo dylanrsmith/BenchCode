@@ -25,14 +25,14 @@ start = time.time()
 gd_obj = global_defines()
 
 
-#testing_active is set to 1...
+# testing_active is set to 1...
 
 if gd_obj.testing_active == 0:
     from IOCtrl import *
     from ReadThread import *
 
 if gd_obj.testing_active == 0:
-    #start IO control
+    # start IO control
     io = IOCtrl(gd_obj)
     from startup_init import *
     st = start_init(gd_obj, io)
@@ -44,7 +44,7 @@ else:
     st = 0
 
 pe = parse_excel(gd_obj)
-sc = socket_py(io)  
+sc = socket_py(io)
 gu = generate_ui(gd_obj, io)
 ui = update_ui(gd_obj, io)
 cn = CAN_FEI(gd_obj)
@@ -54,9 +54,9 @@ gh = ghcv_plant(gd_obj, io)
 rs = rsch_plant(gd_obj, io)
 gt = ghts_plant(gd_obj, io)
 rsck = rsck_plant(gd_obj, io)
-ghps = ghps_plant(gd_obj) 
-thcc = thcc_plant(gd_obj) 
-clfn = clfn_plant(gd_obj, io) 
+ghps = ghps_plant(gd_obj)
+thcc = thcc_plant(gd_obj)
+clfn = clfn_plant(gd_obj, io)
 rssp = rssp_plant(gd_obj, io)
 hdhr = hdhr_plant(gd_obj, io)
 hdfn = hdfn_plant(gd_obj, io)
@@ -64,14 +64,14 @@ agge = agge_plant(gd_obj, io)
 rotor_obj = rotor_hydro(gd_obj, io)
 feeder_obj = Feeder_hydro(gd_obj, io)
 
-#parse_excel.py
+# parse_excel.py
 pe.parse_excel()
 gd_obj.add_compatible()
 cn.start_thread()
 cn.ping()
 
-#generate_ui.py
-if gd_obj.fei_compatible==1:
+# generate_ui.py
+if gd_obj.fei_compatible == 1:
     gu.generate_actuator_ui()
     gu.generate_open_ui()
 
@@ -92,7 +92,9 @@ gu.generate_ui_agge()
 gu.generate_setting_ui()
 gu.get_sim_mode()
 
-#update_ui.py 
+# update_ui.py
+
+
 def ui_update_thread():
     if gd_obj.testing_active == 0:
         ui.update_ui_spn()
@@ -135,7 +137,9 @@ def ui_update_thread():
         ui.update_ui_offline()
         threading.Timer(1, ui_update_thread).start()
 
+
 ui_update_thread()
+
 
 def plant_model_update_thread():
     if gd_obj.testing_active == 0:
@@ -154,7 +158,8 @@ def plant_model_update_thread():
         agge.agge_plant_cal()
         rotor_obj.calculate_rotor()
         feeder_obj.calculate_Feeder()
-        threading.Timer(0.0001, plant_model_update_thread).start()  # 1 second read thread
+        # 1 second read thread
+        threading.Timer(0.0001, plant_model_update_thread).start()
     else:
         dv.calculate_speeds(gd_obj.current_spd)
         cl.calculate_speed()
@@ -169,7 +174,9 @@ def plant_model_update_thread():
         hdhr.calculate_hdr_volt()
         hdfn.calculate_hdr_pos()
         agge.agge_plant_cal()
-        threading.Timer(0.0001, plant_model_update_thread).start()  # 2 second read thread
+        # 2 second read thread
+        threading.Timer(0.0001, plant_model_update_thread).start()
+
 
 if gd_obj.testing_active == 0:
     plant_model_update_thread()
@@ -177,7 +184,7 @@ if gd_obj.testing_active == 0:
 if gd_obj.testing_active == 0:
     # Start Socket
     sc.accept_socket()
-    #start read thread
+    # start read thread
     read_ob = ReadThread(io)
     read_ob.read()
 
@@ -186,5 +193,5 @@ gd_obj = global_defines()
 end = time.time()
 
 boot_time = end-start
-print("Boot Time = %s seconds" % boot_time) 
+print("Boot Time = %s seconds" % boot_time)
 ui.mainloop()

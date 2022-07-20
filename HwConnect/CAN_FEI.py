@@ -13,21 +13,20 @@ class CAN_FEI:
     """
     global can_bus
     global gd
-    global time 
+    global time
     global i
 
-    def __init__(self,ob):
+    def __init__(self, ob):
         """
         Constructor Method for Creating an Instance of CAN_FEI
 
         :param ob: Used to hold an instance of global_defines(Global Variables)
         :type ob: Object
         """
-        self.can_bus = can.interface.Bus(channel='can1', bustype = 'socketcan')
-        self.gd=ob
+        self.can_bus = can.interface.Bus(channel='can1', bustype='socketcan')
+        self.gd = ob
 
-
-    def flip_one(board,relay,state):
+    def flip_one(board, relay, state):
         """
         Sends a can message to change the state of a SINGLE relay
 
@@ -39,18 +38,17 @@ class CAN_FEI:
         :type state: int or boolean
         """
 
-        can_bus=can.interface.Bus(channel='can1', bustype = 'socketcan')
-        msg=can.Message(data=[0,0,0,0,0,0,0,0],is_extended_id=True)
-        
+        can_bus = can.interface.Bus(channel='can1', bustype='socketcan')
+        msg = can.Message(data=[0, 0, 0, 0, 0, 0, 0, 0], is_extended_id=True)
+
         board = int(board)
         relay = int(relay)
         state = int(state)
         msg.arbitration_id = ((0x18DA << 8 | board) << 8 | 0xF9)
-        msg.data[7]=relay
-        msg.data[6]=state
+        msg.data[7] = relay
+        msg.data[6] = state
 
         can_bus.send(msg)
-   
 
     def ping(self):
         """
@@ -62,43 +60,38 @@ class CAN_FEI:
         """
         #boards = [1,2,3,4,5,6,7,8,81,82,83,84,85,86,87,88,89,90,91]
         boards = self.gd.board_list
-        ping_msg=can.Message(data=[0,0,0,1,0,0,0,0],is_extended_id=True)
-        thread = can.ThreadSafeBus(channel = 'can1', bustype='socketcan')
+        ping_msg = can.Message(
+            data=[0, 0, 0, 1, 0, 0, 0, 0], is_extended_id=True)
+        thread = can.ThreadSafeBus(channel='can1', bustype='socketcan')
         for i in (boards):
-            ping_msg.arbitration_id=(((0x18DA << 8) | i) << 8 | 0xF9)   
+            ping_msg.arbitration_id = (((0x18DA << 8) | i) << 8 | 0xF9)
             thread.send(ping_msg)
             time.sleep(0.05)
 
-        i=i+1
-        if i%10==0:
-            print(datetime.now.strftime("%H:%M:%S"))
         time.sleep(.5)
 
         for board in self.gd.time_dict:
-            #Update board to be offline if last response was received over 30 seconds ago:
+            # Update board to be offline if last response was received over 30 seconds ago:
             if ((time.time() - self.gd.time_dict[board]) > 35.0 and board in self.gd.ping_dict and self.gd.ping_dict[board] != 0):
-                self.gd.ping_dict.update({int(board) : 0})              
+                self.gd.ping_dict.update({int(board): 0})
                 print("Dictionary : "+str(self.gd.ping_dict.copy()))
-                
-    
 
-    def flip_all_on(self,n):
+    def flip_all_on(self, n):
         """
         Activates all relays on specified board.
 
         :param n: Board Number to receive CAN message.
         :type n: int
         """
-        can_bus=can.interface.Bus(channel='can1', bustype = 'socketcan')
-        msg=can.Message(data=[0,0,0,0,0,0,4,0], is_extended_id=True)
-        
+        can_bus = can.interface.Bus(channel='can1', bustype='socketcan')
+        msg = can.Message(data=[0, 0, 0, 0, 0, 0, 4, 0], is_extended_id=True)
+
         id_prefix = 0x18DA
         id_suffix = 0xF9
-        board_num=int(n)
+        board_num = int(n)
 
-        msg.arbitration_id=((id_prefix << 8 | board_num) << 8 | id_suffix)
+        msg.arbitration_id = ((id_prefix << 8 | board_num) << 8 | id_suffix)
         can_bus.send(msg)
-
 
     def flip_all_off(self, n):
         """
@@ -107,16 +100,15 @@ class CAN_FEI:
         :param n: Board Number to receive CAN message
         :type n: int
         """
-        can_bus=can.interface.Bus(channel='can1', bustype = 'socketcan')
-        msg = can.Message(data=[0,0,0,0,0,0,5,0], is_extended_id=True)
+        can_bus = can.interface.Bus(channel='can1', bustype='socketcan')
+        msg = can.Message(data=[0, 0, 0, 0, 0, 0, 5, 0], is_extended_id=True)
 
         id_prefix = 0x18DA
         id_suffix = 0xF9
         board_num = int(n)
-        
-        msg.arbitration_id=((id_prefix << 8 | board_num) << 8 | id_suffix)
-        can_bus.send(msg)
 
+        msg.arbitration_id = ((id_prefix << 8 | board_num) << 8 | id_suffix)
+        can_bus.send(msg)
 
     def flip_loop(self, x):
         """
@@ -128,15 +120,16 @@ class CAN_FEI:
         :type x: int
         """
         for i in range(x):
-            can_bus2=can.interface.Bus(channel='can1', bustype = 'socketcan')
-            msg2 = can.Message(arbitration_id=0x18DA01F9, data=[0,0,0,0,0,0,4,0], is_extended_id=True)
-            msg3 = can.Message(arbitration_id=0x18DA01F9, data=[0,0,0,0,0,0,5,0], is_extended_id=True)
-  
+            can_bus2 = can.interface.Bus(channel='can1', bustype='socketcan')
+            msg2 = can.Message(arbitration_id=0x18DA01F9, data=[
+                               0, 0, 0, 0, 0, 0, 4, 0], is_extended_id=True)
+            msg3 = can.Message(arbitration_id=0x18DA01F9, data=[
+                               0, 0, 0, 0, 0, 0, 5, 0], is_extended_id=True)
+
             can_bus2.send(msg2)
             time.sleep(4)
             can_bus2.send(msg3)
             time.sleep(4)
-
 
     def receive_CAN_while(self):
         """
@@ -144,25 +137,26 @@ class CAN_FEI:
 
         Baud Rate: 250,000
         """
-        filters = [ {"can_id": 0x18DAF901, "can_mask": 0x18DAF900, "extended": True} ]
-        thread_bus = can.ThreadSafeBus(channel = 'can1', bustype='socketcan', can_filters=filters)
+        filters = [{"can_id": 0x18DAF901,
+                    "can_mask": 0x18DAF900, "extended": True}]
+        thread_bus = can.ThreadSafeBus(
+            channel='can1', bustype='socketcan', can_filters=filters)
 
         while(True):
-            message=thread_bus.recv(timeout=1)
+            message = thread_bus.recv(timeout=1)
             time_recv = time.time()
 
             if (message != None):
-                board = (message.arbitration_id >> 0 & 0xFF) 
+                board = (message.arbitration_id >> 0 & 0xFF)
 
                 if (message.is_extended_id == True):
-                    self.gd.time_dict.update({int(board) : time_recv})
+                    self.gd.time_dict.update({int(board): time_recv})
 
                     if (board not in self.gd.ping_dict or self.gd.ping_dict[board] != 1):
-                        self.gd.ping_dict.update({int(board) : 1})
+                        self.gd.ping_dict.update({int(board): 1})
                         print("Dictionary : "+str(self.gd.ping_dict.copy()))
-            
+
             time.sleep(0)
-    
 
     def ping_thread(self):
         """
@@ -171,8 +165,7 @@ class CAN_FEI:
         Uses a threading Timer to run every 30 seconds.
         """
         self.ping()
-        threading.Timer(30,self.ping_thread).start()
-
+        threading.Timer(30, self.ping_thread).start()
 
     def start_thread(self):
         """
@@ -183,7 +176,7 @@ class CAN_FEI:
         while_thread.start()
 
 
-#TEST ENVIRONMENT:
+# TEST ENVIRONMENT:
 # can0 = CAN_FEI(0)
 
 # while True:

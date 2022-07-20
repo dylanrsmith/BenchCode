@@ -5,6 +5,7 @@ from tkinter import *
 import subprocess
 import can
 
+
 class global_defines:
     # testing with all hardware : 0, else 1
     testing_active = 1
@@ -19,7 +20,6 @@ class global_defines:
     red = "#B1CCE7"
     black = "#000000"
 
-    
     style = ttk.Style()
     style.theme_create("raspi", parent="alt", settings={
         "TNotebook": {"configure": {"tabmargins": [3, 5, 3, 0]}},
@@ -29,13 +29,13 @@ class global_defines:
                     "expand": [("selected", [1, 1, 1, 0])]}}})
     style.theme_use("raspi")
 
-
     tc = ttk.Notebook(master)
 
-    #DIG I/P
+    # DIG I/P
     tc_dig_ip = ttk.Frame(tc)
     tc_dig_ip.pack(side='left')
-    dig_ip_canvas = Canvas(tc_dig_ip, width=6, height=6, scrollregion=(0, 0, 1450, 1100))
+    dig_ip_canvas = Canvas(tc_dig_ip, width=6, height=6,
+                           scrollregion=(0, 0, 1450, 1100))
     hbar = Scrollbar(tc_dig_ip, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=dig_ip_canvas.xview)
@@ -47,12 +47,12 @@ class global_defines:
     dig_ip_canvas.pack(side=LEFT, expand=True, fill=BOTH)
     dig_ip_frame = Frame(dig_ip_canvas)
     dig_ip_canvas.create_window((0, 0), window=dig_ip_frame, anchor="nw")
-    
 
-    #DIG O/P
+    # DIG O/P
     tc_dig_op = ttk.Frame(tc)
     tc_dig_op.pack(side='left')
-    dig_op_canvas = Canvas(tc_dig_op, width=6, height=6, scrollregion=(0, 0, 1450, 1100))
+    dig_op_canvas = Canvas(tc_dig_op, width=6, height=6,
+                           scrollregion=(0, 0, 1450, 1100))
     hbar = Scrollbar(tc_dig_op, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=dig_op_canvas.xview)
@@ -65,10 +65,11 @@ class global_defines:
     dig_op_frame = Frame(dig_op_canvas)
     dig_op_canvas.create_window((0, 0), window=dig_op_frame, anchor="nw")
 
-    #VOLTAGE
+    # VOLTAGE
     tc_vol_ip = ttk.Frame(tc)
     tc_vol_ip.pack(side='left')
-    vol_ip_canvas = Canvas(tc_vol_ip, width=6, height=6, scrollregion=(0, 0, 1450, 1100))
+    vol_ip_canvas = Canvas(tc_vol_ip, width=6, height=6,
+                           scrollregion=(0, 0, 1450, 1100))
     hbar = Scrollbar(tc_vol_ip, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=vol_ip_canvas.xview)
@@ -81,10 +82,11 @@ class global_defines:
     volt_ip_frame = Frame(vol_ip_canvas)
     vol_ip_canvas.create_window((0, 0), window=volt_ip_frame, anchor="nw")
 
-    #PWM I/P
+    # PWM I/P
     tc_pwm_ip = ttk.Frame(tc)
     tc_pwm_ip.pack(side='left')
-    pwm_ip_canvas = Canvas(tc_pwm_ip, width=6, height=6, scrollregion=(0, 0, 1450, 1100))
+    pwm_ip_canvas = Canvas(tc_pwm_ip, width=6, height=6,
+                           scrollregion=(0, 0, 1450, 1100))
     hbar = Scrollbar(tc_pwm_ip, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=pwm_ip_canvas.xview)
@@ -97,10 +99,11 @@ class global_defines:
     pwm_ip_frame = Frame(pwm_ip_canvas)
     pwm_ip_canvas.create_window((0, 0), window=pwm_ip_frame, anchor="nw")
 
-    #PWM O/P
+    # PWM O/P
     tc_pwm_op = ttk.Frame(tc)
     tc_pwm_op.pack(side='left')
-    pwm_op_canvas = Canvas(tc_pwm_op, width=6, height=6, scrollregion=(0, 0, 1450, 1100))
+    pwm_op_canvas = Canvas(tc_pwm_op, width=6, height=6,
+                           scrollregion=(0, 0, 1450, 1100))
     hbar = Scrollbar(tc_pwm_op, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=pwm_op_canvas.xview)
@@ -113,10 +116,11 @@ class global_defines:
     pwm_op_frame = Frame(pwm_op_canvas)
     pwm_op_canvas.create_window((0, 0), window=pwm_op_frame, anchor="nw")
 
-    #Frequency
+    # Frequency
     tc_freq_ip = ttk.Frame(tc)
     tc_freq_ip.pack(side='left')
-    freq_ip_canvas = Canvas(tc_freq_ip, width=6, height=6, scrollregion=(0, 0, 1450, 1100))
+    freq_ip_canvas = Canvas(tc_freq_ip, width=6, height=6,
+                            scrollregion=(0, 0, 1450, 1100))
     hbar = Scrollbar(tc_freq_ip, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=freq_ip_canvas.xview)
@@ -129,10 +133,11 @@ class global_defines:
     freq_ip_frame = Frame(freq_ip_canvas)
     freq_ip_canvas.create_window((0, 0), window=freq_ip_frame, anchor="nw")
 
-    #Pulse
+    # Pulse
     tc_pulse = ttk.Frame(tc)
     tc_pulse.pack(side='left')
-    pulse_canvas = Canvas(tc_pulse, width=6, height=6, scrollregion=(0, 0, 1450, 1100))
+    pulse_canvas = Canvas(tc_pulse, width=6, height=6,
+                          scrollregion=(0, 0, 1450, 1100))
     hbar = Scrollbar(tc_pulse, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=pulse_canvas.xview)
@@ -145,42 +150,11 @@ class global_defines:
     pulse_frame = Frame(pulse_canvas)
     pulse_canvas.create_window((0, 0), window=pulse_frame, anchor="nw")
 
-    # #Open_to Tab
-    # tc_open = ttk.Frame(tc)
-    # tc_open.pack(side='left')
-    # open_canvas = Canvas(tc_open, width=6, height=6, scrollregion=(0,0,1450,1100))
-    # hbar = Scrollbar(tc_open, orient=HORIZONTAL)
-    # hbar.pack(side=BOTTOM, fill=X)
-    # hbar.config(command=open_canvas.xview)
-    # vbar= Scrollbar(tc_open, orient=VERTICAL)
-    # vbar.pack(side=RIGHT, fill=Y)
-    # vbar.config(command=pulse_canvas.yview)
-    # open_canvas.config(width=6,height=6)
-    # open_canvas.pack(side=LEFT, expand=True, fill=BOTH)
-    # open_frame=Frame(open_canvas)
-    # open_canvas.create_window((0,0), window=open_frame, anchor="nw")
-
-    # #Actuator Tab
-    # tc_actuator = ttk.Frame(tc)
-    # tc_actuator.pack(side='left')
-    # actuator_canvas = Canvas(tc_actuator, width=6, height=6,scrollregion=(0,0,1450,1100))
-    # hbar = Scrollbar(tc_actuator,orient=HORIZONTAL)
-    # hbar.pack(side=BOTTOM,fill=X)
-    # hbar.config(command=actuator_canvas.xview)
-    # vbar = Scrollbar(tc_actuator,orient=VERTICAL)
-    # vbar.pack(side=RIGHT, fill=Y)
-    # vbar.config(command=actuator_canvas.yview)
-    # actuator_canvas.config(width=6, height=6)
-    # actuator_canvas.pack(side=LEFT,expand=True, fill=BOTH)
-    # actuator_frame=Frame(actuator_canvas)
-    # actuator_canvas.create_window((0,0),window=actuator_frame, anchor="nw")
-
-
-
-    #Driveline
+    # Driveline
     tc_drive = ttk.Frame(tc)
     tc_drive.pack(side='left')
-    drive_canvas = Canvas(tc_drive, width=6, height=6, scrollregion=(0, 0, 1450, 1100))
+    drive_canvas = Canvas(tc_drive, width=6, height=6,
+                          scrollregion=(0, 0, 1450, 1100))
     hbar = Scrollbar(tc_drive, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=drive_canvas.xview)
@@ -193,10 +167,11 @@ class global_defines:
     driveline_frame = Frame(drive_canvas)
     drive_canvas.create_window((0, 0), window=driveline_frame, anchor="nw")
 
-    #UCM1
+    # UCM1
     tc_plant_model_ucm1 = ttk.Frame(tc)
     tc_plant_model_ucm1.pack(side='left')
-    ucm1_canvas = Canvas(tc_plant_model_ucm1, width=6, height=6, scrollregion=(0, 0, 1450, 1100))
+    ucm1_canvas = Canvas(tc_plant_model_ucm1, width=6,
+                         height=6, scrollregion=(0, 0, 1450, 1100))
     hbar = Scrollbar(tc_plant_model_ucm1, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=ucm1_canvas.xview)
@@ -207,12 +182,14 @@ class global_defines:
     ucm1_canvas.config(xscrollcommand=hbar.set, yscrollcommand=vbar.set)
     ucm1_canvas.pack(side=LEFT, expand=True, fill=BOTH)
     plant_model_ucm1_frame = Frame(ucm1_canvas)
-    ucm1_canvas.create_window((0, 0), window=plant_model_ucm1_frame, anchor="nw")
+    ucm1_canvas.create_window(
+        (0, 0), window=plant_model_ucm1_frame, anchor="nw")
 
-    #UCM2
+    # UCM2
     tc_plant_model_ucm2 = ttk.Frame(tc)
     tc_plant_model_ucm2.pack(side='left')
-    ucm2_canvas = Canvas(tc_plant_model_ucm2, width=6, height=6, scrollregion=(0, 0, 1450, 1100))
+    ucm2_canvas = Canvas(tc_plant_model_ucm2, width=6,
+                         height=6, scrollregion=(0, 0, 1450, 1100))
     hbar = Scrollbar(tc_plant_model_ucm2, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=ucm2_canvas.xview)
@@ -223,12 +200,14 @@ class global_defines:
     ucm2_canvas.config(xscrollcommand=hbar.set, yscrollcommand=vbar.set)
     ucm2_canvas.pack(side=LEFT, expand=True, fill=BOTH)
     plant_model_ucm2_frame = Frame(ucm2_canvas)
-    ucm2_canvas.create_window((0, 0), window=plant_model_ucm2_frame, anchor="nw")
+    ucm2_canvas.create_window(
+        (0, 0), window=plant_model_ucm2_frame, anchor="nw")
 
-    #UCM3
+    # UCM3
     tc_plant_model_ucm3 = ttk.Frame(tc)
     tc_plant_model_ucm3.pack(side='left')
-    ucm3_canvas = Canvas(tc_plant_model_ucm3, width=6, height=6, scrollregion=(0, 0, 1450, 1100))
+    ucm3_canvas = Canvas(tc_plant_model_ucm3, width=6,
+                         height=6, scrollregion=(0, 0, 1450, 1100))
     hbar = Scrollbar(tc_plant_model_ucm3, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=ucm3_canvas.xview)
@@ -239,12 +218,14 @@ class global_defines:
     ucm3_canvas.config(xscrollcommand=hbar.set, yscrollcommand=vbar.set)
     ucm3_canvas.pack(side=LEFT, expand=True, fill=BOTH)
     plant_model_ucm3_frame = Frame(ucm3_canvas)
-    ucm3_canvas.create_window((0, 0), window=plant_model_ucm3_frame, anchor="nw")
+    ucm3_canvas.create_window(
+        (0, 0), window=plant_model_ucm3_frame, anchor="nw")
 
-    #Settings
+    # Settings
     tc_settings = ttk.Frame(tc)
     tc_settings.pack(side='left')
-    settings_canvas = Canvas(tc_settings, width=6, height=6, scrollregion=(0, 0, 1450, 1100))
+    settings_canvas = Canvas(tc_settings, width=6,
+                             height=6, scrollregion=(0, 0, 1450, 1100))
     hbar = Scrollbar(tc_settings, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=settings_canvas.xview)
@@ -257,41 +238,44 @@ class global_defines:
     setting_frame = Frame(settings_canvas)
     settings_canvas.create_window((0, 0), window=setting_frame, anchor="nw")
 
-
     def add_compatible(self):
-        
+
         if self.fei_compatible == 1:
-            #Open_to Tab
+            # Open_to Tab
             self.tc_open = ttk.Frame(self.tc)
             self.tc_open.pack(side='left')
-            self.open_canvas = Canvas(self.tc_open, width=6, height=6, scrollregion=(0,0,1450,1100))
+            self.open_canvas = Canvas(
+                self.tc_open, width=6, height=6, scrollregion=(0, 0, 1450, 1100))
             self.hbar = Scrollbar(self.tc_open, orient=HORIZONTAL)
             self.hbar.pack(side=BOTTOM, fill=X)
             self.hbar.config(command=self.open_canvas.xview)
-            self.vbar= Scrollbar(self.tc_open, orient=VERTICAL)
+            self.vbar = Scrollbar(self.tc_open, orient=VERTICAL)
             self.vbar.pack(side=RIGHT, fill=Y)
             self.vbar.config(command=self.open_canvas.yview)
-            self.open_canvas.config(width=6,height=6)
+            self.open_canvas.config(width=6, height=6)
             self.open_canvas.pack(side=LEFT, expand=True, fill=BOTH)
-            self.open_frame=Frame(self.open_canvas)
-            self.open_canvas.create_window((0,0), window=self.open_frame, anchor="nw")
+            self.open_frame = Frame(self.open_canvas)
+            self.open_canvas.create_window(
+                (0, 0), window=self.open_frame, anchor="nw")
 
-            #Actuator Tab
+            # Actuator Tab
             self.tc_actuator = ttk.Frame(self.tc)
             self.tc_actuator.pack(side='left')
-            self.actuator_canvas = Canvas(self.tc_actuator, width=6, height=6,scrollregion=(0,0,1450,1100))
-            self.hbar = Scrollbar(self.tc_actuator,orient=HORIZONTAL)
-            self.hbar.pack(side=BOTTOM,fill=X)
+            self.actuator_canvas = Canvas(
+                self.tc_actuator, width=6, height=6, scrollregion=(0, 0, 1450, 1100))
+            self.hbar = Scrollbar(self.tc_actuator, orient=HORIZONTAL)
+            self.hbar.pack(side=BOTTOM, fill=X)
             self.hbar.config(command=self.actuator_canvas.xview)
-            self.vbar = Scrollbar(self.tc_actuator,orient=VERTICAL)
+            self.vbar = Scrollbar(self.tc_actuator, orient=VERTICAL)
             self.vbar.pack(side=RIGHT, fill=Y)
             self.vbar.config(command=self.actuator_canvas.yview)
             self.actuator_canvas.config(width=6, height=6)
             self.actuator_canvas.config(width=6, height=6)
-            self.actuator_canvas.pack(side=LEFT,expand=True, fill=BOTH)
-            self.actuator_frame=Frame(self.actuator_canvas)
-            self.actuator_canvas.create_window((0,0),window=self.actuator_frame, anchor="nw")
-            
+            self.actuator_canvas.pack(side=LEFT, expand=True, fill=BOTH)
+            self.actuator_frame = Frame(self.actuator_canvas)
+            self.actuator_canvas.create_window(
+                (0, 0), window=self.actuator_frame, anchor="nw")
+
             self.tc.add(self.tc_open, text='Open')
             self.tc.add(self.tc_actuator, text='Actuator')
 
@@ -310,13 +294,13 @@ class global_defines:
 
         self.tc.pack(expand=1, fill="both")
 
-    #Non-UI Variables:
+    # Non-UI Variables:
 
     eng_spd = tk.StringVar()
     chopper_type = 1
     chopper_type_var = tk.StringVar()
     dig_ip_option_var = []
-    open_option_var=[]
+    open_option_var = []
     HHMC_gear = tk.StringVar()
     IC_gear = tk.StringVar()
     Aux_PTO_enabled = tk.StringVar()
@@ -324,12 +308,12 @@ class global_defines:
     unload_rate = tk.StringVar()
 
     # general spn/widgets
-    toggle = 0                              #Used for update_ui dictionary
-    dig_ip_button = []                      #Array of buttons listed on DIG I/P
-    dig_ip_options=[]                       #Array of option menus listed on DIG I/P
-    dig_op_button = []                      #Array of buttons under DIG O/P
-    open_option=[]   
-    open_button=[]
+    toggle = 0  # Used for update_ui dictionary
+    dig_ip_button = []  # Array of buttons listed on DIG I/P
+    dig_ip_options = []  # Array of option menus listed on DIG I/P
+    dig_op_button = []  # Array of buttons under DIG O/P
+    open_option = []
+    open_button = []
     open_mode = {}
     volt_label = []
     pwm_ip_label = []
@@ -337,10 +321,10 @@ class global_defines:
     freq_label = []
     pulse_label = []
     volt_button = []
-           
-    dig_ip_mode = {}                        
-    volt_toggle = []                        #list of toggle buttons on voltage tab
-    relay_switch=[]                         #1 for relay on, 0 for relay off
+
+    dig_ip_mode = {}
+    volt_toggle = []  # list of toggle buttons on voltage tab
+    relay_switch = []  # 1 for relay on, 0 for relay off
 
     pwm_ip_button = []
     pwm_ip_toggle = []
@@ -349,16 +333,14 @@ class global_defines:
     button_pulse = []
     pulse_toggle = []
     brand = 0  # 0 = CIH, 1 = NH
-    board_Num = 0 # 0 or Empty = Invalid Board.
+    board_Num = 0  # 0 or Empty = Invalid Board.
     config_dict = {}
 
+    # Create a list of all buttons and options for disabling at once.
+    all_widgets = list(itertools.chain(dig_ip_button, dig_ip_options, dig_op_button, open_option, open_button,
+                       volt_button, volt_toggle, pwm_ip_button, pwm_ip_toggle, freq_button, freq_toggle, button_pulse, pulse_toggle))
 
-    #Create a list of all buttons and options for disabling at once.    
-    all_widgets=list(itertools.chain(dig_ip_button,dig_ip_options,dig_op_button,open_option,open_button,volt_button,volt_toggle,pwm_ip_button,pwm_ip_toggle,freq_button,freq_toggle,button_pulse,pulse_toggle))
-
-
-
-    #Parse Strings
+    # Parse Strings
     dig_ip_str = "DigitalInput"
     dig_op_str = "DigitalOutput"
     vol_ip_str = "VoltageInput"
@@ -366,37 +348,39 @@ class global_defines:
     pwm_ip_str = "PWMINput"
     fq_ip_str = "FrequencyInput"
     pulse_str = "PulseInput"
-    
-    #Lists for Channel/Board
-    ping_dict={}                                #Dictionary with Board Number : Boolean active value
-    time_dict={}                                #Dictionary containing CAN timestamps
-    board_dict={}                               #Dictionary with SPN : Board Number pairs
-    #Actuator Widgets
-    actuator_dict={0:0,1:"actuator_1",2:"actuator_2",3:"actuator_3",4:"actuator_4",5:"actuator_5"}
-    actuator_label=[]
-    actuator_load=[]
-    actuator_pos=[]
-    actuator_set=[]
-    actuator_btn=[]
 
-    board_list=[] 
-    channel_dict={}                             #Dictionary with SPN : relay(channel) pairs
-    dig_state = {}                              #Dictionary with SPN : default state of 0   
-    board_wid_dict = {}                         #Dictionary with Board No : [list of widget] pairs
-    volt_state = {}     
+    # Lists for Channel/Board
+    ping_dict = {}  # Dictionary with Board Number : Boolean active value
+    time_dict = {}  # Dictionary containing CAN timestamps
+    board_dict = {}  # Dictionary with SPN : Board Number pairs
+    # Actuator Widgets
+    actuator_dict = {0: 0, 1: "actuator_1", 2: "actuator_2",
+                     3: "actuator_3", 4: "actuator_4", 5: "actuator_5"}
+    actuator_label = []
+    actuator_load = []
+    actuator_pos = []
+    actuator_set = []
+    actuator_btn = []
+
+    board_list = []
+    channel_dict = {}  # Dictionary with SPN : relay(channel) pairs
+    dig_state = {}  # Dictionary with SPN : default state of 0
+    board_wid_dict = {}  # Dictionary with Board No : [list of widget] pairs
+    volt_state = {}
     freq_state = {}
-    pulse_state={}
+    pulse_state = {}
     pwm_state = {}
-    ground_dict={}                              #Contains SPNs that are open to battery xor ground
-    bool_both = {}                              #Indicate if both Channel and Board number are listed
-    bool_all = {}                               #Indicate if all board, channel, and openTo(Ground or Board or Both) are listed
+    ground_dict = {}  # Contains SPNs that are open to battery xor ground
+    bool_both = {}  # Indicate if both Channel and Board number are listed
+    # Indicate if all board, channel, and openTo(Ground or Board or Both) are listed
+    bool_all = {}
     UI_dict = {}
     UI_spn = []
     button_list = []
     spn_list = []
     name_list = []
     dig_ip_spn = []
-    dig_ip_option=[]
+    dig_ip_option = []
     dig_op_spn = []
     vol_ip_spn = []
     pwm_op_spn = []
@@ -420,7 +404,7 @@ class global_defines:
     volt_scale_max_dict = {}
     volt_scale_default_dict = {}
 
-    #driveline
+    # driveline
     sp_name = ['Aux_PTO', 'Aux_PTO_Thresher', 'Pumps_ZE', 'Cross_Over_Belt', 'Unload_Belt_Drive',
                'Integral_Chopper',
                'HHMC', 'Unloading_stubshaft',
@@ -468,7 +452,7 @@ class global_defines:
     variable = 1
     slow_unload = 0
     fast_unload = 1
-    
+
     Normal = 1
     Open_Circuit = 2
 
@@ -853,39 +837,41 @@ class global_defines:
     Key_Button = 0
     fei_compatible = 0
 
-    #This variable will control the ui Simulator mode or not.
-    #IF simmode=0,gray out all widgets,if simmode=1
-    #SimMode=0
-    file=open("SimMode.txt","r")
-    SimMode=file.read()
-    SimMode=int(SimMode)
+    # This variable will control the ui Simulator mode or not.
+    # IF simmode=0,gray out all widgets,if simmode=1
+    # SimMode=0
+    file = open("SimMode.txt", "r")
+    SimMode = file.read()
+    SimMode = int(SimMode)
     file.close()
-    
-    #rotor
+
+    # rotor
     rotor_gear_0 = 0.26
     rotor_gear_1 = 0.42
     rotor_gear_2 = 0.60
     rotor_gear_box = 1
     rotor_gear_box_var = tk.StringVar()
-    
-    #feed roll
+
+    # feed roll
     feed_roll = 0
     feed_roll_var = tk.StringVar()
 
-
     # CAN
-    can_bus = can.interface.Bus(channel='can0', bustype = 'socketcan')
-    msg = can.Message(data=[0,0,0,0,0,0,0,0], is_extended_id=True)
+    can_bus = can.interface.Bus(channel='can0', bustype='socketcan')
+    msg = can.Message(data=[0, 0, 0, 0, 0, 0, 0, 0], is_extended_id=True)
     id_prefix = 0x18DA
     id_suffix = 0xF9
 
-    #deemed defunct -dylan
+    # deemed defunct -dylan
     if testing_active == 0:
         #import can
         from collections import deque
 
-        canbus_1 = can.interface.Bus(channel='slcan0', bustype='socketcan', bitrate=500000)
-        canbus1 = can.interface.Bus(channel='slcan0', bustype='socketcan', bitrate=500000)
-        subprocess.call(['sudo', 'slcand', '-o', '-c', '-f', '-s6', '/dev/ttyUSB0'])
+        canbus_1 = can.interface.Bus(
+            channel='slcan0', bustype='socketcan', bitrate=500000)
+        canbus1 = can.interface.Bus(
+            channel='slcan0', bustype='socketcan', bitrate=500000)
+        subprocess.call(['sudo', 'slcand', '-o', '-c',
+                        '-f', '-s6', '/dev/ttyUSB0'])
         subprocess.call(['sudo', 'ifconfig', 'slcan0', 'up'])
         msg_buffer = deque(maxlen=10)

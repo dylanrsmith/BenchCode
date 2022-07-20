@@ -10,14 +10,14 @@ class HwConnect:
 
     Using SPI and I2C interfaces.
     """
-    i2cbusRack1 = 1#smbus.SMBus(11)
-    i2cbusRack2 = 1#smbus.SMBus(12)
-    i2cbusRack3 = 1#smbus.SMBus(13)
+    i2cbusRack1 = 1  # smbus.SMBus(11)
+    i2cbusRack2 = 1  # smbus.SMBus(12)
+    i2cbusRack3 = 1  # smbus.SMBus(13)
 
     GPIO.setmode(GPIO.BCM)
 
     spi = spidev.SpiDev()
-    
+
     # A0
     GPIO.setup(4, GPIO.OUT, initial=GPIO.LOW)
     time.sleep(.10)
@@ -53,7 +53,8 @@ class HwConnect:
 
         if UCMnr == 1:
             if busnr == 0:
-                self.spi.open(0, 0)                     # open (bus, device), opening /dev/spidev<bus>.<device>
+                # open (bus, device), opening /dev/spidev<bus>.<device>
+                self.spi.open(0, 0)
                 self.spi.max_speed_hz = 1000000
                 # print ('spi 0, 0 opened')
                 self.spi.writebytes([potmeter, value])
@@ -89,7 +90,7 @@ class HwConnect:
                 self.spi.writebytes([potmeter, value])
                 self.spi.close()
                 # print ('spi 1, 2 closed')
-        #if (UCMnr == 1 and busnr == 1 and ic == 1 and potmeter == 3):
+        # if (UCMnr == 1 and busnr == 1 and ic == 1 and potmeter == 3):
         #    print("Rotor RPM SPN = 347")
         #    time.sleep(0.5)
 

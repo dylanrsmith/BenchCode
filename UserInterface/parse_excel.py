@@ -1,6 +1,7 @@
 from global_defines import *
-import pandas as pd         
+import pandas as pd
 import os
+
 
 class parse_excel:
     """
@@ -19,17 +20,17 @@ class parse_excel:
         """
         path = os.path.dirname(__file__)
         path += "/Config_sheet.xlsx"
-        #path += "/Config_sheet_old.xlsx"  #Legacy Config for backwards compatibility testing
+        # path += "/Config_sheet_old.xlsx"  #Legacy Config for backwards compatibility testing
         self.df = pd.read_excel(path, 'SPN', header=1)
         self._pe = ob
-        
+
     def parse_excel(self):
         """
         Opens the file specified by `path` variable, and parses data listed in SPN table.
 
         Tkinter will generate necessary components, based on the excel configuration.
         """
-        for i in range(1452):      
+        for i in range(1452):
             if self._pe.brand == 0:
                 valid_bit = self.df.loc[i, 'Used on CIH']
             else:
@@ -40,13 +41,13 @@ class parse_excel:
                 spn_data = self.df.loc[i, 'UI_type']
                 spn_type = str(spn_data)
 
-                #Check if 3 columns are configured:
+                # Check if 3 columns are configured:
                 if ('Board_Num' in self.df.columns) and ('Channel' in self.df.columns) and ('open_to' in self.df.columns):
                     self._pe.fei_compatible = 1
                 else:
                     self._pe.fei_compatible = 0
 
-                #Only if type column has valid entries
+                # Only if type column has valid entries
                 if (self._pe.dig_ip_str in spn_type) or (self._pe.dig_op_str in spn_type) \
                         or (self._pe.vol_ip_str in spn_type) or (self._pe.pwm_op_str in spn_type) \
                         or (self._pe.pwm_ip_str in spn_type) or (self._pe.fq_ip_str in spn_type) \
@@ -57,51 +58,56 @@ class parse_excel:
                     self._pe.UI_spn.append(spn)
                     self._pe.UI_dict.update({spn: 0})
                     name_spn = 'SPN' + str(spn)
-                    self._pe.config_dict.update({spn: name})  # all data in dictionary  
+                    self._pe.config_dict.update(
+                        {spn: name})  # all data in dictionary
 
-                    #Populate Relay State Dictionaries:
-                    self._pe.dig_state.update({spn: 0})   
+                    # Populate Relay State Dictionaries:
+                    self._pe.dig_state.update({spn: 0})
                     self._pe.volt_state.update({spn: 0})
                     self._pe.freq_state.update({spn: 0})
                     self._pe.pulse_state.update({spn: 0})
                     self._pe.pwm_state.update({spn: 0})
 
-                    #Read Relay Columns if they exist
-                    if self._pe.fei_compatible ==1:
-                        board_no = self.df.loc[spn, 'Board_Num']  #Parses excel for Board Number Entries
+                    # Read Relay Columns if they exist
+                    if self._pe.fei_compatible == 1:
+                        # Parses excel for Board Number Entries
+                        board_no = self.df.loc[spn, 'Board_Num']
                         self._pe.board_no_str = str(board_no)
 
-                        channel = self.df.loc[spn, 'Channel']     #Parses for Channel(Relay)
-                        self._pe.channel_no_str= str(channel)
+                        # Parses for Channel(Relay)
+                        channel = self.df.loc[spn, 'Channel']
+                        self._pe.channel_no_str = str(channel)
 
-                        openTo =self.df.loc[spn, 'open_to']       #Parses for O2B/G
+                        # Parses for O2B/G
+                        openTo = self.df.loc[spn, 'open_to']
                         self._pe.openTo_str = str(openTo)
 
-                        #Parse open_to, channel, and board number columns
-                        #Also creating list of boards from excel
+                        # Parse open_to, channel, and board number columns
+                        # Also creating list of boards from excel
                         if board_no != 'nan':
-                            self._pe.board_dict.update({spn:board_no})
+                            self._pe.board_dict.update({spn: board_no})
                         if (pd.notna(board_no)) and (board_no not in self._pe.board_list):
                             self._pe.board_list.append(int(board_no))
                         if channel != 'nan':
-                            self._pe.channel_dict.update({spn:channel})
+                            self._pe.channel_dict.update({spn: channel})
                         if self._pe.openTo_str != 'nan':
-                            self._pe.ground_dict.update({spn:self._pe.openTo_str})
+                            self._pe.ground_dict.update(
+                                {spn: self._pe.openTo_str})
 
-                        #Populate boolean dictionaries
-                        #Check if Board Number and Channel are both configured
+                        # Populate boolean dictionaries
+                        # Check if Board Number and Channel are both configured
                         if self._pe.board_no_str and self._pe.channel_no_str != 'nan':
-                            self._pe.bool_both.update({spn:1})
+                            self._pe.bool_both.update({spn: 1})
                         else:
-                            self._pe.bool_both.update({spn:0})
+                            self._pe.bool_both.update({spn: 0})
 
-                        #Check if Board Number and Channel and OpenToB/G are all configured
+                        # Check if Board Number and Channel and OpenToB/G are all configured
                         if self._pe.board_no_str and self._pe.channel_no_str != 'nan':
                             if self._pe.openTo_str != 'nan':
-                                self._pe.bool_all.update({spn:1})
+                                self._pe.bool_all.update({spn: 1})
                         else:
-                            self._pe.bool_all.update({spn:0})
-                        
+                            self._pe.bool_all.update({spn: 0})
+
                     new_name = name_spn + ' : ' + name
                     if self._pe.dig_ip_str in spn_type:
                         self._pe.dig_ip_spn.append(spn)
@@ -119,8 +125,10 @@ class parse_excel:
                         self._pe.type_dict.update({spn: 'volt'})
                         max_val = self.df.loc[i, 'max']
                         def_val = self.df.loc[i, 'default']
-                        self._pe.volt_scale_max_dict.update({spn: int(max_val)})
-                        self._pe.volt_scale_default_dict.update({spn: int(def_val)})
+                        self._pe.volt_scale_max_dict.update(
+                            {spn: int(max_val)})
+                        self._pe.volt_scale_default_dict.update(
+                            {spn: int(def_val)})
 
                     elif self._pe.pwm_ip_str in spn_type:
                         self._pe.pwm_ip_spn.append(spn)
@@ -145,4 +153,4 @@ class parse_excel:
                 else:
                     self._pe.spare_list_1.append(spn)
             else:
-                self._pe.spare_list_2.append(i)                
+                self._pe.spare_list_2.append(i)
