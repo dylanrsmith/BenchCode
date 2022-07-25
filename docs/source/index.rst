@@ -10,7 +10,8 @@ Welcome to NGC's documentation!
    :maxdepth: 2
    :caption: Contents:
    
-
+   setup
+   hw
    can
    ui
 

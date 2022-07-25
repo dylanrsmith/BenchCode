@@ -1,23 +1,25 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
     <title>CAN Network: &#8212; NGC 1.0 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
     
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="User Interface" href="ui.html" />
-    <link rel="prev" title="Welcome to NGC’s documentation!" href="index.html" /> 
+    <link rel="prev" title="Raspberry Pi Setup" href="setup.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -32,7 +34,7 @@
           <a href="ui.html" title="User Interface"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="Welcome to NGC’s documentation!"
+          <a href="setup.html" title="Raspberry Pi Setup"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">NGC 1.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">CAN Network:</a></li> 
@@ -44,19 +46,19 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="can-network">
-<h1>CAN Network:<a class="headerlink" href="#can-network" title="Permalink to this headline">¶</a></h1>
+  <section id="can-network">
+<h1>CAN Network:<a class="headerlink" href="#can-network" title="Permalink to this heading">¶</a></h1>
 <p>The Bench Code utilizes the CAN_FEI module to carry out all CAN communication between the Raspberry Pi and the Relay Boards.</p>
 <p>Below is a summary of the CAN_FEI module:</p>
-<div class="section" id="module-HwConnect.CAN_FEI">
-<span id="can-fei"></span><h2>CAN_FEI<a class="headerlink" href="#module-HwConnect.CAN_FEI" title="Permalink to this headline">¶</a></h2>
+<section id="module-HwConnect.CAN_FEI">
+<span id="can-fei"></span><h2>CAN_FEI<a class="headerlink" href="#module-HwConnect.CAN_FEI" title="Permalink to this heading">¶</a></h2>
 <dl class="py class">
-<dt id="HwConnect.CAN_FEI.CAN_FEI">
-<em class="property">class </em><code class="sig-prename descclassname">HwConnect.CAN_FEI.</code><code class="sig-name descname">CAN_FEI</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ob</span></em><span class="sig-paren">)</span><a class="headerlink" href="#HwConnect.CAN_FEI.CAN_FEI" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="HwConnect.CAN_FEI.CAN_FEI">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">HwConnect.CAN_FEI.</span></span><span class="sig-name descname"><span class="pre">CAN_FEI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ob</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#HwConnect.CAN_FEI.CAN_FEI" title="Permalink to this definition">¶</a></dt>
 <dd><p>This module contains all of the main functions for Sending and receiving CAN messages between the Pi and relay boards.</p>
 <dl class="py method">
-<dt id="HwConnect.CAN_FEI.CAN_FEI.flip_all_off">
-<code class="sig-name descname">flip_all_off</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span></em><span class="sig-paren">)</span><a class="headerlink" href="#HwConnect.CAN_FEI.CAN_FEI.flip_all_off" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="HwConnect.CAN_FEI.CAN_FEI.flip_all_off">
+<span class="sig-name descname"><span class="pre">flip_all_off</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#HwConnect.CAN_FEI.CAN_FEI.flip_all_off" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deacivates all relays on specified board.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -66,8 +68,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="HwConnect.CAN_FEI.CAN_FEI.flip_all_on">
-<code class="sig-name descname">flip_all_on</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span></em><span class="sig-paren">)</span><a class="headerlink" href="#HwConnect.CAN_FEI.CAN_FEI.flip_all_on" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="HwConnect.CAN_FEI.CAN_FEI.flip_all_on">
+<span class="sig-name descname"><span class="pre">flip_all_on</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#HwConnect.CAN_FEI.CAN_FEI.flip_all_on" title="Permalink to this definition">¶</a></dt>
 <dd><p>Activates all relays on specified board.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -77,8 +79,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="HwConnect.CAN_FEI.CAN_FEI.flip_loop">
-<code class="sig-name descname">flip_loop</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#HwConnect.CAN_FEI.CAN_FEI.flip_loop" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="HwConnect.CAN_FEI.CAN_FEI.flip_loop">
+<span class="sig-name descname"><span class="pre">flip_loop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#HwConnect.CAN_FEI.CAN_FEI.flip_loop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Will toggle all relays on and then off, for a specified amount of intervals.</p>
 <p>NOTE: Board Number is hard coded in the Message Constructor.</p>
 <dl class="field-list simple">
@@ -89,8 +91,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="HwConnect.CAN_FEI.CAN_FEI.flip_one">
-<code class="sig-name descname">flip_one</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">relay</span></em>, <em class="sig-param"><span class="n">state</span></em><span class="sig-paren">)</span><a class="headerlink" href="#HwConnect.CAN_FEI.CAN_FEI.flip_one" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="HwConnect.CAN_FEI.CAN_FEI.flip_one">
+<span class="sig-name descname"><span class="pre">flip_one</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">relay</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#HwConnect.CAN_FEI.CAN_FEI.flip_one" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sends a can message to change the state of a SINGLE relay</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -104,37 +106,37 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="HwConnect.CAN_FEI.CAN_FEI.ping">
-<code class="sig-name descname">ping</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#HwConnect.CAN_FEI.CAN_FEI.ping" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="HwConnect.CAN_FEI.CAN_FEI.ping">
+<span class="sig-name descname"><span class="pre">ping</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#HwConnect.CAN_FEI.CAN_FEI.ping" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sends a CAN message where 5th byte is 1, asking for a request from any online relay boards.</p>
 <p>Relay board should return same message, when response is received, that board will be updated as ready.</p>
 <p>Handled by a thread.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="HwConnect.CAN_FEI.CAN_FEI.ping_thread">
-<code class="sig-name descname">ping_thread</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#HwConnect.CAN_FEI.CAN_FEI.ping_thread" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="HwConnect.CAN_FEI.CAN_FEI.ping_thread">
+<span class="sig-name descname"><span class="pre">ping_thread</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#HwConnect.CAN_FEI.CAN_FEI.ping_thread" title="Permalink to this definition">¶</a></dt>
 <dd><p>Thread to handle periodic sending of polling messages.</p>
 <p>Uses a threading Timer to run every 30 seconds.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="HwConnect.CAN_FEI.CAN_FEI.receive_CAN_while">
-<code class="sig-name descname">receive_CAN_while</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#HwConnect.CAN_FEI.CAN_FEI.receive_CAN_while" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="HwConnect.CAN_FEI.CAN_FEI.receive_CAN_while">
+<span class="sig-name descname"><span class="pre">receive_CAN_while</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#HwConnect.CAN_FEI.CAN_FEI.receive_CAN_while" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method for receiving and deciphering CAN.</p>
 <p>Baud Rate: 250,000</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="HwConnect.CAN_FEI.CAN_FEI.start_thread">
-<code class="sig-name descname">start_thread</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#HwConnect.CAN_FEI.CAN_FEI.start_thread" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="HwConnect.CAN_FEI.CAN_FEI.start_thread">
+<span class="sig-name descname"><span class="pre">start_thread</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#HwConnect.CAN_FEI.CAN_FEI.start_thread" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to start Send and receiving threads.</p>
 </dd></dl>
 
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -143,20 +145,26 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">CAN Network:</a><ul>
 <li><a class="reference internal" href="#module-HwConnect.CAN_FEI">CAN_FEI</a></li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">Welcome to NGC’s documentation!</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="ui.html"
-                        title="next chapter">User Interface</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="setup.html"
+                          title="previous chapter">Raspberry Pi Setup</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="ui.html"
+                          title="next chapter">User Interface</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -168,12 +176,12 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -191,7 +199,7 @@
           <a href="ui.html" title="User Interface"
              >next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="Welcome to NGC’s documentation!"
+          <a href="setup.html" title="Raspberry Pi Setup"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">NGC 1.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">CAN Network:</a></li> 
@@ -199,7 +207,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, Fargo Engineering, inc.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
   </body>
 </html>

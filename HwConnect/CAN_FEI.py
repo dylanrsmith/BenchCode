@@ -121,9 +121,9 @@ class CAN_FEI:
         """
         for i in range(x):
             can_bus2 = can.interface.Bus(channel='can1', bustype='socketcan')
-            msg2 = can.Message(arbitration_id=0x18DA01F9, data=[
+            msg2 = can.Message(arbitration_id=0x18DA02F9, data=[
                                0, 0, 0, 0, 0, 0, 4, 0], is_extended_id=True)
-            msg3 = can.Message(arbitration_id=0x18DA01F9, data=[
+            msg3 = can.Message(arbitration_id=0x18DA02F9, data=[
                                0, 0, 0, 0, 0, 0, 5, 0], is_extended_id=True)
 
             can_bus2.send(msg2)
@@ -177,7 +177,7 @@ class CAN_FEI:
 
 
 # TEST ENVIRONMENT:
-# can0 = CAN_FEI(0)
+can0 = CAN_FEI(0)
 
-# while True:
-#     can0.ping()
+
+can0.flip_loop(2)

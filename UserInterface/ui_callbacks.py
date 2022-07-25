@@ -1,7 +1,6 @@
 from global_defines import *
 from HwConnect.CAN_FEI import *
 from PlantModels.Driveline import *
-#from IOCtrl import *
 
 
 class ui_callbacks:
@@ -9,6 +8,14 @@ class ui_callbacks:
     global _uc, _dv, io_ob, can2
 
     def __init__(self, ob1, ob2):
+        """
+        Initializes collection of UI callbacks.
+
+        :param ob1: instance of global_defines
+        :type ob1: Module
+        :param ob2: Instance of IO_Ctrl
+        :type ob2: Module
+        """
         self._uc = ob1  # add dictionary to glcc
         self._dv = driveline(ob1, ob2)
         if self._uc.testing_active == 0:
@@ -16,6 +23,14 @@ class ui_callbacks:
         self.can2 = CAN_FEI
 
     def buttonDig(self, i):
+        """
+        Callback for buttons contained within Digital I/P tab
+
+        On click, will toggle state of linked Relay.
+
+        :param i: Index of corresponding SPN
+        :type i: int
+        """
         sp = self._uc.dig_ip_spn[i]
         brd_num = int(self._uc.board_dict[sp])
         rel_num = int(self._uc.channel_dict[sp])
@@ -28,9 +43,16 @@ class ui_callbacks:
         self.can2.flip_one(brd_num, rel_num, state)
 
     def output_send(self, spn, selected_val):
-        '''
+        """
         Callback for dropdown menus (Output Boards)
-        '''
+
+        Will set Relay on Output Board to selected State.
+
+        :param spn: SPN number
+        :type spn: int
+        :param selected_val: State to set Relay to:['Normal', 'Open-Circuit','Battery', 'Ground']
+        :type selected_val: String
+        """
 
         if (selected_val != "Normal"):
             for selected_val in self._uc.all_widgets:
@@ -69,9 +91,12 @@ class ui_callbacks:
         self.pass_to_board(spn_number=sp, data=new_data)
 
     def voltToggle(self, i):
-        '''
-        callback for toggle buttons on voltage tab
-        '''
+        """
+        Toggles state of Relays configured as Voltage Inputs.
+
+        :param i: index of SPN to be toggled
+        :type i: int
+        """
 
         sp = self._uc.vol_ip_spn[i]
         brd_num = int(self._uc.board_dict[sp])
@@ -85,9 +110,12 @@ class ui_callbacks:
         self.can2.flip_one(brd_num, rel_num, state)
 
     def freqToggle(self, i):
-        '''
-        Callback for toggle buttons on frequency tab
-        '''
+        """
+        Callback for toggling SPN's configured as Frequency Input.
+
+        :param i: index of SPN to be toggled
+        :type i: int
+        """
         sp = self._uc.fq_ip_spn[i]
         brd_num = int(self._uc.board_dict[sp])
         rel_num = int(self._uc.channel_dict[sp])
@@ -100,9 +128,12 @@ class ui_callbacks:
         self.can2.flip_one(brd_num, rel_num, state)
 
     def pulseToggle(self, i):
-        '''
-        callback for toggle buttons on pulse tab
-        '''
+        """
+        Callback for toggling Relays configured as Pulse Input.
+
+        :param i: index of SPN to be toggled.
+        :type i: int
+        """
         sp = self._uc.pulse_spn[i]
         brd_num = int(self._uc.board_dict[sp])
         rel_num = int(self._uc.channel_dict[sp])
@@ -115,6 +146,12 @@ class ui_callbacks:
         self.can2.flip_one(brd_num, rel_num, state)
 
     def pwmToggle(self, i):
+        """
+        Callback for toggling Relays configured as PWM input.
+
+        :param i: SPN index
+        :type i: int
+        """
         sp = self._uc.pwm_ip_spn[i]
         brd_num = int(self._uc.board_dict[sp])
         rel_num = int(self._uc.channel_dict[sp])
@@ -127,9 +164,16 @@ class ui_callbacks:
         self.can2.flip_one(brd_num, rel_num, state)
 
     def dig_ip_callback(i, selection):
-        '''
-        Callback for option menus in DIG I/P tab
-        '''
+        """
+        Updates Value of Digital Inputs and saves in Dictionary.
+
+        'dig_ip_mode' dictionary updated with SPN : State
+
+        :param i: SPN index
+        :type i: int
+        :param selection: 'Normal' or 'Open-Circuit'
+        :type selection: String
+        """
         selection = 'self._uc.' + selection
         selInt = int(eval(selection))
         _uc.dig_ip_mode.update({i: selInt})
@@ -138,9 +182,14 @@ class ui_callbacks:
 
     def open_option_callback(self, i, selection):
         """
-        Function to update Open SPN's. 
+        Updates values of 'Open to' SPNS.
 
         Dictionary `open_mode` will be updated with specified SPN id and selected value. (open to ground or open to battery)
+
+        :param i: Index of SPN
+        :type i: int
+        :param selection: "Ground" or "Battery"
+        :type selection: String
         """
         selection = 'self._uc' + selection
         self._uc.open_mode.update({i: selection})
@@ -390,15 +439,15 @@ class ui_callbacks:
             self._uc.rssp_enable = 1
 
     def sim_callback(self):
-        '''
-        Toggles the UI between simulator mode and normal mode.
+        """
+        Function to toggle the UI between simulator mode and normal mode.
 
         Greys out widgets when simulator mode is not active.
 
         Writes state of simMode to text file.
-        '''
+        """
         all_widgets = list(itertools.chain(self._uc.dig_ip_option, self._uc.open_option, self._uc.volt_toggle,
-                           self._uc.pwm_ip_toggle, self._uc.freq_toggle, self._uc.pulse_toggle, self._uc.actuator_load, self._uc.actuator_set))
+                           self._uc.pwm_ip_toggle, self._uc.freq_toggle, self._uc.pulse_toggle, self._uc.actuator_load, self._uc.actuator_set, self._uc.actuator_pos, self._uc.actuator_btn))
         new = 1-self._uc.SimMode
         self._uc.SimMode = new
         file = open("SimMode.txt", "w")
@@ -406,14 +455,6 @@ class ui_callbacks:
         file.write(a)
         file.close()
 
-        # if self._uc.SimMode ==1:
-        #     for i in range(80):
-        #         self.can2.flip_all_on(i)
-        # else:
-        #     for i in range(80):
-        #         self.can2.flip_all_off(i)
-
-        # Second, disable or enable widgets
         if self._uc.SimMode == 1:
             self._uc.sim_button.config(bg="Green")
             for i in range(len(all_widgets)):
@@ -423,6 +464,7 @@ class ui_callbacks:
                     pass
             for i in range(80):
                 self.can2.flip_all_off(i, i)
+
         elif self._uc.SimMode == 0:
             self._uc.sim_button.config(bg="Red")
             for i in range(len(all_widgets)):
@@ -436,9 +478,21 @@ class ui_callbacks:
                 self.can2.flip_all_on(i, i)
 
     def reset_CAN(self):
+        """
+        When Button is clicked, this function will run a bash script to reset the CAN network.
+
+        The script 'resetCAN.sh' sets the CAN bus down and back up.
+
+        Baud Rate: 250,000
+        """
         os.system("bash ./HwConnect/resetCAN.sh")
 
     def pass_to_board(self, spn_number, data):
+        """
+        Passes SPN number and index to terminal to be printed.
+
+        {deprecated}
+        """
         if self._uc.testing_active == 0:
             self.io_ob.data_to_board(SPN=spn_number, val=int(data))
         else:

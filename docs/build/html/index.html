@@ -1,22 +1,24 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
     <title>Welcome to NGC’s documentation! &#8212; NGC 1.0 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
     
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="CAN Network:" href="can.html" /> 
+    <link rel="next" title="Raspberry Pi Setup" href="setup.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -28,7 +30,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="can.html" title="CAN Network:"
+          <a href="setup.html" title="Raspberry Pi Setup"
              accesskey="N">next</a> |</li>
         <li class="nav-item nav-item-0"><a href="#">NGC 1.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Welcome to NGC’s documentation!</a></li> 
@@ -40,30 +42,40 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="welcome-to-ngc-s-documentation">
-<h1>Welcome to NGC’s documentation!<a class="headerlink" href="#welcome-to-ngc-s-documentation" title="Permalink to this headline">¶</a></h1>
+  <section id="welcome-to-ngc-s-documentation">
+<h1>Welcome to NGC’s documentation!<a class="headerlink" href="#welcome-to-ngc-s-documentation" title="Permalink to this heading">¶</a></h1>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Raspberry Pi Setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#os-sd-card-setup">OS/SD Card Setup:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#id1">Raspberry Pi Setup:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#waveshare-2-ch-can-hat-setup">WaveShare 2-CH CAN HAT Setup:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#python-environment-setup">Python Environment Setup:</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="hw.html">GPIO</a></li>
 <li class="toctree-l1"><a class="reference internal" href="can.html">CAN Network:</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="can.html#module-HwConnect.CAN_FEI">CAN_FEI</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ui.html">User Interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="ui.html#generating-ui">Generating UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ui.html#updating-ui">Updating UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ui.html#ui-callbacks">UI Callbacks</a></li>
 </ul>
 </li>
 </ul>
 </div>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">¶</a></h1>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
-</div>
+</section>
 
 
             <div class="clearer"></div>
@@ -72,15 +84,19 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="#">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="#">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Welcome to NGC’s documentation!</a></li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 
-  <h4>Next topic</h4>
-  <p class="topless"><a href="can.html"
-                        title="next chapter">CAN Network:</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="setup.html"
+                          title="next chapter">Raspberry Pi Setup</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -92,12 +108,12 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -112,7 +128,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="can.html" title="CAN Network:"
+          <a href="setup.html" title="Raspberry Pi Setup"
              >next</a> |</li>
         <li class="nav-item nav-item-0"><a href="#">NGC 1.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Welcome to NGC’s documentation!</a></li> 
@@ -120,7 +136,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, Fargo Engineering, inc.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
   </body>
 </html>
