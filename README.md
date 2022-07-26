@@ -12,7 +12,3 @@ v7.08:
         Turn Off to disable Relay controls and Enable Bypass Relay Boards. 
         Turn on to control relays manually. Button located under settings.
         Value is written to SimMode.txt file for storage between power cycles.
-
-    Actuator Tab not fully functional.
-
-    Polling not yet fully functional.
