@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 from functools import partial
 from UserInterface.update_ui import *
 from UserInterface.ui_callbacks import *
@@ -427,6 +428,26 @@ class generate_ui():
                        bg="Steel Blue", command=self.ui_call.frfr_callback)
         b2.grid(row=11, column=5)
 
+        #update from new code:
+        label = tk.Label(self._ge.driveline_frame, text='PTO LSD', bg="azure3", width=20)
+        label.grid(row=12, column=3)
+        self._ge.pto_lsd_label = tk.Entry(self._ge.driveline_frame, textvariable=self._ge.PTO_LSD,
+                                    font=('calibre', 10, 'normal'))
+        self._ge.pto_lsd_label.grid(row=12, column=4)
+
+        label = tk.Label(self._ge.driveline_frame, text='PTO LSD', bg="azure3", width=20)
+        label.grid(row=13, column=3)
+        self._ge.pto_hsd_label = tk.Entry(self._ge.driveline_frame, textvariable=self._ge.PTO_HSD,
+                                            font=('calibre', 10, 'normal'))
+        self._ge.pto_hsd_label.grid(row=13, column=4)
+        label = tk.Label(self._ge.driveline_frame, text='Aux PTO Status', bg="azure3", width=20)
+        label.grid(row=14, column=3)
+        self._ge.Aux_PTO_enabled_label = tk.Entry(self._ge.driveline_frame, textvariable=self._ge.Aux_PTO_enabled,
+                                            font=('calibre', 10, 'normal'))
+        self._ge.Aux_PTO_enabled_label.grid(row=14, column=4)                                               
+
+
+
     # UCM_1 Tab
 
     def generate_clrm_ui(self):
@@ -758,6 +779,313 @@ class generate_ui():
         sub_btn = tk.Button(label_frame_hdfn, text='Update', fg="white", bg="Steel Blue",
                             command=self.ui_call.hdfn_callback)
         sub_btn.grid(row=13, column=3)
+
+
+    #Added from new code:
+    def generate_ui_hdhc(self):
+        label_frame_hdhc = tk.LabelFrame(self._ge.plant_model_ucm1_frame, text='HDHC')
+        label_frame_hdhc.pack(expand='yes', fill='both')
+
+        label = tk.Label(label_frame_hdhc, text='Lift Pressure', bg="azure3", width=20)
+        label.grid(row=1, column=1)
+        c1 = tk.Checkbutton(label_frame_hdhc, text='lift_prs_enable', variable=self._ge.hdhc_lift_prs_enable_var,
+                onvalue=int(1), offvalue=int(0), command=self.ui_call.hdhc_callback)
+        c1.grid(row=1, column=2)
+        self._ge.hdhc_lift_prs_enable_var.set(1)
+
+        label = tk.Label(label_frame_hdhc, text='Feeder Angle', bg="azure3", width=20)
+        label.grid(row=1, column=3)
+        c1 = tk.Checkbutton(label_frame_hdhc, text='fdr_ang_enable', variable=self._ge.hdhc_frd_ang_enable_var,
+                onvalue=int(1), offvalue=int(0), command=self.ui_call.hdhc_callback)
+        c1.grid(row=1, column=4)
+        self._ge.hdhc_frd_ang_enable_var.set(1)
+
+        label = tk.Label(label_frame_hdhc, text='Ground Height Sensors', bg="azure3", width=20)
+        label.grid(row=2, column=1)
+        c1 = tk.Checkbutton(label_frame_hdhc, text='gnd_ht_enable', variable=self._ge.hdhc_gnd_height_enable_var,
+                onvalue=int(1), offvalue=int(0), command=self.ui_call.hdhc_callback)
+        c1.grid(row=2, column=2)
+        self._ge.hdhc_gnd_height_enable_var.set(1)
+
+        label = tk.Label(label_frame_hdhc, text='Lateral Float Sensors', bg="azure3", width=20)
+        label.grid(row=2, column=3)
+        c1 = tk.Checkbutton(label_frame_hdhc, text='lat_float_enable', variable=self._ge.hdhc_lat_float_enable_var,
+                onvalue=int(1), offvalue=int(0), command=self.ui_call.hdhc_callback)
+        c1.grid(row=2, column=4)
+        self._ge.hdhc_lat_float_enable_var.set(1)
+        
+        ############ JUST FOR TESTING THE POT VALUE AND COMPARE ###############
+        
+        label = tk.Label(label_frame_hdhc, text='center_lh_height_volt_pot', bg="azure3", width=20)
+        label.grid(row=4, column=1)
+        self._ge.hdhc_center_lh_height_volt_pot_label = tk.Entry(label_frame_hdhc, font=('calibre', 10, 'normal'))
+        self._ge.hdhc_center_lh_height_volt_pot_label.grid(row=4, column=2)
+        self._ge.hdhc_center_lh_height_volt_pot_label.insert(0, self._ge.hdhc_center_lh_height_volt_pot)
+        
+        label = tk.Label(label_frame_hdhc, text='lh_height_tilt_volt_pot', bg="azure3", width=20)
+        label.grid(row=5, column=1)
+        self._ge.hdhc_lh_height_tilt_volt_pot_label = tk.Entry(label_frame_hdhc, font=('calibre', 10, 'normal'))
+        self._ge.hdhc_lh_height_tilt_volt_pot_label.grid(row=5, column=2)
+        self._ge.hdhc_lh_height_tilt_volt_pot_label.insert(0, self._ge.hdhc_lh_height_tilt_volt_pot)
+
+        label = tk.Label(label_frame_hdhc, text='lift_prs_volt_pot', bg="azure3", width=20)
+        label.grid(row=6, column=1)
+        self._ge.hdhc_lift_prs_volt_pot_label = tk.Entry(label_frame_hdhc, font=('calibre', 10, 'normal'))
+        self._ge.hdhc_lift_prs_volt_pot_label.grid(row=6, column=2)
+        self._ge.hdhc_lift_prs_volt_pot_label.insert(0, self._ge.hdhc_skid_plate_range)
+
+        label = tk.Label(label_frame_hdhc, text='feeder_angle_volt_pot', bg="azure3", width=20)
+        label.grid(row=7, column=1)
+        self._ge.hdhc_feeder_angle_volt_pot_label = tk.Entry(label_frame_hdhc, font=('calibre', 10, 'normal'))
+        self._ge.hdhc_feeder_angle_volt_pot_label.grid(row=7, column=2)
+        self._ge.hdhc_feeder_angle_volt_pot_label.insert(0, self._ge.hdhc_skid_plate_range)
+        
+        label = tk.Label(label_frame_hdhc, text='center_rh_height_volt_pot', bg="azure3", width=20)
+        label.grid(row=4, column=3)
+        self._ge.hdhc_center_rh_height_volt_pot_label = tk.Entry(label_frame_hdhc, font=('calibre', 10, 'normal'))
+        self._ge.hdhc_center_rh_height_volt_pot_label.grid(row=4, column=4)
+        self._ge.hdhc_center_rh_height_volt_pot_label.insert(0, self._ge.hdhc_center_rh_height_volt_pot)
+
+        label = tk.Label(label_frame_hdhc, text='rh_height_tilt_volt_pot', bg="azure3", width=20)
+        label.grid(row=5, column=3)
+        self._ge.hdhc_rh_height_tilt_volt_pot_label = tk.Entry(label_frame_hdhc, font=('calibre', 10, 'normal'))
+        self._ge.hdhc_rh_height_tilt_volt_pot_label.grid(row=5, column=4)
+        self._ge.hdhc_rh_height_tilt_volt_pot_label.insert(0, self._ge.hdhc_rh_height_tilt_volt_pot)
+
+        label = tk.Label(label_frame_hdhc, text='lateral_position_volt_pot', bg="azure3", width=20)
+        label.grid(row=6, column=3)
+        self._ge.hdhc_lateral_position_volt_pot_label = tk.Entry(label_frame_hdhc, font=('calibre', 10, 'normal'))
+        self._ge.hdhc_lateral_position_volt_pot_label.grid(row=6, column=4)
+        self._ge.hdhc_lateral_position_volt_pot_label.insert(0, self._ge.hdhc_lateral_position_volt_pot)
+        ####################################################################
+        
+    def generate_ui_fffa(self):
+        label_frame_fffa = tk.LabelFrame(self._ge.plant_model_ucm1_frame, text='FFFA')
+        label_frame_fffa.pack(expand='yes', fill='both')
+
+        label = tk.Label(label_frame_fffa, text='Plant enable', bg="azure3", width=20)
+        label.grid(row=1, column=1)
+        c1 = tk.Checkbutton(label_frame_fffa, text='fffa_enable', variable=self._ge.fffa_enable_var,
+                            onvalue=int(1), offvalue=int(0), command=self.ui_call.fffa_callback)
+        c1.grid(row=1, column=2)
+        self._ge.fffa_enable_var.set(1)
+
+        label = tk.Label(label_frame_fffa, text='Blockage Mode', bg="azure3", width=20)
+        label.grid(row=2, column=1)
+        c1 = tk.Checkbutton(label_frame_fffa, text='enable_blockage_mode', variable=self._ge.fffa_block_enable_var,
+                            onvalue=int(1), offvalue=int(0), command=self.ui_call.fffa_callback)
+        c1.grid(row=2, column=2)
+        self._ge.fffa_block_enable_var.set(1)
+
+        label = tk.Label(label_frame_fffa, text='Min Position (mV)', bg="azure3", width=20)
+        label.grid(row=3, column=1)
+
+        w3 = tk.Scale(label_frame_fffa, from_=0, to=5000, resolution=1, orient=tk.HORIZONTAL,
+                      font=('calibre', 8, 'normal'), variable=self._ge.fffa_min_position_var)
+        w3.set(self._ge.fffa_min_position)
+        w3.grid(row=3, column=2)
+
+        self._ge.fffa_min_position_label = tk.Entry(label_frame_fffa, font=('calibre', 10, 'normal'))
+        self._ge.fffa_min_position_label.grid(row=3, column=3)
+        self._ge.fffa_min_position_label.insert(0, self._ge.fffa_min_position)
+
+        sub_btn = tk.Button(label_frame_fffa, text='Update', fg="white", bg="Steel Blue",
+                            command=self.ui_call.fffa_callback)
+        sub_btn.grid(row=3, column=4)
+
+        label = tk.Label(label_frame_fffa, text='Max Position (mV)', bg="azure3", width=20)
+        label.grid(row=4, column=1)
+
+        w3 = tk.Scale(label_frame_fffa, from_=0, to=5000, resolution=1, orient=tk.HORIZONTAL,
+                      font=('calibre', 8, 'normal'), variable=self._ge.fffa_max_position_var)
+        w3.set(self._ge.fffa_max_position)
+        w3.grid(row=4, column=2)
+
+        self._ge.fffa_max_position_label = tk.Entry(label_frame_fffa, font=('calibre', 10, 'normal'))
+        self._ge.fffa_max_position_label.grid(row=4, column=3)
+        self._ge.fffa_max_position_label.insert(0, self._ge.fffa_max_position)
+
+        sub_btn = tk.Button(label_frame_fffa, text='Update', fg="white", bg="Steel Blue",
+                            command=self.ui_call.fffa_callback)
+        sub_btn.grid(row=4, column=4)
+
+        label = tk.Label(label_frame_fffa, text='Travel Rate (mV)', bg="azure3", width=20)
+        label.grid(row=5, column=1)
+
+        w3 = tk.Scale(label_frame_fffa, from_=0, to=60, resolution=1, orient=tk.HORIZONTAL,
+                      font=('calibre', 8, 'normal'), variable=self._ge.fffa_travel_rate_var)
+        w3.set(self._ge.fffa_travel_rate)
+        w3.grid(row=5, column=2)
+
+        self._ge.fffa_travel_rate_label = tk.Entry(label_frame_fffa, font=('calibre', 10, 'normal'))
+        self._ge.fffa_travel_rate_label.grid(row=5, column=3)
+        self._ge.fffa_travel_rate_label.insert(0, self._ge.fffa_travel_rate)
+
+        sub_btn = tk.Button(label_frame_fffa, text='Update', fg="white", bg="Steel Blue",
+                            command=self.ui_call.fffa_callback)
+        sub_btn.grid(row=5, column=4)
+
+        label = tk.Label(label_frame_fffa, text="sol fore", bg="azure3", width=20)
+        label.grid(row=6, column=1)
+        self._ge.fffa_sol_fore_label = tk.Entry(label_frame_fffa, font=('calibre', 10, 'normal'))
+        self._ge.fffa_sol_fore_label.grid(row=6, column=2)
+        self._ge.fffa_sol_fore_label.insert(0, self._ge.fffa_sol_fore)
+
+        label = tk.Label(label_frame_fffa, text="sol aft", bg="azure3", width=20)
+        label.grid(row=6, column=3)
+        self._ge.fffa_sol_aft_label = tk.Entry(label_frame_fffa, font=('calibre', 10, 'normal'))
+        self._ge.fffa_sol_aft_label.grid(row=6, column=4)
+        self._ge.fffa_sol_aft_label.insert(0, self._ge.fffa_sol_aft)
+        
+        label = tk.Label(label_frame_fffa, text="sol aft", bg="azure3", width=20)
+        label.grid(row=7, column=1)
+        self._ge.fffa_position_pot_label = tk.Entry(label_frame_fffa, font=('calibre', 10, 'normal'))
+        self._ge.fffa_position_pot_label.grid(row=7, column=2)
+        self._ge.fffa_position_pot_label.insert(0, self._ge.fffa_position_pot)
+
+    def generate_ui_gdst(self):
+        label_frame_gdst = tk.LabelFrame(self._ge.plant_model_ucm4_frame, text='GDST')
+        label_frame_gdst.pack(expand='yes', fill='both')
+
+        label = tk.Label(label_frame_gdst, text='Plant enable', bg="azure3", width=15)
+        label.grid(row=1, column=1)
+        c1 = tk.Checkbutton(label_frame_gdst, text='gdst_enable', variable=self._ge.gdst_enable_var,
+                            onvalue=int(1), offvalue=int(0), command=self.ui_call.gdst_callback)
+        c1.grid(row=1, column=2)
+        self._ge.gdst_enable_var.set(1)
+
+        label = tk.Label(label_frame_gdst, text='Tracks Tension', bg="azure3", width=15)
+        label.grid(row=2, columnspan=5, sticky='ew')
+
+        label = tk.Label(label_frame_gdst, text='Tension Left Track', bg="azure3", width=15)
+        label.grid(row=3, column=1)
+        w3 = tk.Scale(label_frame_gdst, from_=0, to=250, resolution=1, orient=tk.HORIZONTAL,
+                      font=('calibre', 8, 'normal'), variable=self._ge.gdst_left_track_var)
+        w3.set(self._ge.gdst_leftTensionInput)
+        w3.grid(row=3, column=2)
+
+        self._ge.gdst_left_track_label = tk.Entry(label_frame_gdst, font=('calibre', 10, 'normal'), width=15)
+        self._ge.gdst_left_track_label.grid(row=3, column=3)
+        self._ge.gdst_left_track_label.insert(0, self._ge.gdst_leftTensionInput)
+
+        sub_btn = tk.Button(label_frame_gdst, text='Update', fg="white", bg="Steel Blue", width="15",
+                            command=self.ui_call.gdst_callback)
+        sub_btn.grid(row=3, column=4)
+
+        label = tk.Label(label_frame_gdst, text='Tension Right Track', bg="azure3", width=15)
+        label.grid(row=4, column=1)
+        w3 = tk.Scale(label_frame_gdst, from_=0, to=250, resolution=1, orient=tk.HORIZONTAL,
+                      font=('calibre', 8, 'normal'), variable=self._ge.gdst_right_track_var)
+        w3.set(self._ge.gdst_rightTensionInput)
+        w3.grid(row=4, column=2)
+
+        self._ge.gdst_right_track_label = tk.Entry(label_frame_gdst, font=('calibre', 10, 'normal'), width=15)
+        self._ge.gdst_right_track_label.grid(row=4, column=3)
+        self._ge.gdst_right_track_label.insert(0, self._ge.gdst_rightTensionInput)
+
+        sub_btn = tk.Button(label_frame_gdst, text='Update', fg="white", bg="Steel Blue", width="15",
+                            command=self.ui_call.gdst_callback)
+        sub_btn.grid(row=4, column=4)
+
+        label = tk.Label(label_frame_gdst, text='Suspension Height Tracks', bg="azure3")
+        label.grid(row=5,columnspan=5, sticky='ew')
+
+        label = tk.Label(label_frame_gdst, text='Left Front', bg="azure3", width=10)
+        label.grid(row=6, column=1)
+        label = tk.Label(label_frame_gdst, text='Left Rear', bg="azure3", width=10)
+        label.grid(row=6, column=2)
+        label = tk.Label(label_frame_gdst, text='Right Front', bg="azure3", width=10)
+        label.grid(row=6, column=3)
+        label = tk.Label(label_frame_gdst, text='Right Rear', bg="azure3", width=10)
+        label.grid(row=6, column=4)
+
+        w3 = tk.Scale(label_frame_gdst, from_=0, to=100, resolution=1, orient=tk.VERTICAL,
+                      font=('calibre', 8, 'normal'), variable=self._ge.gdst_left_front_var)
+        w3.set(self._ge.gdst_leftFrontInput)
+        w3.grid(row=7, column=1)
+
+        w3 = tk.Scale(label_frame_gdst, from_=0, to=100, resolution=1, orient=tk.VERTICAL,
+                      font=('calibre', 8, 'normal'), variable=self._ge.gdst_left_rear_var)
+        w3.set(self._ge.gdst_leftRearInput)
+        w3.grid(row=7, column=2)
+
+        w3 = tk.Scale(label_frame_gdst, from_=0, to=100, resolution=1, orient=tk.VERTICAL,
+                      font=('calibre', 8, 'normal'), variable=self._ge.gdst_right_front_var)
+        w3.set(self._ge.gdst_rightFrontInput)
+        w3.grid(row=7, column=3)
+
+        w3 = tk.Scale(label_frame_gdst, from_=0, to=100, resolution=1, orient=tk.VERTICAL,
+                      font=('calibre', 8, 'normal'), variable=self._ge.gdst_right_rear_var)
+        w3.set(self._ge.gdst_rightRearInput)
+        w3.grid(row=7, column=4)
+
+        self._ge.gdst_left_front_label = tk.Entry(label_frame_gdst, font=('calibre', 10, 'normal'), width=10)
+        self._ge.gdst_left_front_label.grid(row=8, column=1)
+        self._ge.gdst_left_front_label.insert(0, self._ge.gdst_leftFrontInput)
+        self._ge.gdst_left_rear_label = tk.Entry(label_frame_gdst, font=('calibre', 10, 'normal'), width=10)
+        self._ge.gdst_left_rear_label.grid(row=8, column=2)
+        self._ge.gdst_left_rear_label.insert(0, self._ge.gdst_leftRearInput)
+        self._ge.gdst_right_front_label = tk.Entry(label_frame_gdst, font=('calibre', 10, 'normal'), width=10)
+        self._ge.gdst_right_front_label.grid(row=8, column=3)
+        self._ge.gdst_right_front_label.insert(0, self._ge.gdst_rightFrontInput)
+        self._ge.gdst_right_rear_label = tk.Entry(label_frame_gdst, font=('calibre', 10, 'normal'), width=10)
+        self._ge.gdst_right_rear_label.grid(row=8, column=4)
+        self._ge.gdst_right_rear_label.insert(0, self._ge.gdst_rightRearInput)
+
+        sub_btn = tk.Button(label_frame_gdst, text='Update', fg="white", bg="Steel Blue",
+                            command=self.ui_call.gdst_callback)
+        sub_btn.grid(row=9, column=1)
+        sub_btn = tk.Button(label_frame_gdst, text='Update', fg="white", bg="Steel Blue",
+                            command=self.ui_call.gdst_callback)
+        sub_btn.grid(row=9, column=2)
+        sub_btn = tk.Button(label_frame_gdst, text='Update', fg="white", bg="Steel Blue",
+                            command=self.ui_call.gdst_callback)
+        sub_btn.grid(row=9, column=3)
+        sub_btn = tk.Button(label_frame_gdst, text='Update', fg="white", bg="Steel Blue",
+                            command=self.ui_call.gdst_callback)
+        sub_btn.grid(row=9, column=4)
+        
+        ######################## JUST FOR TESTING THE POT VALUE AND COMPARE ##############################
+
+        label = tk.Label(label_frame_gdst, text='RightRearDisp', bg="azure3", width=15)
+        label.grid(row=10, column=1)
+        self._ge.gdst_RightRearDisp_pot_label = tk.Entry(label_frame_gdst, font=('calibre', 10, 'normal'), width=15)
+        self._ge.gdst_RightRearDisp_pot_label.grid(row=10, column=2)
+        self._ge.gdst_RightRearDisp_pot_label.insert(0, self._ge.RightRearDisp_pot)
+
+        label = tk.Label(label_frame_gdst, text='LeftRearDisp', bg="azure3", width=15)
+        label.grid(row=11, column=1)
+        self._ge.gdst_LeftRearDisp_pot_label = tk.Entry(label_frame_gdst, font=('calibre', 10, 'normal'), width=15)
+        self._ge.gdst_LeftRearDisp_pot_label.grid(row=11, column=2)
+        self._ge.gdst_LeftRearDisp_pot_label.insert(0, self._ge.LeftRearDisp_pot)
+
+        label = tk.Label(label_frame_gdst, text='RightFrontDisp', bg="azure3", width=15)
+        label.grid(row=12, column=1)
+        self._ge.gdst_RightFrontDisp_pot_label = tk.Entry(label_frame_gdst, font=('calibre', 10, 'normal'), width=15)
+        self._ge.gdst_RightFrontDisp_pot_label.grid(row=12, column=2)
+        self._ge.gdst_RightFrontDisp_pot_label.insert(0, self._ge.RightFrontDisp_pot)
+
+        label = tk.Label(label_frame_gdst, text='LeftFrontDisp', bg="azure3", width=15)
+        label.grid(row=10, column=3)
+        self._ge.gdst_LeftFrontDisp_pot_label = tk.Entry(label_frame_gdst, font=('calibre', 10, 'normal'), width=15)
+        self._ge.gdst_LeftFrontDisp_pot_label.grid(row=10, column=4)
+        self._ge.gdst_LeftFrontDisp_pot_label.insert(0, self._ge.LeftFrontDisp_pot)
+
+        label = tk.Label(label_frame_gdst, text='LeftTensionPressure', bg="azure3", width=15)
+        label.grid(row=11, column=3)
+        self._ge.gdst_LeftTensionPressure_pot_label = tk.Entry(label_frame_gdst, font=('calibre', 10, 'normal'), width=15)
+        self._ge.gdst_LeftTensionPressure_pot_label.grid(row=11, column=4)
+        self._ge.gdst_LeftTensionPressure_pot_label.insert(0, self._ge.LeftTensionPressure_pot)
+
+        label = tk.Label(label_frame_gdst, text='RightTensionPressure', bg="azure3", width=15)
+        label.grid(row=12, column=3)
+        self._ge.gdst_RightTensionPressure_pot_label = tk.Entry(label_frame_gdst, font=('calibre', 10, 'normal'), width=15)
+        self._ge.gdst_RightTensionPressure_pot_label.grid(row=12, column=4)
+        self._ge.gdst_RightTensionPressure_pot_label.insert(0, self._ge.RightTensionPressure_pot)
+
+        
+
+
 
     def generate_ui_agge(self):
 

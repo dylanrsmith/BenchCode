@@ -221,6 +221,23 @@ class global_defines:
     ucm3_canvas.create_window(
         (0, 0), window=plant_model_ucm3_frame, anchor="nw")
 
+    # UCM4
+    tc_plant_model_ucm4=ttk.Frame(tc)
+    tc_plant_model_ucm4.pack(side='left')
+    ucm4_canvas = Canvas (tc_plant_model_ucm4,width = 6, height =6, scrollregion=(0,0,1450,1100))
+    hbar = Scrollbar(tc_plant_model_ucm4, orient=HORIZONTAL)
+    hbar.pack(side=BOTTOM, fill=X)
+    hbar.config(command=ucm4_canvas.xview)
+    vbar = Scrollbar(tc_plant_model_ucm4, orient = VERTICAL)
+    vbar.pack(side=RIGHT, fill=Y)
+    vbar.config(command=ucm4_canvas.yview)
+    ucm4_canvas.config(width=6, height=6)
+    ucm4_canvas.config(xscrollcommand=hbar.set, yscrollcommand=vbar.set)
+    ucm4_canvas.pack(side=LEFT, expand=True, fill=BOTH)
+    plant_model_ucm4_frame = Frame(ucm4_canvas)
+    ucm4_canvas.create_window((0,0), window=plant_model_ucm4_frame, anchor="nw")
+
+
     # Settings
     tc_settings = ttk.Frame(tc)
     tc_settings.pack(side='left')
@@ -290,6 +307,7 @@ class global_defines:
         self.tc.add(self.tc_plant_model_ucm1, text='PlantModel_UCM1')
         self.tc.add(self.tc_plant_model_ucm2, text='PlantModel_UCM2')
         self.tc.add(self.tc_plant_model_ucm3, text='PlantModel_UCM3')
+        self.tc.add(self.tc_plant_model_ucm4, text='PlantModel_UCM4')
         self.tc.add(self.tc_settings, text='Settings')
 
         self.tc.pack(expand=1, fill="both")
@@ -453,6 +471,12 @@ class global_defines:
     slow_unload = 0
     fast_unload = 1
 
+    PTO_LSD = 0
+    PTO_HSD = 0
+    pto_lsd_label = 0
+    pto_hsd_label = 0
+    Aux_PTO_enabled = 0
+
     Normal = 1
     Open_Circuit = 2
 
@@ -522,8 +546,10 @@ class global_defines:
     ghts_current = 0
     ghts_pwm = 0
     cradle_status = 0
-    ghts_position = 0
-    ghts_position_volt = 933
+
+    #Update values from new code (18052022)
+    ghts_position = 200
+    ghts_position_volt = 1470
 
     isswinginactive = 0
     isswingoutactive = 0
@@ -546,8 +572,8 @@ class global_defines:
     g_max_pos_volt_mv_s32 = 4300
     g_min_pos_mm_0p1_s32 = 0
     g_max_pos_mm_0p1_s32 = 120
-    g_curr_crack_out_ma_s32 = 100
-    g_curr_crack_in_ma_s32 = 100
+    g_curr_crack_out_ma_s32 = 50
+    g_curr_crack_in_ma_s32 = 50
     swing_in_current = 0
     swing_out_current = 0
 
@@ -586,6 +612,10 @@ class global_defines:
     rsck_label_pos = 0
     rsck_label_volt = 0
 
+    rsck_label_in_current = 0
+    rsck_label_out_current = 0
+
+
     # ghps
     ghps_enable = 1
     ghps_curr = 0
@@ -618,20 +648,33 @@ class global_defines:
     thcc_pwm = 0
     thcc_h_curr = 0
     thcc_h_pwm = 0
-    thcc_pos = 3000
+    thcc_pos = 10
     thcc_pos_volt = 2500
     thcc_bridge_enable = 0
     thcc_rotor_gear = 0
 
+
+    #added from new code:
+    thcc_set_pos = 0
+    thcc_pot_volt = 0
+    thcc_breakaway_state = 1
+    thcc_concave_state = 1
+    thcc_time_taken = 0
+    thcc_time_pos = 0
+    thcc_sensor_link = 1
+
+
     thcc_enable_var = tk.StringVar()
     thcc_h_curr_var = tk.StringVar()
     thcc_h_pwm_var = tk.StringVar()
+    thcc_sensor_link_var = tk.StringVar()
 
     thcc_bridge_button = 0
     thcc_pos_label = 0
     thcc_pos_volt_label = 0
     thcc_curr_label = 0
     thcc_pwm_label = 0
+    thcc_pos_var = 0
 
     thcc_max_volt = 4500
     thcc_min_volt = 500
@@ -644,6 +687,58 @@ class global_defines:
     thcc_on = 2
     rotor_gear = tk.StringVar()
     thcc_stat = tk.StringVar()
+
+
+    #Added from new code :[gdpb, gdgs, gdhd]
+    #gdpb
+    gdpb_enable_var = tk.StringVar()
+    gdpb_link_to_sensor_var = tk.StringVar()
+    gdpb_park_brake_sensor_var = tk.StringVar()  
+
+    gdpb_disenage_sol_label = 0
+    gdpb_park_brake_sensor = 0.5 
+    gdpb_enabled = 1
+    gdpb_link_to_sensor = 1 
+    gdpb_disenage_sol = 0 
+    gdpb_RH_brake_pressure_state = 0 
+    gdpb_LH_brake_pressure_state = 0 
+    gdpb_park_brake_sensor_label = 0.5
+    
+    #gdgs
+    gdgs_enable_var = tk.StringVar()
+    gdgs_link_to_gearshift_var = tk.StringVar()
+    gdgs_electric_shift_pos_sensor_var = tk.StringVar()
+
+    gdgs_enabled = 1
+    gdgs_gear_shift_inc = 0
+    gdgs_gear_shift_dec = 0 
+    gdgs_electric_shift_pos_sensor = 2.5
+    gdgs_link_to_elec_pos_sensor = 1 
+    gdgs_ground_drive_shift_label = 0  
+    gdgs_electric_shift_pos_sensor_label = 2.5
+    
+    #gdhd
+    gdhd_enable_var = tk.StringVar() 
+    gdhd_motor_displacement_var = tk.StringVar()
+    gdhd_pump_displacement_var = tk.StringVar()
+    gdhd_enabled = 1
+
+    gdhd_enabled = 1
+    gdhd_fwd_sol_label = 0
+    gdhd_rev_sol_label = 0
+    gdhd_ground_speed_label = 0
+    gdhd_gear_speed_label = 0
+    
+    gdhd_fwd_sol = 0
+    gdhd_rev_sol = 0
+    gdhd_ground_speed = 0
+    gdhd_gear_speed = 0
+    
+    gdhd_max_pump_displacement = 175
+    gdhd_max_motor_displacement = 215
+    gdhd_gear_state = 1
+
+
 
     # clfn
     clfn_enable = 1
@@ -683,8 +778,8 @@ class global_defines:
     hdhr_type = 3
     hdhr_type_var = tk.StringVar()
 
-    hdhr_ext1_volt = 12000
-    hdhr_ext2_volt = 12000
+    hdhr_ext1_volt = 1
+    hdhr_ext2_volt = 1
     hdhr_type_volt = 2500
 
     hdhr_ext1_volt_label = 0
@@ -712,6 +807,118 @@ class global_defines:
     DRAPER_WITHOUT_FA = 18
     SPARE19 = 19
     SPARE20 = 20
+
+    #Following code up until hdfn is added from new code
+        # hdhc
+    hdhc_lift_prs_enable_var = tk.StringVar()
+    hdhc_frd_ang_enable_var = tk.StringVar()
+    hdhc_gnd_height_enable_var = tk.StringVar()
+    hdhc_lat_float_enable_var = tk.StringVar()
+    hdhc_skid_plate_range_var = tk.StringVar()
+    hdhc_lift_pressure_enabled = 1
+    hdhc_frd_ang_enabled = 1
+    hdhc_gnd_height_enabled = 1
+    hdhc_lat_float_enabled = 1
+
+    hdhc_skid_plate_range_label = 0
+    hdhc_skid_plate_range = 400
+
+    hdhc_feeder_angle_volt = 2175
+    hdhc_lift_prs_volt = 0
+    hdhc_lateral_float_cw = 0
+    hdhc_lateral_float_ccw = 0
+    hdhc_flow_cmd_extend = 0
+    hdhc_flow_cmd_retract = 0
+    hdhc_flow_pct = 0
+    hdhc_header_platform_type = 1
+    hdhc_lh_height_tilt_volt = 0
+    hdhc_center_rh_height_volt = 0
+    hdhc_center_lh_height_volt = 0
+    hdhc_rh_height_tilt_volt = 0
+    hdhc_lateral_position_volt = 0
+    ################# JUST FOR TESTING AND COMPARE ##################
+
+    hdhc_lift_prs_volt_pot = 0
+    hdhc_feeder_angle_volt_pot = 0
+    hdhc_lh_height_tilt_volt_pot = 0
+    hdhc_center_lh_height_volt_pot = 0
+    hdhc_center_rh_height_volt_pot = 0
+    hdhc_rh_height_tilt_volt_pot = 0
+    hdhc_lateral_position_volt_pot = 0
+
+    hdhc_lift_prs_volt_pot_label = 0
+    hdhc_feeder_angle_volt_pot_label = 0
+    hdhc_lh_height_tilt_volt_pot_label = 0
+    hdhc_center_lh_height_volt_pot_label = 0
+    hdhc_center_rh_height_volt_pot_label = 0
+    hdhc_rh_height_tilt_volt_pot_label = 0
+    hdhc_lateral_position_volt_pot_label = 0
+    #################################################################
+    
+    # fffa
+    fffa_enable_var = tk.StringVar()
+    fffa_block_enable_var = tk.StringVar()
+    fffa_min_position_var = tk.StringVar()
+    fffa_max_position_var = tk.StringVar()
+    fffa_travel_rate_var = tk.StringVar()
+    fffa_enabled = 1
+    fffa_block_enabled = 1
+    fffa_min_position_label = 0
+    fffa_max_position_label = 0
+    fffa_sol_fore_label = 0
+    fffa_sol_aft_label = 0    
+    fffa_min_position = 500
+    fffa_max_position = 4400
+    fffa_travel_rate = 1
+    fffa_sol_fore = 0
+    fffa_sol_aft = 0
+    fffa_position_volt = 500
+    
+    fffa_position_pot_label = 0
+    fffa_position_pot = 0
+    
+    # gdst
+    gdst_enable_var = tk.StringVar()
+    gdst_left_track_var = tk.StringVar()
+    gdst_right_track_var = tk.StringVar()
+    gdst_left_front_var = tk.StringVar()
+    gdst_left_rear_var = tk.StringVar()
+    gdst_right_front_var = tk.StringVar()
+    gdst_right_rear_var = tk.StringVar()
+    gdst_enabled = 1
+    gdst_left_track_label = 0
+    gdst_right_track_label = 0
+    gdst_left_front_label = 0
+    gdst_left_rear_label = 0
+    gdst_right_front_label = 0
+    gdst_right_rear_label = 0
+    gdst_leftTensionInput = 70
+    gdst_rightTensionInput = 70
+    gdst_leftFrontInput = 50
+    gdst_leftRearInput = 50
+    gdst_rightFrontInput = 50
+    gdst_rightRearInput = 50
+
+    gdst_TracksDischarge = 0
+    gdst_LeftShutOff = 0
+    gdst_RightShutOff = 0
+    gdst_RightRearUp = 0
+    gdst_RightRearDown = 0
+    gdst_RightFrontUp = 0
+    gdst_RightFrontDown = 0
+    gdst_LeftRearUp = 0
+    gdst_LeftRearDown = 0
+    gdst_LeftFrontUp = 0
+    gdst_LeftFrontDown = 0
+    ################# JUST FOR TESTING AND COMPARE ##################
+    LeftTensionPressure_pot = 0
+    RightTensionPressure_pot = 0
+    LeftFrontDisp_pot = 0
+    LeftRearDisp_pot = 0
+    RightFrontDisp_pot = 0
+    RightRearDisp_pot = 0
+    #################################################################
+    
 
     # hdfn
     hdfn_hor_enable = 1
@@ -809,6 +1016,15 @@ class global_defines:
     agge_wheel_button = 0
     agge_angle_label = 0
 
+    #from new code:
+    agge_steer_right = 0
+    agge_steer_left = 0
+    agge_steering_wheel_override = 0
+    agge_steering_state = 0
+    agge_right_steer_sol_label = 0
+    agge_left_steer_sol_label = 0
+
+
     NONE = 0
     COARSE_RIGHT = 1
     COARSE_LEFT = 2
@@ -832,10 +1048,30 @@ class global_defines:
 
     STEER_VALVE_STEP = 0
 
+    #rrts
+    rrts_enable_var = tk.StringVar()
+    rrts_rocktrap_open_sw = 0
+    rrts_rocktrap_close_sw = 0
+    rrts_rocktrap_open = 0
+    rrts_rocktrap_close = 0
+    rrts_rocktrap_open_sol_label = 0
+    rrts_rocktrap_close_sol_label = 0
+    rrts_door_closed_state = 0
+
     # settings
     KeyIsON = 1
     Key_Button = 0
     fei_compatible = 0
+
+    Battery_KeyIsON = 1
+    Battery_Key_Button = 0
+
+    Key_and_Battery_State = 0
+
+    #CC console states
+    thresher_engage_state = 0
+    feeder_engage_state =0
+
 
     # This variable will control the ui Simulator mode or not.
     # IF simmode=0,gray out all widgets,if simmode=1
@@ -862,16 +1098,18 @@ class global_defines:
     id_prefix = 0x18DA
     id_suffix = 0xF9
 
-    # deemed defunct -dylan
+
     if testing_active == 0:
-        #import can
+        import can
+        import os
         from collections import deque
 
-        canbus_1 = can.interface.Bus(
-            channel='slcan0', bustype='socketcan', bitrate=500000)
-        canbus1 = can.interface.Bus(
-            channel='slcan0', bustype='socketcan', bitrate=500000)
-        subprocess.call(['sudo', 'slcand', '-o', '-c',
-                        '-f', '-s6', '/dev/ttyUSB0'])
-        subprocess.call(['sudo', 'ifconfig', 'slcan0', 'up'])
+        os.system("sudo /sbin/ip link set can0 up type can bitrate 500000")
+
+        try:
+            canbus1 = can.interface.Bus(
+                channel='slcan0', bustype='socketcan', bitrate=500000)
+        except OSError:
+            print('Cannot find PiCAN board.')
+            exit()
         msg_buffer = deque(maxlen=10)
