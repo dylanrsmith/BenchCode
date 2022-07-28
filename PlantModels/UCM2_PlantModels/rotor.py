@@ -320,11 +320,8 @@ class rotor_hydro:
             self.log_file.write("{0},{1},{2},{3}\n".format(str(self.log_file_index),str(hydro_current_inc),str(hydro_current_dec),str(self.HydroMotorSpeed)))
             self.log_file_index = self.log_file_index + 1
                 
-        print(hydro_vlt_inc, hydro_current_inc, RotorIncr, hydro_vlt_dec, hydro_current_dec, RotorDecr, rtf_on, etr_on, AuxPTOValveOn, self._rotor.current_spd, self.HydroMotorSpeed, self.RotorSpeed)
+        #print(hydro_vlt_inc, hydro_current_inc, RotorIncr, hydro_vlt_dec, hydro_current_dec, RotorDecr, rtf_on, etr_on, AuxPTOValveOn, self._rotor.current_spd, self.HydroMotorSpeed, self.RotorSpeed)
 
-        #print (self._io.data_read(375),hydro_vlt_inc, hydro_current_inc, hydro_vlt_dec, hydro_current_dec,RotorIncr, RotorDecr, AuxPTOValveOn, self.statediagram_value, self.HydroMotorSpeed, self.RotorSpeed)        
-        #print(hydro_current_inc, hydro_current_dec, volumeRotationPump, volumeFloating, self.HydroMotorSpeed, self.RotorSpeed, etr_on, rtf_on, int(self.value1 + 0.5), int(self.value2+0.5))
-                  
 #         RotorClutchOn = self._io.data_read(420)
 #         if RotorIncr == 1:
 #             temp = self._io.data_read(375) * 5/1024

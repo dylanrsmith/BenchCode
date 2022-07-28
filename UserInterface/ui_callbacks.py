@@ -502,6 +502,42 @@ class ui_callbacks:
         else:
             print(self._uc.KeyIsON)
 
+    def battery_key_callback(self):
+        #print("Battery Call Back")
+        self.Key_and_Battery_Button(switch='Battery')
+
+    def Key_and_Battery_Button(self,switch):
+
+        if self._uc.Key_and_Battery_State == 3 and switch == 'Key':
+            self._uc.Key_and_Battery_State = 1
+            
+        if self._uc.Key_and_Battery_State == 1 and switch == 'Battery':
+            self._uc.Key_and_Battery_State = 2
+            
+        if self._uc.Key_and_Battery_State == 2 and switch == 'Key':
+            self._uc.Key_and_Battery_State = 3
+
+
+        #print("Name of Button Pressed : \t",switch)
+        #print("Key_and_Battery_State : \t", self._uc.Key_and_Battery_State)
+        
+        if self._uc.Key_and_Battery_State == 1:
+            self.io_ob.Key_and_Battery_Write(Byte_1=5)
+        if self._uc.Key_and_Battery_State == 2:
+            self.io_ob.Key_and_Battery_Write(Byte_1=1)
+        if self._uc.Key_and_Battery_State == 3:
+            self.io_ob.Key_and_Battery_Write(Byte_1=4)
+            if self._uc.testing_active == 0:
+                st = start_init(self._uc, self.io_ob)
+                st.init_spn()
+                self.io_ob.data_to_board(322, int(0))
+                time.sleep(0.5)
+                self.io_ob.data_to_board(322, int(1))
+                time.sleep(0.5)
+                self.io_ob.data_to_board(66, int(0))
+                time.sleep(0.5)
+                self.io_ob.data_to_board(66, int(1))
+
     def debug_callback(self):
         current = self._uc.debug_mode
         new = 1 - current

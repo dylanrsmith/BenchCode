@@ -21,8 +21,9 @@ class ghcv_plant:
     def ghcv_init(self):
         self._io.data_to_board(257, int(0))   # Default Open for GNSS testing 
         self._io.data_to_board(263, int(1))   # Remove and uncomment two lines below afterwards
-#        self._io.data_to_board(257, int(1))
-#        self._io.data_to_board(263, int(0))
+        self._gh.cover_open_sensor   = 1      # Update status of open sol for GUI
+        self._gh.cover_close_sensor  = 0      # Update status of closed sol for GUI   
+
             
     def calculate_state(self):
         global ghcv_init_flag

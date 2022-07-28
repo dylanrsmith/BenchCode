@@ -77,12 +77,12 @@ class driveline:
         MainGbx_S3 = spd * 1.14
 
         if self._dv.debug_mode == 0:
-            PTO_LSD = self._io.data_read(417)
-            if PTO_LSD == 0:
+            self._dv.PTO_LSD = self._io.data_read(417)
+            if self._dv.PTO_LSD == 0:
                 self._dv.Aux_PTO_enabled = 0
             else:
-                PTO_HSD = self._io.data_read(383)
-                if PTO_HSD != 0:
+                self._dv.PTO_HSD = self._io.data_read(383)
+                if self._dv.PTO_HSD != 0:
                     self._dv.Aux_PTO_enabled = 1
                 else:
                     self._dv.Aux_PTO_enabled = 0

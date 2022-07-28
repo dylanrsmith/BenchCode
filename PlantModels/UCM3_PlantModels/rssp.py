@@ -30,6 +30,8 @@ class rssp_plant:
 #             print("self._rssp.rssp_left_pwm  ", self._rssp.rssp_left_pwm)
         self._rssp.rssp_left_curr = self._rssp.rssp_left_pwm * 1.2
         self._rssp.rssp_left_spd = (1 - (self._rssp.crop_load_left_rssp/100)) * self._rssp.rssp_left_curr * 1
+#        if self._rssp.rssp_left_spd >= 640:  # Uncomment this line and the line below to set an max limit to RPM
+#            self._rssp.rssp_left_spd = 640
 
     def calculate_right_rpm(self):
         if self._rssp.debug_mode == 0:
@@ -37,6 +39,8 @@ class rssp_plant:
 #             print("self._rssp.rssp_right_pwm  ", self._rssp.rssp_right_pwm)
         self._rssp.rssp_right_curr = self._rssp.rssp_right_pwm * 1.2
         self._rssp.rssp_right_spd = (1 - (self._rssp.crop_load_right_rssp / 100)) * self._rssp.rssp_right_curr * 1
+#        if self._rssp.rssp_right_spd >= 640:  # Uncomment this line and the line below to set an max limit to RPM
+#            self._rssp.rssp_right_spd = 640
 
     def write_speeds(self):
         if self._rssp.testing_active == 0:

@@ -5,6 +5,10 @@ class hdfn_plant:
         self._hdfn = ob1
         self._io = ob2
         # print("init")
+        
+    def volt_to_pot(self, volt):
+        pot_value = round((volt/1000)*4.864/250)
+        return pot_value
 
     def calculate_hor_pos(self):
         if self._hdfn.hdfn_hor_enable == 1:
@@ -109,16 +113,16 @@ class hdfn_plant:
 
     def write_to_board(self):
         if self._hdfn.testing_active == 0:
-            self._io.data_to_board(83, self._hdfn.hdfn_hor_pos)
-            self._io.data_to_board(84, self._hdfn.hdfn_ver_pos)
-            self._io.data_to_board(209, self._hdfn.hdfn_vari_pos)
-            self._io.data_to_board(93, self._hdfn.hdfn_reel_spd)
-            self._io.data_to_board(59, self._hdfn.hdfn_ffa_spd)
+            self._io.data_to_board(83, self.volt_to_pot(self._hdfn.hdfn_hor_pos))
+            self._io.data_to_board(84, self.volt_to_pot(self._hdfn.hdfn_ver_pos))
+            self._io.data_to_board(209, self.volt_to_pot(self._hdfn.hdfn_vari_pos))
+            self._io.data_to_board(93, self.volt_to_pot(self._hdfn.hdfn_reel_spd))
+            # ~ self._io.data_to_board(59, self._hdfn.hdfn_ffa_spd)
 
     def calculate_hdr_pos(self):
         self.calculate_hor_pos()
         self.calculate_ver_pos()
         self.calculate_vari_pos()
         self.calculate_reel_spd()
-        self.calculate_ffa_spd()
+        # ~ self.calculate_ffa_spd()
         self.write_to_board()

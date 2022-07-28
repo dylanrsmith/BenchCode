@@ -165,8 +165,8 @@ class update_ui:
         self._ui.pto_lsd_label.insert(0, "{:.2f}".format(float(self._ui.current_spd)))
         self._ui.pto_hsd_label.delete(0,100)
         self._ui.pto_hsd_label.insert(0, "{:.2f}".format(float(self._ui.PTO_HSD)))
-        self._ui.Aux_PTO_enabled_label.delete(0,100)
-        self._ui.Aux_PTO_enabled_label.insert(0, int(self._ui.Aux_PTO_enabled))
+        # self._ui.Aux_PTO_enabled_label.delete(0,100)
+        # self._ui.Aux_PTO_enabled_label.insert(0, int(self._ui.Aux_PTO_enabled))
 
     def update_ui_clrm(self):
         if self._ui.clrm_enabled == 1:
@@ -217,13 +217,13 @@ class update_ui:
             self._ui.cradle_button.config(bg="Green")
 
     def update_ui_rsck(self):
-        self._ui.rsck_label_in_out_current.delete(0, 100)
-        self._ui.rsck_label_in_out_current.insert(
-            0, "{:.2f}".format(float(self._ui.in_out_curr)))
+        # self._ui.rsck_label_in_out_current.delete(0, 100)
+        # self._ui.rsck_label_in_out_current.insert(
+        #     0, "{:.2f}".format(float(self._ui.in_out_curr)))
 
-        self._ui.rsck_label_in_out_pwm.delete(0, 100)
-        self._ui.rsck_label_in_out_pwm.insert(
-            0, "{:.2f}".format(float(self._ui.in_out_pwm)))
+        # self._ui.rsck_label_in_out_pwm.delete(0, 100)
+        # self._ui.rsck_label_in_out_pwm.insert(
+        #     0, "{:.2f}".format(float(self._ui.in_out_pwm)))
 
         self._ui.rsck_label_high_speed_current.delete(0, 100)
         self._ui.rsck_label_high_speed_current.insert(
