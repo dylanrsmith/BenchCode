@@ -1090,103 +1090,96 @@ class generate_ui():
     def generate_ui_agge(self):
 
         # This will create a LabelFrame
-        label_frame_agge = tk.LabelFrame(
-            self._ge.plant_model_ucm1_frame, text='AGGE')
+        label_frame_agge = tk.LabelFrame(self._ge.plant_model_ucm1_frame, text='AGGE')
         label_frame_agge.pack(expand='yes', fill='both')
 
-        label = tk.Label(label_frame_agge, text='Plant enable',
-                         bg="azure3", width=20)
+        label = tk.Label(label_frame_agge, text='Plant enable', bg="azure3", width=20)
         label.grid(row=1, column=1)
         c1 = tk.Checkbutton(label_frame_agge, text='agge_enable', variable=self._ge.agge_enable_var,
                             onvalue=int(1), offvalue=int(0), command=self.ui_call.agge_callback)
         c1.grid(row=1, column=2)
         self._ge.agge_enable_var.set(1)
 
-        label = tk.Label(label_frame_agge, text='wheel enable',
-                         bg="azure3", width=20)
-        label.grid(row=1, column=3)
-        c1 = tk.Checkbutton(label_frame_agge, text='wheel_enable', variable=self._ge.agge_steer_wheel_enable_var,
-                            onvalue=int(1), offvalue=int(0), command=self.ui_call.agge_callback)
-        c1.grid(row=1, column=4)
-        self._ge.agge_steer_wheel_enable_var.set(1)
-
-        label = tk.Label(label_frame_agge, text='sol right',
-                         bg="azure3", width=20)
-        sol_right_entry = tk.Entry(label_frame_agge, textvariable=self._ge.agge_sol_right_var,
-                                   font=('calibre', 10, 'normal'))
-        self._ge.agge_sol_right_var.set(0)
+        label = tk.Label(label_frame_agge, text='Steering Manual Override', bg="azure3", width=20)
         label.grid(row=2, column=1)
-        sol_right_entry.grid(row=2, column=2)
 
-        label = tk.Label(label_frame_agge, text='sol left',
-                         bg="azure3", width=20)
-        sol_left_entry = tk.Entry(label_frame_agge, textvariable=self._ge.agge_sol_left_var,
-                                  font=('calibre', 10, 'normal'))
-        self._ge.agge_sol_left_var.set(0)
+        self._ge.agge_steering_wheel_override = tk.Button(label_frame_agge, height=1, width=4, bd=6, fg="black",
+                                                font=('Geneva', 6),
+                                                bg="Green", command=self.ui_call.agge_steering_override)
+        self._ge.agge_steering_wheel_override.grid(row=2, column=2)
+
+        label = tk.Label(label_frame_agge, text='Steering_W Motion Sensor', bg="azure3", width=20)
         label.grid(row=2, column=3)
-        sol_left_entry.grid(row=2, column=4)
+        self._ge.agge_wheel_label = tk.Entry(label_frame_agge, font=('calibre', 10, 'normal'))
+        self._ge.agge_wheel_label.insert(0, 0)
+        self._ge.agge_wheel_label.grid(row=2, column=4)
 
-        sub_btn = tk.Button(label_frame_agge, text='Update', fg="white", bg="Steel Blue",
-                            command=self.ui_call.agge_callback)
-        sub_btn.grid(row=5, column=4)
-
-        label = tk.Label(label_frame_agge, text='angle', bg="azure3", width=20)
+        label = tk.Label(label_frame_agge, text='Steering Wheel State', bg="azure3", width=20)
         label.grid(row=3, column=1)
-        self._ge.agge_angle_label = tk.Entry(
-            label_frame_agge, font=('calibre', 10, 'normal'))
-        self._ge.agge_angle_label.grid(row=3, column=2)
-        self._ge.agge_angle_label.insert(0, '0')
 
-        self._ge.agge_wheel_button = tk.Button(label_frame_agge, height=1, width=4, bd=6, fg="black",
-                                               font=('Geneva', 6),
-                                               bg="Green", )
-        label = tk.Label(label_frame_agge, text='wheel status',
-                         bg="azure3", width=20)
-        label.grid(row=3, column=3)
-        self._ge.agge_wheel_button.grid(row=3, column=4)
+        sub_btn = tk.Button(label_frame_agge, text='Left', fg="white", bg="Steel Blue", width=20,
+                                command=self.ui_call.agge_steering_left_callback)
+        sub_btn.grid(row=3, column=2)
+        sub_btn = tk.Button(label_frame_agge, text='Center', fg="white", bg="Steel Blue", width=20,
+                            command=self.ui_call.agge_steering_center_callback)
+        sub_btn.grid(row=3, column=3)
+        sub_btn = tk.Button(label_frame_agge, text='Right', fg="white", bg="Steel Blue", width=20,
+                            command=self.ui_call.agge_steering_right_callback)
+        sub_btn.grid(row=3, column=4)
 
-        label = tk.Label(label_frame_agge, text='agge token',
-                         bg="azure3", width=20)
-        menu = tk.OptionMenu(label_frame_agge, self._ge.agge_calib_token_var,
-                             str('NONE'),
-                             str('COARSE_RIGHT'),
-                             str('COARSE_LEFT'),
-                             str('FINE_RIGHT'),
-                             str('FINE_LEFT'),
-                             str('TEST_RIGHT'),
-                             str('TEST_LEFT'),
-                             str('DONE'),
-                             command=self.ui_call.agge_token_callback)
+        label = tk.Label(label_frame_agge, text='Rear Axle Angle', bg="azure3", width=20)
         label.grid(row=4, column=1)
-        self._ge.agge_calib_token_var.set('NONE')
-        menu.grid(row=4, column=2)
-
-        label = tk.Label(label_frame_agge, text='agge cal type',
-                         bg="azure3", width=20)
-        menu = tk.OptionMenu(label_frame_agge, self._ge.agge_calib_id_var,
-                             str('NONE'),
-                             str('STEER_CALIB'),
-                             str('WHEEL_CALIB'),
-                             command=self.ui_call.agge_calib_callback)
-        label.grid(row=4, column=3)
-        self._ge.agge_calib_id_var.set('NONE')
-        menu.grid(row=4, column=4)
-
-        label = tk.Label(label_frame_agge, text='agge cid',
-                         bg="azure3", width=20)
-        menu = tk.OptionMenu(label_frame_agge, self._ge.agge_cid_var,
-                             str('CALIB_NONE'),
-                             str('CALIB_COARSE_RIGHT'),
-                             str('CALIB_COARSE_LEFT'),
-                             str('CALIB_FINE_RIGHT'),
-                             str('CALIB_FINE_LEFT'),
-                             str('CALIB_TEST_RIGHT'),
-                             str('CALIB_TEST_LEFT'),
-                             str('CALIB_DONE'),
-                             command=self.ui_call.agge_cid_callback)
+        self._ge.agge_angle_label = tk.Entry(label_frame_agge, font=('calibre', 10, 'normal'))
+        self._ge.agge_angle_label.grid(row=4, column=2)
+        self._ge.agge_angle_label.insert(0, '0')
+        
+        label = tk.Label(label_frame_agge, text='Right Steer Sol', bg="azure3", width=20)
         label.grid(row=5, column=1)
-        self._ge.agge_cid_var.set('CALIB_NONE')
-        menu.grid(row=5, column=2)
+        self._ge.agge_right_steer_sol_label = tk.Entry(label_frame_agge, font=('calibre', 10, 'normal'))
+        self._ge.agge_right_steer_sol_label.grid(row=5, column=2)
+        self._ge.agge_right_steer_sol_label.insert(0, '0')
+
+        label = tk.Label(label_frame_agge, text='Left Steer Sol', bg="azure3", width=20)
+        label.grid(row=5, column=3)
+        self._ge.agge_left_steer_sol_label = tk.Entry(label_frame_agge, font=('calibre', 10, 'normal'))
+        self._ge.agge_left_steer_sol_label.grid(row=5, column=4)
+        self._ge.agge_left_steer_sol_label.insert(0, '0')
+        
+    def generate_ui_rrts(self):
+
+        # This will create a LabelFrame
+        label_frame_rrts = tk.LabelFrame(self._ge.plant_model_ucm1_frame, text='RRTS')
+        label_frame_rrts.pack(expand='yes', fill='both')
+        label = tk.Label(label_frame_rrts, text='Plant enable', bg="azure3", width=20)
+        label.grid(row=1, column=1)
+        c1 = tk.Checkbutton(label_frame_rrts, text='rrts_enable', variable=self._ge.rrts_enable_var,
+                            onvalue=int(1), offvalue=int(0), command=self.ui_call.rrts_callback)
+        c1.grid(row=1, column=2)
+        self._ge.rrts_enable_var.set(1)
+
+        label = tk.Label(label_frame_rrts, text='Rocktrap Open Switch', bg="azure3", width=20)
+        label.grid(row=2, column=1)
+        self._ge.rrts_rocktrap_open_switch = tk.Button(label_frame_rrts, height=1, width=4, bd=6, fg="black",
+                                                          font=('Geneva', 6),
+                                                          bg="Green", command=self.ui_call.rrts_rocktrap_open_sw_callback)
+        self._ge.rrts_rocktrap_open_switch.grid(row=2, column=2)
+        label = tk.Label(label_frame_rrts, text='Rocktrap Close Switch', bg="azure3", width=20)
+        label.grid(row=2, column=3)
+        self._ge.rrts_rocktrap_close_switch = tk.Button(label_frame_rrts, height=1, width=4, bd=6, fg="black",
+                                                          font=('Geneva', 6),
+                                                          bg="Green", command=self.ui_call.rrts_rocktrap_close_sw_callback)
+        self._ge.rrts_rocktrap_close_switch.grid(row=2, column=4)
+
+        label = tk.Label(label_frame_rrts, text='Rocktrap Open Sol', bg="azure3", width=20)
+        label.grid(row=3, column=1)
+        self._ge.rrts_rocktrap_open_sol_label = tk.Entry(label_frame_rrts, font=('calibre', 10, 'normal'))
+        self._ge.rrts_rocktrap_open_sol_label.grid(row=3, column=2)
+        self._ge.rrts_rocktrap_open_sol_label.insert(0, '0')
+        label = tk.Label(label_frame_rrts, text='Rocktrap Close Sol', bg="azure3", width=20)
+        label.grid(row=3, column=3)
+        self._ge.rrts_rocktrap_close_sol_label = tk.Entry(label_frame_rrts, font=('calibre', 10, 'normal'))
+        self._ge.rrts_rocktrap_close_sol_label.grid(row=3, column=4)
+        self._ge.rrts_rocktrap_close_sol_label.insert(0, '0')
 
     # UCM_2 Tab
 
@@ -1466,107 +1459,84 @@ class generate_ui():
     def generate_ui_rsck(self):
 
         # This will create a LabelFrame
-        label_frame_rsck = tk.LabelFrame(
-            self._ge.plant_model_ucm3_frame, text='RSCK')
+        label_frame_rsck = tk.LabelFrame(self._ge.plant_model_ucm3_frame, text='RSCK')
         label_frame_rsck.pack(expand='yes', fill='both')
 
-        label = tk.Label(label_frame_rsck, text='Plant enable',
-                         bg="azure3", width=20)
+        label = tk.Label(label_frame_rsck, text='Plant enable', bg="azure3", width=20)
         label.grid(row=1, column=1)
         c1 = tk.Checkbutton(label_frame_rsck, text='rsck_enable', variable=self._ge.rsck_enabled_var,
                             onvalue=int(1), offvalue=int(0), command=self.ui_call.rsck_callback)
         c1.grid(row=1, column=2)
         self._ge.rsck_enabled_var.set(1)
 
-        label = tk.Label(label_frame_rsck,
-                         text='IN/OUT Current', bg="azure3", width=20)
+        label = tk.Label(label_frame_rsck, text='IN Current(mA)', bg="azure3", width=20)
         label.grid(row=2, column=1)
-        self._ge.rsck_label_in_out_current = tk.Entry(
-            label_frame_rsck, font=('calibre', 10, 'normal'))
-        self._ge.rsck_label_in_out_current.grid(row=2, column=2)
-        self._ge.rsck_label_in_out_current.insert(0, 0)
+        self._ge.rsck_label_in_current = tk.Entry(label_frame_rsck, font=('calibre', 10, 'normal'))
+        self._ge.rsck_label_in_current.grid(row=2, column=2)
+        self._ge.rsck_label_in_current.insert(0, 0)
 
-        label = tk.Label(label_frame_rsck,
-                         text='High speed Current', bg="azure3", width=20)
+        label = tk.Label(label_frame_rsck, text='High speed Current(mA)', bg="azure3", width=20)
         label.grid(row=3, column=1)
-        self._ge.rsck_label_high_speed_current = tk.Entry(
-            label_frame_rsck, font=('calibre', 10, 'normal'))
+        self._ge.rsck_label_high_speed_current = tk.Entry(label_frame_rsck, font=('calibre', 10, 'normal'))
         self._ge.rsck_label_high_speed_current.grid(row=3, column=2)
         self._ge.rsck_label_high_speed_current.insert(0, 0)
 
-        label = tk.Label(label_frame_rsck, text='IN/OUT PWM',
-                         bg="azure3", width=20)
+        label = tk.Label(label_frame_rsck, text='OUT Current(mA)', bg="azure3", width=20)
         label.grid(row=2, column=4)
-        self._ge.rsck_label_in_out_pwm = tk.Entry(
-            label_frame_rsck, font=('calibre', 10, 'normal'))
-        self._ge.rsck_label_in_out_pwm.grid(row=2, column=5)
-        self._ge.rsck_label_in_out_pwm.insert(0, 0)
+        self._ge.rsck_label_out_current = tk.Entry(label_frame_rsck, font=('calibre', 10, 'normal'))
+        self._ge.rsck_label_out_current.grid(row=2, column=5)
+        self._ge.rsck_label_out_current.insert(0, 0)
 
-        label = tk.Label(label_frame_rsck,
-                         text='High speed PWM', bg="azure3", width=20)
-        label.grid(row=3, column=4)
-        self._ge.rsck_label_high_speed_pwm = tk.Entry(
-            label_frame_rsck, font=('calibre', 10, 'normal'))
-        self._ge.rsck_label_high_speed_pwm.grid(row=3, column=5)
-        self._ge.rsck_label_high_speed_pwm.insert(0, 0)
+        # ~ label = tk.Label(label_frame_rsck, text='High speed PWM', bg="azure3", width=20)
+        # ~ label.grid(row=3, column=4)
+        # ~ self._ge.rsck_label_high_speed_pwm = tk.Entry(label_frame_rsck, font=('calibre', 10, 'normal'))
+        # ~ self._ge.rsck_label_high_speed_pwm.grid(row=3, column=5)
+        # ~ self._ge.rsck_label_high_speed_pwm.insert(0, 0)
 
-        label = tk.Label(label_frame_rsck,
-                         text='travel limiter', bg="azure3", width=20)
+        label = tk.Label(label_frame_rsck, text='travel limiter', bg="azure3", width=20)
         label.grid(row=4, column=1)
-        w3 = tk.Scale(label_frame_rsck, from_=0, to=100,
-                      orient=tk.HORIZONTAL, variable=self._ge.rsck_travel_limiter_var)
+        w3 = tk.Scale(label_frame_rsck, from_=0, to=100, orient=tk.HORIZONTAL, variable=self._ge.rsck_travel_limiter_var)
         w3.set(self._ge.rsck_travel_limiter)
         w3.grid(row=4, column=2)
-        sub_btn = tk.Button(label_frame_rsck, text='Update', fg="white",
-                            bg="Steel Blue", command=self.ui_call.rsck_callback)
+        sub_btn = tk.Button(label_frame_rsck, text='Update',fg="white",bg="Steel Blue", command=self.ui_call.rsck_callback)
         sub_btn.grid(row=4, column=3)
 
-        label = tk.Label(label_frame_rsck,
-                         text='high speed sol', bg="azure3", width=20)
+        label = tk.Label(label_frame_rsck, text='high speed sol', bg="azure3", width=20)
         swing_in_entry = tk.Entry(label_frame_rsck, textvariable=self._ge.rsck_high_spd_sol_var,
                                   font=('calibre', 10, 'normal'))
         self._ge.rsck_high_spd_sol_var.set(0)
-        sub_btn = tk.Button(label_frame_rsck, text='Update', fg="white",
-                            bg="Steel Blue", command=self.ui_call.rsck_callback)
+        sub_btn = tk.Button(label_frame_rsck, text='Update',fg="white",bg="Steel Blue", command=self.ui_call.rsck_callback)
         label.grid(row=4, column=4)
         swing_in_entry.grid(row=4, column=5)
         sub_btn.grid(row=4, column=6)
 
-        label = tk.Label(label_frame_rsck, text='input sol',
-                         bg="azure3", width=20)
+        label = tk.Label(label_frame_rsck, text='input sol', bg="azure3", width=20)
         swing_in_entry = tk.Entry(label_frame_rsck, textvariable=self._ge.rsck_in_sol_var,
                                   font=('calibre', 10, 'normal'))
         self._ge.rsck_in_sol_var.set(0)
-        sub_btn = tk.Button(label_frame_rsck, text='Update', fg="white",
-                            bg="Steel Blue", command=self.ui_call.rsck_callback)
+        sub_btn = tk.Button(label_frame_rsck, text='Update',fg="white",bg="Steel Blue", command=self.ui_call.rsck_callback)
         label.grid(row=5, column=1)
         swing_in_entry.grid(row=5, column=2)
         sub_btn.grid(row=5, column=3)
 
-        label = tk.Label(label_frame_rsck, text='output sol',
-                         bg="azure3", width=20)
+        label = tk.Label(label_frame_rsck, text='output sol', bg="azure3", width=20)
         swing_in_entry = tk.Entry(label_frame_rsck, textvariable=self._ge.rsck_out_sol_var,
                                   font=('calibre', 10, 'normal'))
         self._ge.rsck_out_sol_var.set(0)
-        sub_btn = tk.Button(label_frame_rsck, text='Update', fg="white",
-                            bg="Steel Blue", command=self.ui_call.rsck_callback)
+        sub_btn = tk.Button(label_frame_rsck, text='Update',fg="white",bg="Steel Blue", command=self.ui_call.rsck_callback)
         label.grid(row=5, column=4)
         swing_in_entry.grid(row=5, column=5)
         sub_btn.grid(row=5, column=6)
 
-        label = tk.Label(label_frame_rsck, text='Position',
-                         bg="azure3", width=20)
+        label = tk.Label(label_frame_rsck, text='Position', bg="azure3", width=20)
         label.grid(row=6, column=1)
-        self._ge.rsck_label_pos = tk.Entry(
-            label_frame_rsck, font=('calibre', 10, 'normal'))
+        self._ge.rsck_label_pos = tk.Entry(label_frame_rsck, font=('calibre', 10, 'normal'))
         self._ge.rsck_label_pos.grid(row=6, column=2)
         self._ge.rsck_label_pos.insert(0, self._ge.rsck_pos)
 
-        label = tk.Label(label_frame_rsck, text='sensor volt',
-                         bg="azure3", width=20)
+        label = tk.Label(label_frame_rsck, text='sensor volt', bg="azure3", width=20)
         label.grid(row=6, column=4)
-        self._ge.rsck_label_volt = tk.Entry(
-            label_frame_rsck, font=('calibre', 10, 'normal'))
+        self._ge.rsck_label_volt = tk.Entry(label_frame_rsck, font=('calibre', 10, 'normal'))
         self._ge.rsck_label_volt.grid(row=6, column=5)
         self._ge.rsck_label_volt.insert(0, self._ge.rsck_volt)
 
@@ -1654,95 +1624,149 @@ class generate_ui():
         self._ge.ghps_pos_volt_label.insert(0, self._ge.ghps_pos_volt)
 
     def generate_ui_thcc(self):
-
         # This will create a LabelFrame
-        label_frame_thcc = tk.LabelFrame(
-            self._ge.plant_model_ucm3_frame, text='THCC',)
+        label_frame_thcc = tk.LabelFrame(self._ge.plant_model_ucm3_frame, text='THCC',)
         label_frame_thcc.pack(expand='yes', fill='both')
 
-        label = tk.Label(label_frame_thcc, text='Plant enable',
-                         bg="azure3", width=20)
+        label = tk.Label(label_frame_thcc, text='Plant enable', bg="azure3", width=20)
         label.grid(row=1, column=1)
         c1 = tk.Checkbutton(label_frame_thcc, text='thcc_enable', variable=self._ge.thcc_enable_var,
                             onvalue=int(1), offvalue=int(0), command=self.ui_call.thcc_callback)
         c1.grid(row=1, column=2)
         self._ge.thcc_enable_var.set(1)
-
-        label = tk.Label(label_frame_thcc, text='Current',
-                         bg="azure3", width=20)
-        label.grid(row=2, column=1)
-        self._ge.thcc_curr_label = tk.Entry(
-            label_frame_thcc, font=('calibre', 10, 'normal'))
-        self._ge.thcc_curr_label.grid(row=2, column=2)
-        self._ge.thcc_curr_label.insert(0, 0)
-
-        label = tk.Label(label_frame_thcc, text='PWM', bg="azure3", width=20)
-        label.grid(row=2, column=4)
-        self._ge.thcc_pwm_label = tk.Entry(
-            label_frame_thcc, font=('calibre', 10, 'normal'))
-        self._ge.thcc_pwm_label.grid(row=2, column=5)
-        self._ge.thcc_pwm_label.insert(0, 0)
-
-        label = tk.Label(label_frame_thcc,
-                         text='h bridge current', bg="azure3", width=20)
-        h_bridge_curr_entry = tk.Entry(label_frame_thcc, textvariable=self._ge.thcc_h_curr_var,
-                                       font=('calibre', 10, 'normal'))
-        self._ge.thcc_h_curr_var.set(0)
-        sub_btn = tk.Button(label_frame_thcc, text='Update', fg="white",
-                            bg="Steel Blue", command=self.ui_call.thcc_callback)
-        label.grid(row=3, column=1)
-        h_bridge_curr_entry.grid(row=3, column=2)
-        sub_btn.grid(row=3, column=3)
-
-        label = tk.Label(label_frame_thcc, text='h bridhe PWM',
-                         bg="azure3", width=20)
-        h_bridge_pwm_entry = tk.Entry(label_frame_thcc, textvariable=self._ge.thcc_h_pwm_var,
-                                      font=('calibre', 10, 'normal'))
-        self._ge.thcc_h_pwm_var.set(0)
-        sub_btn = tk.Button(label_frame_thcc, text='Update', fg="white",
-                            bg="Steel Blue", command=self.ui_call.thcc_callback)
-        label.grid(row=3, column=4)
-        h_bridge_pwm_entry.grid(row=3, column=5)
-        sub_btn.grid(row=3, column=6)
-
-        self._ge.thcc_bridge_button = tk.Button(label_frame_thcc, height=1, width=4, bd=6, fg="black", font=('Geneva', 6),
-                                                bg="Green", )
-        label = tk.Label(label_frame_thcc, text='bridge status',
-                         bg="azure3", width=20)
-        label.grid(row=4, column=4)
-        self._ge.thcc_bridge_button.grid(row=4, column=5)
-
-        label = tk.Label(label_frame_thcc, text='thcc stat',
-                         bg="azure3", width=20)
-        menu = tk.OptionMenu(label_frame_thcc, self._ge.thcc_stat, str('thcc_off'), str('thcc_on'),
-                             command=self.ui_call.thcc_stat_callback)
-        label.grid(row=4, column=1)
-        self._ge.thcc_stat.set('thcc_off')
-        menu.grid(row=4, column=2)
-
-        label = tk.Label(label_frame_thcc, text='Position',
-                         bg="azure3", width=20)
-        label.grid(row=6, column=1)
-        self._ge.thcc_pos_label = tk.Entry(
-            label_frame_thcc, font=('calibre', 10, 'normal'))
-        self._ge.thcc_pos_label.grid(row=6, column=2)
-        self._ge.thcc_pos_label.insert(0, self._ge.thcc_pos)
-
-        label = tk.Label(label_frame_thcc, text='sensor volt',
-                         bg="azure3", width=20)
-        label.grid(row=6, column=4)
-        self._ge.thcc_pos_volt_label = tk.Entry(
-            label_frame_thcc, font=('calibre', 10, 'normal'))
-        self._ge.thcc_pos_volt_label.grid(row=6, column=5)
-        self._ge.thcc_pos_volt_label.insert(0, self._ge.thcc_pos_volt)
-
-        label = tk.Label(label_frame_thcc, text='Rotor Gear',
-                         bg="azure3", width=20)
-        menu = tk.OptionMenu(label_frame_thcc, self._ge.rotor_gear, str('single_rotor'), str('twin_rotor'),
-                             command=self.ui_call.rotor_gear_callback)
+      
+        label = tk.Label(label_frame_thcc, text='Time Taken(seconds)', bg="azure3", width=20)
         label.grid(row=1, column=4)
-        self._ge.rotor_gear.set('single_rotor')
+        self._ge.thcc_time_taken_label = tk.Entry(label_frame_thcc, font=('calibre', 10, 'normal'))
+        self._ge.thcc_time_taken_label.grid(row=1, column=5)
+        self._ge.thcc_time_taken_label.insert(0, self._ge.thcc_time_taken)
+        
+        label = tk.Label(label_frame_thcc, text='Position(mm)', bg="azure3", width=20)
+        label.grid(row=2, column=1)
+        self._ge.thcc_pos_label = tk.Entry(label_frame_thcc, font=('calibre', 10, 'normal'))
+        self._ge.thcc_pos_label.grid(row=2, column=2)
+        self._ge.thcc_pos_label.insert(0, self._ge.thcc_pos)
+        
+        c1 = tk.Checkbutton(label_frame_thcc, text='pos_sensor_link', variable=self._ge.thcc_sensor_link_var,
+                    onvalue=int(1), offvalue=int(0), command=self.ui_call.thcc_callback)
+        c1.grid(row=2, column=3)
+        self._ge.thcc_sensor_link_var.set(1)
+
+        label = tk.Label(label_frame_thcc, text='Sensor volt(V)', bg="azure3", width=20)
+        label.grid(row=2, column=4)
+        self._ge.thcc_pot_volt_label = tk.Entry(label_frame_thcc, font=('calibre', 10, 'normal'))
+        self._ge.thcc_pot_volt_label.grid(row=2, column=5)
+        self._ge.thcc_pot_volt_label.insert(0, self._ge.thcc_pot_volt)
+
+        label = tk.Label(label_frame_thcc, text='Breakaway Status', bg="azure3", width=20)
+        label.grid(row=3, column=1)
+        self._ge.thcc_breakaway_status = tk.Label(label_frame_thcc, text='Engaged', width=20) 
+        self._ge.thcc_breakaway_status.grid(row=3, column=2)                                  
+        self._ge.thcc_breakaway_button = tk.Button(label_frame_thcc, height=1, width=4, bd=6, fg="black",
+                                                font=('Geneva', 6),
+                                                bg="Green", command=self.ui_call.thcc_breakaway)
+        self._ge.thcc_breakaway_button.grid(row=3, column=3)
+        
+    def generate_ui_gdpb(self):
+        # This will create a LabelFrame
+        label_frame_gdpb = tk.LabelFrame(self._ge.plant_model_ucm3_frame, text='GDPB',)
+        label_frame_gdpb.pack(expand='yes', fill='both')
+        label = tk.Label(label_frame_gdpb, text='Plant enable', bg="azure3", width=20)
+        label.grid(row=1, column=1)
+        c1 = tk.Checkbutton(label_frame_gdpb, text='gdpb_enable', variable=self._ge.gdpb_enable_var,
+                            onvalue=int(1), offvalue=int(0), command=self.ui_call.gdpb_callback)
+        c1.grid(row=1, column=2)
+        self._ge.gdpb_enable_var.set(1)
+
+        label = tk.Label(label_frame_gdpb, text='Park Brake Disengage Sol', bg="azure3", width=20)
+        label.grid(row=2, column=1)
+        self._ge.gdpb_disenage_sol_label = tk.Entry(label_frame_gdpb, font=('calibre', 10, 'normal'))
+        self._ge.gdpb_disenage_sol_label.grid(row=2, column=2)
+        self._ge.gdpb_disenage_sol_label.insert(0, self._ge.gdpb_disenage_sol)
+
+        c1 = tk.Checkbutton(label_frame_gdpb, text='Link to PB sol', variable=self._ge.gdpb_link_to_sensor_var,
+                            onvalue=int(1), offvalue=int(0), command=self.ui_call.gdpb_callback)
+        c1.grid(row=3, column=5)
+        self._ge.gdpb_link_to_sensor_var.set(1)
+
+        label = tk.Label(label_frame_gdpb, text='Park Brake Sensor(V)', bg="azure3", width=20)
+        label.grid(row=3, column=1)
+
+        self._ge.gdpb_park_brake_sensor_label = tk.Entry(label_frame_gdpb, font=('calibre', 10, 'normal'))
+        self._ge.gdpb_park_brake_sensor_label.grid(row=3, column=2)
+        self._ge.gdpb_park_brake_sensor_label.insert(0, self._ge.gdpb_park_brake_sensor)
+
+        w3 = tk.Scale(label_frame_gdpb, from_=0, to=4.6, resolution=0.01, orient=tk.HORIZONTAL,
+                      variable=self._ge.gdpb_park_brake_sensor_var)
+        w3.set(self._ge.gdpb_park_brake_sensor)
+        w3.grid(row=3, column=3)
+
+        sub_btn = tk.Button(label_frame_gdpb, text='Update', fg="white", bg="Steel Blue",
+                             command=self.ui_call.gdpb_callback)
+        sub_btn.grid(row=3, column=4)
+      
+    def generate_ui_gdhd(self):
+        # This will create a LabelFrame
+        label_frame_gdhd = tk.LabelFrame(self._ge.plant_model_ucm3_frame, text='GDHD',)
+        label_frame_gdhd.pack(expand='yes', fill='both')
+        label = tk.Label(label_frame_gdhd, text='Plant enable', bg="azure3", width=20)
+        label.grid(row=1, column=1)
+        c1 = tk.Checkbutton(label_frame_gdhd, text='gdhd_enable', variable=self._ge.gdhd_enable_var,
+                            onvalue=int(1), offvalue=int(0), command=self.ui_call.gdhd_callback)
+        c1.grid(row=1, column=2)
+        self._ge.gdhd_enable_var.set(1)
+        
+        label = tk.Label(label_frame_gdhd, text='gear', bg="azure3", width=20)
+        menu = tk.OptionMenu(label_frame_gdhd, self._ge.gear, str('Gear0'), str('Gear1'), str('Gear2'),
+                             command=self.ui_call.gdhd_gear_callback)
+        label.grid(row=1, column=4)
+        self._ge.gear.set('Gear1')
         menu.grid(row=1, column=5)
+
+        label = tk.Label(label_frame_gdhd, text='Rev Pump Sol', bg="azure3", width=20)
+        label.grid(row=2, column=1)
+        self._ge.gdhd_rev_sol_label = tk.Entry(label_frame_gdhd, font=('calibre', 10, 'normal'))
+        self._ge.gdhd_rev_sol_label.grid(row=2, column=2)
+        self._ge.gdhd_rev_sol_label.insert(0, self._ge.gdhd_rev_sol)
+
+        label = tk.Label(label_frame_gdhd, text='Fwd Pump Sol', bg="azure3", width=20)
+        label.grid(row=2, column=4)
+        self._ge.gdhd_fwd_sol_label = tk.Entry(label_frame_gdhd, font=('calibre', 10, 'normal'))
+        self._ge.gdhd_fwd_sol_label.grid(row=2, column=5)
+        self._ge.gdhd_fwd_sol_label.insert(0, self._ge.gdhd_fwd_sol)
+        
+        label = tk.Label(label_frame_gdhd, text='Pump Displacement(cc)', bg="azure3", width=20)
+        label.grid(row=3, column=1)
+        pump_displace_entry = tk.Entry(label_frame_gdhd, textvariable=self._ge.gdhd_pump_displacement_var, font=('calibre', 10, 'normal'))
+        self._ge.gdhd_pump_displacement_var.set(self._ge.gdhd_max_pump_displacement)
+        pump_displace_entry.grid(row=3, column=2)
+        sub_btn = tk.Button(label_frame_gdhd, text='Update', fg="white", bg="Steel Blue",
+                             command=self.ui_call.gdhd_callback)
+        sub_btn.grid(row=3, column=3)
+        
+        label = tk.Label(label_frame_gdhd, text='Motor Displacement(cc)', bg="azure3", width=20)
+        label.grid(row=3, column=4)
+        motor_displace_entry = tk.Entry(label_frame_gdhd, textvariable=self._ge.gdhd_motor_displacement_var, font=('calibre', 10, 'normal'))
+        self._ge.gdhd_motor_displacement_var.set(self._ge.gdhd_max_motor_displacement)
+        motor_displace_entry.grid(row=3, column=5)
+        
+        sub_btn = tk.Button(label_frame_gdhd, text='Update', fg="white", bg="Steel Blue",
+                             command=self.ui_call.gdhd_callback)
+        sub_btn.grid(row=3, column=6)
+        
+        
+        label = tk.Label(label_frame_gdhd, text='Ground Speed(Pot Value)', bg="azure3", width=20)
+        label.grid(row=4, column=1)
+        self._ge.gdhd_ground_speed_label = tk.Entry(label_frame_gdhd, font=('calibre', 10, 'normal'))
+        self._ge.gdhd_ground_speed_label.grid(row=4, column=2)
+        self._ge.gdhd_ground_speed_label.insert(0, self._ge.gdhd_ground_speed)
+
+        label = tk.Label(label_frame_gdhd, text='Gear Speed(Pot Value)', bg="azure3", width=20)
+        label.grid(row=4, column=4)
+        self._ge.gdhd_gear_speed_label = tk.Entry(label_frame_gdhd, font=('calibre', 10, 'normal'))
+        self._ge.gdhd_gear_speed_label.grid(row=4, column=5)
+        self._ge.gdhd_gear_speed_label.insert(0, self._ge.gdhd_gear_speed)
+    
 
     def generate_ui_rssp(self):
 
@@ -1837,6 +1861,36 @@ class generate_ui():
         self._ge.rssp_left_curr_label.grid(row=5, column=5)
         self._ge.rssp_left_curr_label.insert(0, '0')
 
+
+    def generate_clfn_ui(self):
+
+        # This will create a LabelFrame
+        label_frame_clfn = tk.LabelFrame(self._ge.plant_model_ucm2_frame, text='CLFN')
+        label_frame_clfn.pack(expand='yes', fill='both')
+
+        label = tk.Label(label_frame_clfn, text='Plant enable', bg="azure3", width=20)
+        label.grid(row=1, column=1)
+        c1 = tk.Checkbutton(label_frame_clfn, text='clfn_enable', variable=self._ge.clfn_enable_var,
+                            onvalue=int(1), offvalue=int(0), command=self.ui_call.clfn_callback)
+        c1.grid(row=1, column=2)
+        self._ge.clfn_enable_var.set(1)
+
+        label = tk.Label(label_frame_clfn, text='clfn sol drive', bg="azure3", width=20)
+        clfn_sol_entry = tk.Entry(label_frame_clfn, textvariable=self._ge.clfn_pwm_var, font=('calibre', 10, 'normal'))
+        self._ge.clfn_pwm_var.set(0)
+        sub_btn = tk.Button(label_frame_clfn, text='Update', fg="white", bg="Steel Blue",
+                            command=self.ui_call.clfn_callback)
+        label.grid(row=2, column=1)
+        clfn_sol_entry.grid(row=2, column=2)
+        sub_btn.grid(row=2, column=3)
+
+        label = tk.Label(label_frame_clfn, text='clfn RPM', bg="azure3", width=20)
+        label.grid(row=3, column=1)
+        self._ge.clfn_RPM_label = tk.Entry(label_frame_clfn, font=('calibre', 10, 'normal'))
+        self._ge.clfn_RPM_label.grid(row=3, column=2)
+        self._ge.clfn_RPM_label.insert(0, '0')
+
+
     # Settings Tab
 
     def generate_setting_ui(self):
@@ -1854,13 +1908,18 @@ class generate_ui():
             'Geneva', 6), bg="Red", command=self.ui_call.key_callback)
         self._ge.Key_Button.grid(row=1, column=2)
 
+        #Battery Key
+        label = tk.Label(label_frame_setting, text='Battery on Cmd', bg="azure3", width=20)
+        label.grid(row=2, column=2)
+        self._ge.Battery_Key_Button = tk.Button(label_frame_setting, height = 1, width = 4, bd=6,fg="Black",bg="Red",command=self.ui_call.battery_key_callback)
+
         # Debug Mode
         label_debug = tk.Label(label_frame_setting,
                                text='Debug Mode', bg="azure3", width=20)
-        label_debug.grid(row=2, column=1)
+        label_debug.grid(row=3, column=1)
         self._ge.debug_mode_button = tk.Button(label_frame_setting, height=1, width=4, bd=6, fg="black", font=(
             'Geneva', 6), bg="Red", command=self.ui_call.debug_callback)
-        self._ge.debug_mode_button.grid(row=2, column=2)
+        self._ge.debug_mode_button.grid(row=3, column=2)
 
         if self._ge.fei_compatible == 1:
             # CPU Usage
@@ -1869,7 +1928,7 @@ class generate_ui():
             label_cpu.grid(row=3, column=1)
             self._ge.cpu_entry = tk.Entry(
                 label_frame_setting, bd=0, justify=CENTER, bg='#f0f0f0')
-            self._ge.cpu_entry.grid(row=3, column=2)
+            self._ge.cpu_entry.grid(row=4, column=2)
 
             # Simulator Mode Toggle
             label_sim = tk.Label(label_frame_setting,
@@ -1877,7 +1936,7 @@ class generate_ui():
             label_sim.grid(row=4, column=1)
             self._ge.sim_button = tk.Button(label_frame_setting, height=1, width=4, bd=6, fg="black", font=(
                 'Geneva', 6), command=self.ui_call.sim_callback)
-            self._ge.sim_button.grid(row=4, column=2)
+            self._ge.sim_button.grid(row=5, column=2)
 
             # Reset CAN button
             label_reset_can = tk.Label(
@@ -1886,4 +1945,31 @@ class generate_ui():
             self._ge.reset_can_button = tk.Button(label_frame_setting, height=1, width=4, bd=6, fg="black", font=(
                 'Geneva', 6), bg="skyblue", command=self.ui_call.reset_CAN)
             # error, missing selection parameter     #error, missing selection parameter
-            self._ge.reset_can_button.grid(row=5, column=2)
+            self._ge.reset_can_button.grid(row=6, column=2)
+
+    #New CSS console 
+    def generate_cc_console_ui(self):
+        label_frame_cc_console = tk.LabelFrame(self._ge.setting_frame,text='CSS Console')
+
+        label_frame_cc_console.pack(expand='yes',fill='both')
+
+        #Thresher
+        label=tk.Label(label_frame_cc_console,text='Thresher Engage', bg="azure3", width=20)
+
+        label.grid(row=1, column=1)
+        self._ge.thresher_engage_button.grid(row=1, column=2)
+
+        #Feeder
+        label=tk.Label(label_frame_cc_console, text='Feeder Engage', bg="azure3", width=20)
+        label.grid(row=2, column=1)
+        self._ge.thresher_engage_button = tk.Button(label_frame_cc_console, height=1,width=4,bd=6,bg="Red", fg="black", command=self.ui_call.thresher_engage_callback)
+        self._ge.thresher_engage_button.grid(ow=1,column=2)
+
+        #Feeder 
+        label=tk.Label(label_frame_cc_console,text='Feeder Engage',bg="azure3", width=20)
+        label.grid(row=2,column=1)
+        self._ge.feeder_engage_button = tk.Button(label_frame_cc_console,height=1,width=4,bd=6,fg="black",bg="Red", command=self.ui_call.feeder_engage_callback)
+        self._ge.feeder_engage_button.grid(row=2,column=2)
+
+
+
