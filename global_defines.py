@@ -321,7 +321,7 @@ class global_defines:
     open_option_var = []
     HHMC_gear = tk.StringVar()
     IC_gear = tk.StringVar()
-    Aux_PTO_enabled = tk.StringVar()
+    Aux_PTO_enabled_str = tk.StringVar()
     feeder_type = tk.StringVar()
     unload_rate = tk.StringVar()
 

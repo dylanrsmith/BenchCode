@@ -175,9 +175,7 @@ class CAN_FEI:
         while_thread = threading.Thread(target=self.receive_CAN_while)
         while_thread.start()
 
-
 # TEST ENVIRONMENT:
 can0 = CAN_FEI(0)
-
 
 can0.flip_loop(2)

@@ -1,7 +1,10 @@
 from global_defines import *
 from HwConnect.CAN_FEI import *
 from PlantModels.Driveline import *
+from startup_init import *
+import time
 
+key_battery_init_count = 0
 
 class ui_callbacks:
 
@@ -89,6 +92,7 @@ class ui_callbacks:
         new_data = self._uc.volt_string[i].get()
         sp = self._uc.vol_ip_spn[i]
         self.pass_to_board(spn_number=sp, data=new_data)
+        self._uc.label_update = 1
 
     def voltToggle(self, i):
         """
@@ -203,16 +207,19 @@ class ui_callbacks:
         new_data = self._uc.pwm_ip_string[i].get()
         sp = self._uc.pwm_ip_spn[i]
         self.pass_to_board(spn_number=sp, data=new_data)
+        self._uc.label_update = 1
 
     def buttonFreq(self, i):
         new_data = self._uc.freq_string[i].get()
         sp = self._uc.fq_ip_spn[i]
         self.pass_to_board(spn_number=sp, data=new_data)
+        self._uc.label_update = 1
 
     def buttonPulse(self, i):
         new_data = self._uc.pulse_string[i].get()
         sp = self._uc.pulse_spn[i]
         self.pass_to_board(spn_number=sp, data=new_data)
+        self._uc.label_update = 1
 
     def dv_eng_spd(self):
         spd = self._uc.eng_spd.get()
@@ -313,8 +320,28 @@ class ui_callbacks:
 
     def thcc_callback(self):
         self._uc.thcc_enable = int(self._uc.thcc_enable_var.get())
-        self._uc.thcc_h_curr = int(self._uc.thcc_h_curr_var.get())
-        self._uc.thcc_h_pwm = int(self._uc.thcc_h_pwm_var.get())
+        self._uc.thcc_sensor_link = int(self._uc.thcc_sensor_link_var.get())
+
+    def thcc_breakaway(self):
+        if self._uc.thcc_breakaway_state == 0:
+            self._uc.thcc_breakaway_state = 1
+        else:
+            self._uc.thcc_breakaway_state = 0
+
+    def gdpb_callback(self):
+        self._uc.gdpb_enabled = int(self._uc.gdpb_enable_var.get())
+        self._uc.gdpb_link_to_sensor = int(self._uc.gdpb_link_to_sensor_var.get())
+        if self._uc.gdpb_link_to_sensor == 0:
+            self._uc.gdpb_park_brake_sensor = float(self._uc.gdpb_park_brake_sensor_var.get())
+    
+    def gdhd_callback(self):
+        self._uc.gdhd_enabled = int(self._uc.gdhd_enable_var.get())
+        self._uc.gdhd_max_pump_displacement = int(self._uc.gdhd_pump_displacement_var.get())
+        self._uc.gdhd_max_motor_displacement = int(self._uc.gdhd_motor_displacement_var.get())
+        
+    def gdhd_gear_callback(self, selection):
+        selection = 'self._uc.' + selection
+        self._uc.gdhd_gear_state = int(eval(selection)) 
 
     def rotor_gear_callback(self, selection):
         selection = 'self._uc.' + selection
@@ -343,6 +370,29 @@ class ui_callbacks:
 
     def hdhr_callback(self):
         self._uc.hdhr_enable = int(self._uc.hdhr_enable_var.get())
+
+    def hdhc_callback(self):
+        self._uc.hdhc_lift_pressure_enabled = int(self._uc.hdhc_lift_prs_enable_var.get())
+        self._uc.hdhc_frd_ang_enabled = int(self._uc.hdhc_frd_ang_enable_var.get())
+        self._uc.hdhc_gnd_height_enabled = int(self._uc.hdhc_gnd_height_enable_var.get())
+        self._uc.hdhc_lat_float_enabled = int(self._uc.hdhc_lat_float_enable_var.get())
+        
+    def fffa_callback(self):
+        self._uc.fffa_enabled = int(self._uc.fffa_enable_var.get())
+        self._uc.fffa_block_enabled = int(self._uc.fffa_block_enable_var.get())
+        if self._uc.fffa_block_enabled == 1:
+            self._uc.fffa_min_position = int(self._uc.fffa_min_position_var.get())
+            self._uc.fffa_max_position = int(self._uc.fffa_max_position_var.get())
+            self._uc.fffa_travel_rate = int(self._uc.fffa_travel_rate_var.get())
+
+    def gdst_callback(self):
+        self._uc.gdst_enabled = int(self._uc.gdst_enable_var.get())
+        self._uc.gdst_leftTensionInput = int(self._uc.gdst_left_track_var.get())
+        self._uc.gdst_rightTensionInput = int(self._uc.gdst_right_track_var.get())
+        self._uc.gdst_leftFrontInput = int(self._uc.gdst_left_front_var.get())
+        self._uc.gdst_leftRearInput = int(self._uc.gdst_left_rear_var.get())
+        self._uc.gdst_rightFrontInput = int(self._uc.gdst_right_front_var.get())
+        self._uc.gdst_rightRearInput = int(self._uc.gdst_right_rear_var.get())
 
     def hdfn_callback(self):
         self._uc.hdfn_hor_enable = int(self._uc.hdfn_hor_enable_var.get())
@@ -378,6 +428,24 @@ class ui_callbacks:
         self._uc.agge_sol_right = int(self._uc.agge_sol_right_var.get())
         self._uc.agge_sol_left = int(self._uc.agge_sol_left_var.get())
 
+    def agge_steering_override(self):
+        if self._uc.agge_wheel == 3500:
+            self._uc.agge_wheel = 7000
+        else:
+            self._uc.agge_wheel = 3500
+
+    def agge_steering_left_callback(self):
+        self._uc.agge_steering_state = 1 # left
+        self._uc.agge_steering_trigger = 1
+
+    def agge_steering_center_callback(self):
+        self._uc.agge_steering_state = 0 # center
+        self._uc.agge_steering_trigger = 1
+
+    def agge_steering_right_callback(self):
+        self._uc.agge_steering_state = 2 # right
+        self._uc.agge_steering_trigger = 1
+
     def agge_token_callback(self, selection):
         selection = 'self._uc.' + selection
         self._uc.agge_calib_token = int(eval(selection))
@@ -389,6 +457,41 @@ class ui_callbacks:
     def agge_cid_callback(self, selection):
         selection = 'self._uc.' + selection
         self._uc.agge_cid = int(eval(selection))
+
+    def rrts_callback(self):
+        self._uc.rrts_enable = int(self._uc.rrts_enable_var.get())
+
+    def rrts_rocktrap_open_sw_callback(self):
+        if self._uc.rrts_rocktrap_open_sw == 0:
+            self._uc.rrts_rocktrap_open_sw = 1
+        else:
+            self._uc.rrts_rocktrap_open_sw = 0
+
+    def rrts_rocktrap_close_sw_callback(self):
+        if self._uc.rrts_rocktrap_close_sw == 0:
+            self._uc.rrts_rocktrap_close_sw = 1
+        else:
+            self._uc.rrts_rocktrap_close_sw = 0
+        
+    def thresher_engage_callback(self):
+        if self._uc.thresher_engage_state == 0:
+            self._uc.thresher_engage_state = 1
+            if self._uc.testing_active == 0:
+                self.io_ob.data_to_board(322,int(0))
+        else:
+            self._uc.thresher_engage_state = 0
+            if self._uc.testing_active == 0:
+                self.io_ob.data_to_board(322,int(1))
+            
+    def feeder_engage_callback(self):
+        if self._uc.feeder_engage_state == 0:
+            self._uc.feeder_engage_state = 1
+            if self._uc.testing_active == 0:
+                self.io_ob.data_to_board(66,int(0))
+        else:
+            self._uc.feeder_engage_state = 0
+            if self._uc.testing_active == 0:
+                self.io_ob.data_to_board(66,int(1))
 
     def key_callback(self):
         current = self._uc.KeyIsON

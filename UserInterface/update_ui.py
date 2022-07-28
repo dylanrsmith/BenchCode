@@ -1,5 +1,8 @@
 import itertools
 import tkinter as tk
+from tkinter import ttk
+from functools import partial
+import threading
 import psutil
 from HwConnect.CAN_FEI import *
 
@@ -16,6 +19,7 @@ class update_ui:
         """
         self._ui = ob1
         self.can2 = CAN_FEI(ob1)
+        self.label_refresh_rate=0
 
         if self._ui.testing_active == 0:
             self.io_ob = ob2
@@ -157,6 +161,12 @@ class update_ui:
         self._ui.current_spd_label.delete(0, 100)
         self._ui.current_spd_label.insert(
             0, "{:.2f}".format(float(self._ui.current_spd)))
+        self._ui.pto_lsd_label.delete(0,100)
+        self._ui.pto_lsd_label.insert(0, "{:.2f}".format(float(self._ui.current_spd)))
+        self._ui.pto_hsd_label.delete(0,100)
+        self._ui.pto_hsd_label.insert(0, "{:.2f}".format(float(self._ui.PTO_HSD)))
+        self._ui.Aux_PTO_enabled_label.delete(0,100)
+        self._ui.Aux_PTO_enabled_label.insert(0, int(self._ui.Aux_PTO_enabled))
 
     def update_ui_clrm(self):
         if self._ui.clrm_enabled == 1:
@@ -253,27 +263,60 @@ class update_ui:
         else:
             self._ui.ghps_bridge_button.config(bg="Green")
 
+    # def update_ui_thcc(self):
+    #     self._ui.thcc_curr_label.delete(0, 100)
+    #     self._ui.thcc_curr_label.insert(
+    #         0, "{:.2f}".format(float(self._ui.thcc_curr)))
+
+    #     self._ui.thcc_pwm_label.delete(0, 100)
+    #     self._ui.thcc_pwm_label.insert(
+    #         0, "{:.2f}".format(float(self._ui.thcc_pwm)))
+
+    #     self._ui.thcc_pos_label.delete(0, 100)
+    #     self._ui.thcc_pos_label.insert(
+    #         0, "{:.2f}".format(float(self._ui.thcc_pos)))
+
+    #     self._ui.thcc_pos_volt_label.delete(0, 100)
+    #     self._ui.thcc_pos_volt_label.insert(
+    #         0, "{:.2f}".format(float(self._ui.thcc_pos_volt)))
+
+    #     if self._ui.thcc_bridge_enable == 0:
+    #         self._ui.thcc_bridge_button.config(bg="Red")
+    #     else:
+    #         self._ui.thcc_bridge_button.config(bg="Green")
+
     def update_ui_thcc(self):
-        self._ui.thcc_curr_label.delete(0, 100)
-        self._ui.thcc_curr_label.insert(
-            0, "{:.2f}".format(float(self._ui.thcc_curr)))
-
-        self._ui.thcc_pwm_label.delete(0, 100)
-        self._ui.thcc_pwm_label.insert(
-            0, "{:.2f}".format(float(self._ui.thcc_pwm)))
-
         self._ui.thcc_pos_label.delete(0, 100)
-        self._ui.thcc_pos_label.insert(
-            0, "{:.2f}".format(float(self._ui.thcc_pos)))
+        self._ui.thcc_pos_label.insert(0, "{:.2f}".format(float(self._ui.thcc_pos)))
+        
+        self._ui.thcc_time_taken_label.delete(0, 100)
+        self._ui.thcc_time_taken_label.insert(0, "{:.2f}".format(float(self._ui.thcc_time_taken)))
 
-        self._ui.thcc_pos_volt_label.delete(0, 100)
-        self._ui.thcc_pos_volt_label.insert(
-            0, "{:.2f}".format(float(self._ui.thcc_pos_volt)))
-
-        if self._ui.thcc_bridge_enable == 0:
-            self._ui.thcc_bridge_button.config(bg="Red")
+        self._ui.thcc_pot_volt_label.delete(0, 100)
+        self._ui.thcc_pot_volt_label.insert(0, "{:.2f}".format(float(self._ui.thcc_pot_volt)))
+        
+        if self._ui.thcc_breakaway_state == 0:
+            self._ui.thcc_breakaway_button.config(bg="Red")
+            self._ui.thcc_breakaway_status.config(text="Disengaged")
         else:
-            self._ui.thcc_bridge_button.config(bg="Green")
+            self._ui.thcc_breakaway_button.config(bg="Green")
+            self._ui.thcc_breakaway_status.config(text="Engaged")
+
+    def update_ui_gdpb(self):
+        self._ui.gdpb_park_brake_sensor_label.delete(0, 100)
+        self._ui.gdpb_park_brake_sensor_label.insert(0, "{:.2f}".format(float(self._ui.gdpb_park_brake_sensor)))
+        self._ui.gdpb_disenage_sol_label.delete(0, 100)
+        self._ui.gdpb_disenage_sol_label.insert(0, "{:.2f}".format(float(self._ui.gdpb_disenage_sol)))      
+    
+    def update_ui_gdhd(self):
+        self._ui.gdhd_fwd_sol_label.delete(0, 100)
+        self._ui.gdhd_fwd_sol_label.insert(0, "{:.2f}".format(float(self._ui.gdhd_fwd_sol)))
+        self._ui.gdhd_rev_sol_label.delete(0, 100)
+        self._ui.gdhd_rev_sol_label.insert(0, "{:.2f}".format(float(self._ui.gdhd_rev_sol)))
+        self._ui.gdhd_ground_speed_label.delete(0, 100)
+        self._ui.gdhd_ground_speed_label.insert(0, "{:.2f}".format(float(self._ui.gdhd_ground_speed)))
+        self._ui.gdhd_gear_speed_label.delete(0, 100)
+        self._ui.gdhd_gear_speed_label.insert(0, "{:.2f}".format(float(self._ui.gdhd_gear_speed)))
 
     def update_ui_clfn(self):
         self._ui.clfn_RPM_label.delete(0, 100)
@@ -310,6 +353,69 @@ class update_ui:
         self._ui.hdhr_ext2_volt_label.insert(
             0, "{:.2f}".format(float(self._ui.hdhr_ext2_volt)))
 
+
+    def update_ui_hdhc(self):
+        ##### Just for testing purpose ####
+        self._ui.hdhc_lift_prs_volt_pot_label.delete(0, 100)
+        self._ui.hdhc_lift_prs_volt_pot_label.insert(0, int(self._ui.hdhc_lift_prs_volt_pot))
+        self._ui.hdhc_feeder_angle_volt_pot_label.delete(0, 100)
+        self._ui.hdhc_feeder_angle_volt_pot_label.insert(0, int(self._ui.hdhc_feeder_angle_volt_pot))
+        self._ui.hdhc_lh_height_tilt_volt_pot_label.delete(0, 100)
+        self._ui.hdhc_lh_height_tilt_volt_pot_label.insert(0, int(self._ui.hdhc_lh_height_tilt_volt_pot))
+        self._ui.hdhc_center_lh_height_volt_pot_label.delete(0, 100)
+        self._ui.hdhc_center_lh_height_volt_pot_label.insert(0, int(self._ui.hdhc_center_lh_height_volt_pot))
+        self._ui.hdhc_center_rh_height_volt_pot_label.delete(0, 100)
+        self._ui.hdhc_center_rh_height_volt_pot_label.insert(0, int(self._ui.hdhc_center_rh_height_volt_pot))
+        self._ui.hdhc_rh_height_tilt_volt_pot_label.delete(0, 100)
+        self._ui.hdhc_rh_height_tilt_volt_pot_label.insert(0, int(self._ui.hdhc_rh_height_tilt_volt_pot))
+        self._ui.hdhc_lateral_position_volt_pot_label.delete(0, 100)
+        self._ui.hdhc_lateral_position_volt_pot_label.insert(0, int(self._ui.hdhc_lateral_position_volt_pot))
+        
+        
+    def update_ui_gdst(self):
+        self._ui.gdst_left_track_label.delete(0, 100)
+        self._ui.gdst_left_track_label.insert(0, "{:.2f}".format(float(self._ui.gdst_leftTensionInput)))
+        self._ui.gdst_right_track_label.delete(0, 100)
+        self._ui.gdst_right_track_label.insert(0, "{:.2f}".format(float(self._ui.gdst_rightTensionInput)))
+        self._ui.gdst_left_front_label.delete(0, 100)
+        self._ui.gdst_left_front_label.insert(0, "{:.2f}".format(float(self._ui.gdst_leftFrontInput)))
+        self._ui.gdst_left_rear_label.delete(0, 100)
+        self._ui.gdst_left_rear_label.insert(0, "{:.2f}".format(float(self._ui.gdst_leftRearInput)))
+        self._ui.gdst_right_front_label.delete(0, 100)
+        self._ui.gdst_right_front_label.insert(0, "{:.2f}".format(float(self._ui.gdst_rightFrontInput)))
+        self._ui.gdst_right_rear_label.delete(0, 100)
+        self._ui.gdst_right_rear_label.insert(0, "{:.2f}".format(float(self._ui.gdst_rightRearInput)))
+
+        ################# JUST FOR TESTING AND COMPARE ##################
+        self._ui.gdst_LeftTensionPressure_pot_label.delete(0, 100)
+        self._ui.gdst_LeftTensionPressure_pot_label.insert(0, "{:.2f}".format(float(self._ui.LeftTensionPressure_pot)))
+        self._ui.gdst_RightTensionPressure_pot_label.delete(0, 100)
+        self._ui.gdst_RightTensionPressure_pot_label.insert(0, "{:.2f}".format(float(self._ui.RightTensionPressure_pot)))
+        self._ui.gdst_LeftFrontDisp_pot_label.delete(0, 100)
+        self._ui.gdst_LeftFrontDisp_pot_label.insert(0, "{:.2f}".format(float(self._ui.LeftFrontDisp_pot)))
+        self._ui.gdst_LeftRearDisp_pot_label.delete(0, 100)
+        self._ui.gdst_LeftRearDisp_pot_label.insert(0, "{:.2f}".format(float(self._ui.LeftRearDisp_pot)))
+        self._ui.gdst_RightFrontDisp_pot_label.delete(0, 100)
+        self._ui.gdst_RightFrontDisp_pot_label.insert(0, "{:.2f}".format(float(self._ui.RightFrontDisp_pot)))
+        self._ui.gdst_RightRearDisp_pot_label.delete(0, 100)
+        self._ui.gdst_RightRearDisp_pot_label.insert(0, "{:.2f}".format(float(self._ui.RightRearDisp_pot)))
+        #################################################################
+        
+    def update_ui_fffa(self):
+        self._ui.fffa_min_position_label.delete(0, 100)
+        self._ui.fffa_min_position_label.insert(0, int(self._ui.fffa_min_position))
+        self._ui.fffa_max_position_label.delete(0, 100)
+        self._ui.fffa_max_position_label.insert(0, int(self._ui.fffa_max_position))
+        self._ui.fffa_travel_rate_label.delete(0, 100)
+        self._ui.fffa_travel_rate_label.insert(0, int(self._ui.fffa_travel_rate))
+        self._ui.fffa_sol_fore_label.delete(0, 100)
+        self._ui.fffa_sol_fore_label.insert(0, int(self._ui.fffa_sol_fore))
+        self._ui.fffa_sol_aft_label.delete(0, 100)
+        self._ui.fffa_sol_aft_label.insert(0, int(self._ui.fffa_position_volt))
+        self._ui.fffa_position_pot_label.delete(0, 100)
+        self._ui.fffa_position_pot_label.insert(0, int(self._ui.fffa_position_pot))
+
+
     def update_ui_hdfn(self):
         self._ui.hdfn_hor_pos_label.delete(0, 100)
         self._ui.hdfn_hor_pos_label.insert(
@@ -333,19 +439,35 @@ class update_ui:
 
     def update_ui_agge(self):
         self._ui.agge_angle_label.delete(0, 100)
-        self._ui.agge_angle_label.insert(
-            0, "{:.2f}".format(float(self._ui.agge_angle)))
+        self._ui.agge_angle_label.insert(0, "{:.2f}".format(float(self._ui.agge_angle)))
+        self._ui.agge_wheel_label.delete(0, 100)
+        self._ui.agge_wheel_label.insert(0, "{:.2f}".format(float(self._ui.agge_wheel)))
+        self._ui.agge_right_steer_sol_label.delete(0, 100)
+        self._ui.agge_right_steer_sol_label.insert(0, "{:.2f}".format(float(self._ui.agge_steer_right)))
+        self._ui.agge_left_steer_sol_label.delete(0, 100)
+        self._ui.agge_left_steer_sol_label.insert(0, "{:.2f}".format(float(self._ui.agge_steer_left)))
 
         if self._ui.agge_wheel == 3500:
-            self._ui.agge_wheel_button.config(bg="Red")
+            self._ui.agge_steering_wheel_override.config(bg="Red")
         elif self._ui.agge_wheel == 7000:
-            self._ui.agge_wheel_button.config(bg="Green")
+            self._ui.agge_steering_wheel_override.config(bg="Green")
+
+    def update_ui_rrts(self):
+        self._ui.rrts_rocktrap_open_sol_label.delete(0,100)
+        self._ui.rrts_rocktrap_open_sol_label.insert(0, "{:.2f}".format(float(self._ui.rrts_rocktrap_open)))
+        self._ui.rrts_rocktrap_close_sol_label.delete(0,100)
+        self._ui.rrts_rocktrap_close_sol_label.insert(0, "{:.2f}".format(float(self._ui.rrts_rocktrap_close)))
+
+        if self._ui.rrts_rocktrap_close_sw == 0:
+            self._ui.rrts_close_switch.config(bg="Red")
+        else:
+            self._ui.rrts_rocktrap_open_switch.config(bg="Green")
+
 
     def update_settings(self):
         """
         Updates Color Of Settings Buttons depending on their linked value.
         """
-        # all_widgets=list(itertools.chain(self._ui.dig_ip_button,self._ui.dig_op_button,self._ui.open_option,self._ui.open_button,self._ui.volt_button,self._ui.volt_toggle,self._ui.pwm_ip_button,self._ui.pwm_ip_toggle,self._ui.freq_button,self._ui.freq_toggle,self._ui.button_pulse,self._ui.pulse_toggle))
         all_widgets = list(itertools.chain(self._ui.dig_ip_option, self._ui.open_option, self._ui.volt_toggle,
                            self._ui.pwm_ip_toggle, self._ui.freq_toggle, self._ui.pulse_toggle, self._ui.actuator_load, self._ui.actuator_set))
         if self._ui.KeyIsON == 1:
@@ -357,6 +479,18 @@ class update_ui:
             self._ui.debug_mode_button.config(bg="Red")
         elif self._ui.debug_mode == 1:
             self._ui.debug_mode_button.config(bg="Green")
+
+    def update_cc_console(self):
+        if self._ui.thresher_engage_state == 0:
+            self._ui.thresher_engage_button.config(bg="Red")
+        else:
+            self._ui.thresher_engage_button.config(bg="Green")
+
+        if self._ui.feeder_engage_state == 0:
+            self._ui.feeder_engage_button.config(bg="Red")
+        else:
+            self._ui.feeder_engage_button.config(bg="Green")
+        
 
     def update_cpu(self):
         """

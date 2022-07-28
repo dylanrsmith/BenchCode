@@ -387,10 +387,10 @@ class generate_ui():
 
         label = tk.Label(self._ge.driveline_frame,
                          text='AuxPTO', bg="azure3", width=40)
-        menu = tk.OptionMenu(self._ge.driveline_frame, self._ge.Aux_PTO_enabled, str(
+        menu = tk.OptionMenu(self._ge.driveline_frame, self._ge.Aux_PTO_enabled_str, str(
             'disabled'), str('enabled'), command=self.ui_call.aux_callback)
         label.grid(row=7, column=3)
-        self._ge.Aux_PTO_enabled.set('disabled')
+        self._ge.Aux_PTO_enabled_str.set('disabled')
         menu.grid(row=7, column=4)
 
         label = tk.Label(self._ge.driveline_frame,
@@ -442,9 +442,9 @@ class generate_ui():
         self._ge.pto_hsd_label.grid(row=13, column=4)
         label = tk.Label(self._ge.driveline_frame, text='Aux PTO Status', bg="azure3", width=20)
         label.grid(row=14, column=3)
-        self._ge.Aux_PTO_enabled_label = tk.Entry(self._ge.driveline_frame, textvariable=self._ge.Aux_PTO_enabled,
+        self._ge.Aux_PTO_enabled_label_str = tk.Entry(self._ge.driveline_frame, textvariable=self._ge.Aux_PTO_enabled_str,
                                             font=('calibre', 10, 'normal'))
-        self._ge.Aux_PTO_enabled_label.grid(row=14, column=4)                                               
+        self._ge.Aux_PTO_enabled_label_str.grid(row=14, column=4)                                               
 
 
 
