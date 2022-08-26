@@ -4,6 +4,7 @@ from Configuration.hashmap import *
 from HwConnect.HwConnect import *
 from JSON.Json_String import *
 from eval_SPN_val import *
+# ~ from startup_init import *  ## Add this if startup defautl is required while pytest are executed
 
 Current_Key_State_1 = 0
 Current_Key_State_2 = 0

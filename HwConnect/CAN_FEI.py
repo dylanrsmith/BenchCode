@@ -127,9 +127,9 @@ class CAN_FEI:
                                0, 0, 0, 0, 0, 0, 5, 0], is_extended_id=True)
 
             can_bus2.send(msg2)
-            time.sleep(4)
+            #time.sleep(4)
             can_bus2.send(msg3)
-            time.sleep(4)
+            #time.sleep(4)
 
     def receive_CAN_while(self):
         """
@@ -178,4 +178,4 @@ class CAN_FEI:
 # TEST ENVIRONMENT:
 can0 = CAN_FEI(0)
 
-can0.flip_loop(2)
+can0.flip_loop(100)

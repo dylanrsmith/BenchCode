@@ -1953,6 +1953,8 @@ class generate_ui():
 
         label_frame_cc_console.pack(expand='yes',fill='both')
 
+        self._ge.thresher_engage_button = tk.Button(label_frame_cc_console, height=1,width=4,bd=6,bg="Red", fg="black", command=self.ui_call.thresher_engage_callback)
+
         #Thresher
         label=tk.Label(label_frame_cc_console,text='Thresher Engage', bg="azure3", width=20)
 
@@ -1963,13 +1965,10 @@ class generate_ui():
         label=tk.Label(label_frame_cc_console, text='Feeder Engage', bg="azure3", width=20)
         label.grid(row=2, column=1)
         self._ge.thresher_engage_button = tk.Button(label_frame_cc_console, height=1,width=4,bd=6,bg="Red", fg="black", command=self.ui_call.thresher_engage_callback)
-        self._ge.thresher_engage_button.grid(ow=1,column=2)
+        self._ge.thresher_engage_button.grid(row=1,column=2)
 
         #Feeder 
         label=tk.Label(label_frame_cc_console,text='Feeder Engage',bg="azure3", width=20)
         label.grid(row=2,column=1)
         self._ge.feeder_engage_button = tk.Button(label_frame_cc_console,height=1,width=4,bd=6,fg="black",bg="Red", command=self.ui_call.feeder_engage_callback)
         self._ge.feeder_engage_button.grid(row=2,column=2)
-
-
-

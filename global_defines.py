@@ -657,6 +657,7 @@ class global_defines:
     #added from new code:
     thcc_set_pos = 0
     thcc_pot_volt = 0
+    thcc_pot = 153
     thcc_breakaway_state = 1
     thcc_concave_state = 1
     thcc_time_taken = 0
@@ -1021,6 +1022,7 @@ class global_defines:
     agge_steer_left = 0
     agge_steering_wheel_override = 0
     agge_steering_state = 0
+    agge_steering_trigger = 0
     agge_right_steer_sol_label = 0
     agge_left_steer_sol_label = 0
 
@@ -1057,6 +1059,7 @@ class global_defines:
     rrts_rocktrap_open_sol_label = 0
     rrts_rocktrap_close_sol_label = 0
     rrts_door_closed_state = 0
+    rrts_close_switch = 0
 
     # settings
     KeyIsON = 1
@@ -1069,6 +1072,7 @@ class global_defines:
     Key_and_Battery_State = 0
 
     #CC console states
+    thresher_engage_button = 0
     thresher_engage_state = 0
     feeder_engage_state =0
 

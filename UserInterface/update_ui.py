@@ -459,7 +459,7 @@ class update_ui:
         self._ui.rrts_rocktrap_close_sol_label.insert(0, "{:.2f}".format(float(self._ui.rrts_rocktrap_close)))
 
         if self._ui.rrts_rocktrap_close_sw == 0:
-            self._ui.rrts_close_switch.config(bg="Red")
+            self._ui.rrts_rocktrap_close_switch.config(bg="Red")
         else:
             self._ui.rrts_rocktrap_open_switch.config(bg="Green")
 

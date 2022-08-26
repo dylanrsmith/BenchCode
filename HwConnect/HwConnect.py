@@ -15,6 +15,7 @@ class HwConnect:
     i2cbusRack3 = 1  # smbus.SMBus(13)
 
     GPIO.setmode(GPIO.BCM)
+    GPIO.setwarnings(False)
 
     spi = spidev.SpiDev()
 
