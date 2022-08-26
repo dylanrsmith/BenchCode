@@ -19,24 +19,25 @@ class CAN_FEI:
         """
         Constructor Method for Creating an Instance of CAN_FEI
 
+        NOTE: If using can0 instead of can1, make sure to change the channel in the can_bus constructor
+
         :param ob: Used to hold an instance of global_defines(Global Variables)
-        :type ob: Object
         """
         self.can_bus = can.interface.Bus(channel='can1', bustype='socketcan')
         self.gd = ob
 
-    def flip_one(board, relay, state):
+    def flip_one(self, board, relay, state):
         """
         Sends a can message to change the state of a SINGLE relay
 
         :param board: Target Board Number to receive CAN message.
         :type board: int
+
         :param relay: Relay Number to be manipulated.
         :type relay: int
         :param state: State to set target relay to (on/off).     
         :type state: int or boolean
         """
-
         can_bus = can.interface.Bus(channel='can1', bustype='socketcan')
         msg = can.Message(data=[0, 0, 0, 0, 0, 0, 0, 0], is_extended_id=True)
 
@@ -57,7 +58,6 @@ class CAN_FEI:
 
         Handled by a thread.
         """
-        #boards = [1,2,3,4,5,6,7,8,81,82,83,84,85,86,87,88,89,90,91]
         boards = self.gd.board_list
         ping_msg = can.Message(
             data=[0, 0, 0, 1, 0, 0, 0, 0], is_extended_id=True)
@@ -119,15 +119,14 @@ class CAN_FEI:
         :type x: int
         """
         for i in range(x):
-            can_bus2 = can.interface.Bus(channel='can1', bustype='socketcan')
             msg2 = can.Message(arbitration_id=0x18DA02F9, data=[
                                0, 0, 0, 0, 0, 0, 4, 0], is_extended_id=True)
             msg3 = can.Message(arbitration_id=0x18DA02F9, data=[
                                0, 0, 0, 0, 0, 0, 5, 0], is_extended_id=True)
 
-            can_bus2.send(msg2)
+            self.can_bus.send(msg2)
             #time.sleep(4)
-            can_bus2.send(msg3)
+            self.can_bus.send(msg3)
             #time.sleep(4)
 
     def receive_CAN_while(self):
@@ -177,4 +176,4 @@ class CAN_FEI:
 # TEST ENVIRONMENT:
 can0 = CAN_FEI(0)
 
-can0.flip_loop(100)
+#can0.flip_loop(100)
