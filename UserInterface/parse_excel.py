@@ -32,8 +32,6 @@ class parse_excel:
         """
         for i in range(1452):
 
-            print(i)
-
             if self._pe.brand == 0:
                 valid_bit = self.df.loc[i, 'Used on CIH']
             else:

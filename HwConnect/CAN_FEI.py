@@ -4,7 +4,6 @@ import os
 import time
 import sys
 from datetime import datetime
-sys.path.insert(0, '/home/dev/Documents/Bench_Code_FEI_v6.01')
 
 
 class CAN_FEI:
