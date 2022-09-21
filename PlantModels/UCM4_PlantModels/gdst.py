@@ -22,11 +22,11 @@ class gdst_plant:
             val = min
 
     def ConvertBarToMilliVoltage(self, prs_bar):
-        volt = ((0.5 + ((prs_bar / 250.0) * 4)) * 1000)
+        volt = (0.5 + ((prs_bar / 250.0) * 4)) * 1000
         return volt
 
     def ConvertMmToMilliVoltage(self, mm):
-        volt = ((0.25 + ((mm / 95.0) * 4.5)) * 1000)
+        volt = (0.25 + ((mm / 95.0) * 4.5)) * 1000
         return volt
 
     def volt_to_pot(self, volt):
@@ -52,50 +52,130 @@ class gdst_plant:
             if self._gdst.gdst_TracksDischarge == 1:  ## Tensioning is possible
                 if self._gdst.gdst_LeftShutOff == 1:
                     # Tensioning Left
-                    self.AdjustWithMinMax(self._gdst.gdst_leftTensionInput, 0.12, 0, 250)
+                    self.AdjustWithMinMax(
+                        self._gdst.gdst_leftTensionInput, 0.12, 0, 250
+                    )
                 if self._gdst.gdst_RightShutOff == 1:
-                    #Tensioning Right
-                    self.AdjustWithMinMax(self._gdst.gdst_rightTensionInput, 0.12, 0, 250)
-            else: # Untensioning is possible
+                    # Tensioning Right
+                    self.AdjustWithMinMax(
+                        self._gdst.gdst_rightTensionInput, 0.12, 0, 250
+                    )
+            else:  # Untensioning is possible
                 if self._gdst.gdst_LeftShutOff == 1:
                     # Untensioning left
-                    self.AdjustWithMinMax(self._gdst.gdst_leftTensionInput, self.susUpSpeed, self.min_distance_mm, self.max_distance_mm)
+                    self.AdjustWithMinMax(
+                        self._gdst.gdst_leftTensionInput,
+                        self.susUpSpeed,
+                        self.min_distance_mm,
+                        self.max_distance_mm,
+                    )
                 if self._gdst.gdst_RightShutOff == 1:
                     # Untensioning right
-                    self.AdjustWithMinMax(self._gdst.gdst_rightTensionInput, self.susDownSpeed, self.min_distance_mm, self.max_distance_mm)
+                    self.AdjustWithMinMax(
+                        self._gdst.gdst_rightTensionInput,
+                        self.susDownSpeed,
+                        self.min_distance_mm,
+                        self.max_distance_mm,
+                    )
 
             #### Suspension Height ####
             if self._gdst.gdst_LeftFrontDown == 0 and self._gdst.gdst_LeftFrontUp == 1:
-                self.AdjustWithMinMax(self._gdst.gdst_leftFrontInput, self.susUpSpeed, self.min_distance_mm, self.max_distance_mm)
-            elif self._gdst.gdst_LeftFrontDown == 1 and self._gdst.gdst_LeftFrontUp == 0:
-                self.AdjustWithMinMax(self._gdst.gdst_leftFrontInput, self.susDownSpeed, self.min_distance_mm, self.max_distance_mm)
+                self.AdjustWithMinMax(
+                    self._gdst.gdst_leftFrontInput,
+                    self.susUpSpeed,
+                    self.min_distance_mm,
+                    self.max_distance_mm,
+                )
+            elif (
+                self._gdst.gdst_LeftFrontDown == 1 and self._gdst.gdst_LeftFrontUp == 0
+            ):
+                self.AdjustWithMinMax(
+                    self._gdst.gdst_leftFrontInput,
+                    self.susDownSpeed,
+                    self.min_distance_mm,
+                    self.max_distance_mm,
+                )
 
             if self._gdst.gdst_LeftRearDown == 0 and self._gdst.gdst_LeftRearUp == 1:
-                self.AdjustWithMinMax(self._gdst.gdst_leftRearInput, self.susUpSpeed, self.min_distance_mm, self.max_distance_mm)
+                self.AdjustWithMinMax(
+                    self._gdst.gdst_leftRearInput,
+                    self.susUpSpeed,
+                    self.min_distance_mm,
+                    self.max_distance_mm,
+                )
             elif self._gdst.gdst_LeftRearDown == 1 and self._gdst.gdst_LeftRearUp == 0:
-                self.AdjustWithMinMax(self._gdst.gdst_leftRearInput, self.susDownSpeed, self.min_distance_mm, self.max_distance_mm)
+                self.AdjustWithMinMax(
+                    self._gdst.gdst_leftRearInput,
+                    self.susDownSpeed,
+                    self.min_distance_mm,
+                    self.max_distance_mm,
+                )
 
-            if self._gdst.gdst_RightFrontDown == 0 and self._gdst.gdst_RightFrontUp == 1:
-                self.AdjustWithMinMax(self._gdst.gdst_rightFrontInput, self.susUpSpeed, self.min_distance_mm, self.max_distance_mm)
-            elif self._gdst.gdst_RightFrontDown == 1 and self._gdst.gdst_RightFrontUp == 0:
-                self.AdjustWithMinMax(self._gdst.gdst_rightFrontInput, self.susDownSpeed, self.min_distance_mm, self.max_distance_mm)
+            if (
+                self._gdst.gdst_RightFrontDown == 0
+                and self._gdst.gdst_RightFrontUp == 1
+            ):
+                self.AdjustWithMinMax(
+                    self._gdst.gdst_rightFrontInput,
+                    self.susUpSpeed,
+                    self.min_distance_mm,
+                    self.max_distance_mm,
+                )
+            elif (
+                self._gdst.gdst_RightFrontDown == 1
+                and self._gdst.gdst_RightFrontUp == 0
+            ):
+                self.AdjustWithMinMax(
+                    self._gdst.gdst_rightFrontInput,
+                    self.susDownSpeed,
+                    self.min_distance_mm,
+                    self.max_distance_mm,
+                )
 
             if self._gdst.gdst_RightRearDown == 0 and self._gdst.gdst_RightRearUp == 1:
-                self.AdjustWithMinMax(self._gdst.gdst_rightRearInput, self.susUpSpeed, self.min_distance_mm, self.max_distance_mm)
-            elif self._gdst.gdst_RightRearDown == 1 and self._gdst.gdst_RightRearUp == 0:
-                self.AdjustWithMinMax(self._gdst.gdst_rightRearInput, self.susDownSpeed, self.min_distance_mm, self.max_distance_mm)
+                self.AdjustWithMinMax(
+                    self._gdst.gdst_rightRearInput,
+                    self.susUpSpeed,
+                    self.min_distance_mm,
+                    self.max_distance_mm,
+                )
+            elif (
+                self._gdst.gdst_RightRearDown == 1 and self._gdst.gdst_RightRearUp == 0
+            ):
+                self.AdjustWithMinMax(
+                    self._gdst.gdst_rightRearInput,
+                    self.susDownSpeed,
+                    self.min_distance_mm,
+                    self.max_distance_mm,
+                )
 
-            self.LeftTensionPressure = self.ConvertBarToMilliVoltage(self._gdst.gdst_leftTensionInput)
-            self.RightTensionPressure = self.ConvertBarToMilliVoltage(self._gdst.gdst_rightTensionInput)
+            self.LeftTensionPressure = self.ConvertBarToMilliVoltage(
+                self._gdst.gdst_leftTensionInput
+            )
+            self.RightTensionPressure = self.ConvertBarToMilliVoltage(
+                self._gdst.gdst_rightTensionInput
+            )
 
-            self.LeftFrontDisp = self.ConvertMmToMilliVoltage(self._gdst.gdst_leftFrontInput)
-            self.LeftRearDisp = self.ConvertMmToMilliVoltage(self._gdst.gdst_leftRearInput)
-            self.RightFrontDisp = self.ConvertMmToMilliVoltage(self._gdst.gdst_rightFrontInput)
-            self.RightRearDisp = self.ConvertMmToMilliVoltage(self._gdst.gdst_rightRearInput)
+            self.LeftFrontDisp = self.ConvertMmToMilliVoltage(
+                self._gdst.gdst_leftFrontInput
+            )
+            self.LeftRearDisp = self.ConvertMmToMilliVoltage(
+                self._gdst.gdst_leftRearInput
+            )
+            self.RightFrontDisp = self.ConvertMmToMilliVoltage(
+                self._gdst.gdst_rightFrontInput
+            )
+            self.RightRearDisp = self.ConvertMmToMilliVoltage(
+                self._gdst.gdst_rightRearInput
+            )
 
             ################# JUST FOR TESTING AND COMPARE ##################
-            self._gdst.LeftTensionPressure_pot = self.volt_to_pot(self.LeftTensionPressure)
-            self._gdst.RightTensionPressure_pot = self.volt_to_pot(self.RightTensionPressure)
+            self._gdst.LeftTensionPressure_pot = self.volt_to_pot(
+                self.LeftTensionPressure
+            )
+            self._gdst.RightTensionPressure_pot = self.volt_to_pot(
+                self.RightTensionPressure
+            )
             self._gdst.LeftFrontDisp_pot = self.volt_to_pot(self.LeftFrontDisp)
             self._gdst.LeftRearDisp_pot = self.volt_to_pot(self.LeftRearDisp)
             self._gdst.RightFrontDisp_pot = self.volt_to_pot(self.RightFrontDisp)
@@ -103,9 +183,9 @@ class gdst_plant:
             #################################################################
 
             # ~ if self._gdst.testing_active == 0:
-                # ~ self._io.data_to_board(800, self.volt_to_pot(self.RightRearDisp))
-                # ~ self._io.data_to_board(808, self.volt_to_pot(self.LeftRearDisp))
-                # ~ self._io.data_to_board(809, self.volt_to_pot(self.RightFrontDisp))
-                # ~ self._io.data_to_board(810, self.volt_to_pot(self.LeftFrontDisp))
-                # ~ self._io.data_to_board(811, self.volt_to_pot(self.LeftTensionPressure))
-                # ~ self._io.data_to_board(812, self.volt_to_pot(self.RightTensionPressure))
+            # ~ self._io.data_to_board(800, self.volt_to_pot(self.RightRearDisp))
+            # ~ self._io.data_to_board(808, self.volt_to_pot(self.LeftRearDisp))
+            # ~ self._io.data_to_board(809, self.volt_to_pot(self.RightFrontDisp))
+            # ~ self._io.data_to_board(810, self.volt_to_pot(self.LeftFrontDisp))
+            # ~ self._io.data_to_board(811, self.volt_to_pot(self.LeftTensionPressure))
+            # ~ self._io.data_to_board(812, self.volt_to_pot(self.RightTensionPressure))

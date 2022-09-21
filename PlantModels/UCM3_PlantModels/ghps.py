@@ -1,4 +1,3 @@
-
 class ghps_plant:
     global _ghps
     prev_pos = 0
@@ -12,7 +11,7 @@ class ghps_plant:
         :param pos:
         :return:
         """
-        volt = ((pos + 750)*(2/3))
+        volt = (pos + 750) * (2 / 3)
         return volt
 
     def voltage_to_pos(self, vol):
@@ -21,7 +20,7 @@ class ghps_plant:
         :param vol:
         :return:
         """
-        pos = ((vol*(3/2)) - 750)
+        pos = (vol * (3 / 2)) - 750
         return pos
 
     def calculate(self):
@@ -40,7 +39,3 @@ class ghps_plant:
                     else:
                         self._ghps.ghps_pos_volt -= self._ghps.ghps_tick_rate_pos
                 self._ghps.ghps_pos = self.voltage_to_pos(self._ghps.ghps_pos_volt)
-
-
-
-

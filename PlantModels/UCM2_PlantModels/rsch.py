@@ -1,4 +1,6 @@
 from lut import *
+
+
 class rsch_plant:
     global _rs
 
@@ -50,7 +52,9 @@ class rsch_plant:
                     else:
                         self._rs.rsch_spd = 1000 if self._rs.rsch_gear == 1 else 4000
                     self._rs.rsch_spd = self._rs.rsch_spd * self._rs.current_spd / 1900
-                    self._rs.rsch_spd = self._rs.rsch_spd * (1 - (self._rs.crop_load_rsch/100))
+                    self._rs.rsch_spd = self._rs.rsch_spd * (
+                        1 - (self._rs.crop_load_rsch / 100)
+                    )
                 else:
                     self._rs.rsch_spd = 0
             else:
@@ -60,22 +64,23 @@ class rsch_plant:
         spn350 = 200
         spn351 = 200
         spn461 = 200
-#         print("chopper_type  ", self._rs.chopper_type)
+        #         print("chopper_type  ", self._rs.chopper_type)
         if self._rs.chopper_type == 0:  # IC
             spn461 = self.ic_cal(self._rs.sp_val[5])
             self._io.data_to_board(351, spn461)
-#             print("spn461  ", spn461)
+            #             print("spn461  ", spn461)
             self._io.data_to_board(350, spn350)
-        elif self._rs.chopper_type == 1: #HHMC
+        elif self._rs.chopper_type == 1:  # HHMC
             spn351 = self.beat_cal(self._rs.sp_val[13])
             spn350 = self.hhmc_cal(self._rs.sp_val[6])
             self._io.data_to_board(351, spn351)
-#             print("spn351  ", spn351)
+            #             print("spn351  ", spn351)
             self._io.data_to_board(350, spn350)
+
+
 #         print("spn350  ", spn350)
 #         print("spn351  ", spn351)
 #         print("spn461  ", spn461)
 #         print("self._rs.sp_val[6]  ", self._rs.sp_val[6])
 #         print("self._rs.sp_val[13]  ", self._rs.sp_val[13])
 #         print("elf._rs.sp_val[5]  ", self._rs.sp_val[5])
-        

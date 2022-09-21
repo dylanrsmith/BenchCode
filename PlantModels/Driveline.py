@@ -16,9 +16,21 @@ class driveline:
     rotor_spd_list_spd = [150, 290, 440, 580, 730, 870, 1020, 1150, 1500, 1820, 2190]
     rotor_spd_list_freq = [10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 100]
 
-    rotor_motor_spd_list_spd = [300, 590, 880, 1160, 1450, 1740, 2020, 2310, 2920, 3480, 4200]
+    rotor_motor_spd_list_spd = [
+        300,
+        590,
+        880,
+        1160,
+        1450,
+        1740,
+        2020,
+        2310,
+        2920,
+        3480,
+        4200,
+    ]
     rotor_motor_spd_list_freq = [10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 100]
-    
+
     feeder_spd_list_spd = [50, 98, 146, 194, 242, 291, 339, 388, 495, 578, 713]
     feeder_spd_list_freq = [10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 100]
 
@@ -42,16 +54,20 @@ class driveline:
         elif spd > 530:
             return 95
         else:
-            data = self._lut.get_val(self.elevator_list_spd, self.elevator_list_freq, spd)
+            data = self._lut.get_val(
+                self.elevator_list_spd, self.elevator_list_freq, spd
+            )
             return data
-        
+
     def feeder_cal(self, spd):
         if spd == 0:
             return 200
         elif spd > 713:
             return 100
         else:
-            data = self._lut.get_val(self.feeder_spd_list_spd, self.feeder_spd_list_freq, spd)
+            data = self._lut.get_val(
+                self.feeder_spd_list_spd, self.feeder_spd_list_freq, spd
+            )
             return data
 
     def write_speed(self):
@@ -153,7 +169,7 @@ class driveline:
             Top_Shaft_Belt_Drive = Fdr_JackShaft * 0.53
             Feeder_Top_Shaft = Top_Shaft_Belt_Drive * 1.00
             Feeder_RPM = Feeder_Top_Shaft * 1.5
-            
+
         if self._dv.clutch_on == 1:
             if self._dv.clutch_pwm > 0.83:
                 RPM = int(spd * 1.1356 * 0.833)
@@ -164,14 +180,39 @@ class driveline:
 
         Clutch_RPM = RPM
         Rotor_RPM = 50
-        self._dv.sp_val = [Aux_PTO, Aux_PTO_Thresher, Pumps_ZE, Cross_Over_Belt, Unload_Belt_Drive, Integral_Chopper,
-                           HHMC, Unloading_stubshaft,
-                           Unloading_Belt_Drive_2, Unloading_Gbx, Unl_Cross_Auger_Rear, Unloading_Gbx_2,
-                           Unl_Cross_Auger_Rear,
-                           Beater_Belt_Drive, Elevator_Drive_Belt, Elevator_Cross_Shaft,
-                           Grain_Elev_Top_Shaft, Bubble_Up, Cleaning_Belt_Drive, Tailings_Cross_Auger_Rethresher,
-                           Tailing_Gearbox, Tailings_Incline_Auger,
-                           Eccentric, Main_Clean_Grain_Cross_Auger, Auger_Belt_Drive, XA_Clean_Grain_Cross_Auger,
-                           Feeder_RPM, Rotor_RPM, Clutch_RPM, Feeder_Header_Gbx, Fdr_JackShaft, Feeder_Top_Shaft]
+        self._dv.sp_val = [
+            Aux_PTO,
+            Aux_PTO_Thresher,
+            Pumps_ZE,
+            Cross_Over_Belt,
+            Unload_Belt_Drive,
+            Integral_Chopper,
+            HHMC,
+            Unloading_stubshaft,
+            Unloading_Belt_Drive_2,
+            Unloading_Gbx,
+            Unl_Cross_Auger_Rear,
+            Unloading_Gbx_2,
+            Unl_Cross_Auger_Rear,
+            Beater_Belt_Drive,
+            Elevator_Drive_Belt,
+            Elevator_Cross_Shaft,
+            Grain_Elev_Top_Shaft,
+            Bubble_Up,
+            Cleaning_Belt_Drive,
+            Tailings_Cross_Auger_Rethresher,
+            Tailing_Gearbox,
+            Tailings_Incline_Auger,
+            Eccentric,
+            Main_Clean_Grain_Cross_Auger,
+            Auger_Belt_Drive,
+            XA_Clean_Grain_Cross_Auger,
+            Feeder_RPM,
+            Rotor_RPM,
+            Clutch_RPM,
+            Feeder_Header_Gbx,
+            Fdr_JackShaft,
+            Feeder_Top_Shaft,
+        ]
 
         self.write_speed()

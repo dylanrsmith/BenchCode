@@ -5,9 +5,9 @@ class hdfn_plant:
         self._hdfn = ob1
         self._io = ob2
         # print("init")
-        
+
     def volt_to_pot(self, volt):
-        pot_value = round((volt/1000)*4.864/250)
+        pot_value = round((volt / 1000) * 4.864 / 250)
         return pot_value
 
     def calculate_hor_pos(self):
@@ -17,7 +17,11 @@ class hdfn_plant:
                     self._hdfn.hdfn_swap_1 = self._io.data_read(158)
                     self._hdfn.hdfn_swap_2 = self._io.data_read(159)
                     self._hdfn.hdfn_swap_3 = self._io.data_read(160)
-                if self._hdfn.hdfn_swap_1 == 0 and self._hdfn.hdfn_swap_2 == 0 and self._hdfn.hdfn_swap_3 == 0:
+                if (
+                    self._hdfn.hdfn_swap_1 == 0
+                    and self._hdfn.hdfn_swap_2 == 0
+                    and self._hdfn.hdfn_swap_3 == 0
+                ):
                     if self._hdfn.testing_active == 0:
                         self._hdfn.hdfn_sol_reel_fore = self._io.data_read(114)
                     if self._hdfn.hdfn_sol_reel_fore > 0:
@@ -38,7 +42,11 @@ class hdfn_plant:
     def calculate_ver_pos(self):
         if self._hdfn.hdfn_ver_enable == 1:
             if self._hdfn.hdfn_ver_install == 1:
-                if self._hdfn.hdfn_swap_1 == 0 and self._hdfn.hdfn_swap_2 == 0 and self._hdfn.hdfn_swap_3 == 0:
+                if (
+                    self._hdfn.hdfn_swap_1 == 0
+                    and self._hdfn.hdfn_swap_2 == 0
+                    and self._hdfn.hdfn_swap_3 == 0
+                ):
                     if self._hdfn.testing_active == 0:
                         self._hdfn.hdfn_sol_reel_down = self._io.data_read(113)
                     if self._hdfn.hdfn_sol_reel_down > 0:
@@ -84,10 +92,19 @@ class hdfn_plant:
             if self._hdfn.hdfn_reel_curr == 0:
                 self._hdfn.hdfn_reel_spd = 0
             else:
-                self._hdfn.hdfn_reel_spd_tmp = int(((pow(self._hdfn.hdfn_reel_curr, 3) +
-                                                     pow(self._hdfn.hdfn_reel_curr, 2) +
-                                                     self._hdfn.hdfn_reel_curr) * 10000 / 600) *
-                                                   self._hdfn.hdfn_reel_pulse / 60)
+                self._hdfn.hdfn_reel_spd_tmp = int(
+                    (
+                        (
+                            pow(self._hdfn.hdfn_reel_curr, 3)
+                            + pow(self._hdfn.hdfn_reel_curr, 2)
+                            + self._hdfn.hdfn_reel_curr
+                        )
+                        * 10000
+                        / 600
+                    )
+                    * self._hdfn.hdfn_reel_pulse
+                    / 60
+                )
                 if self._hdfn.hdfn_reel_spd_tmp <= 0:
                     self._hdfn.hdfn_reel_spd = 0
                 else:

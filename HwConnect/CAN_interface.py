@@ -3,6 +3,7 @@ import time
 import threading
 from threading import *
 
+
 class CANbus(can.Listener):
     global _can
 
@@ -21,13 +22,16 @@ class CANbus(can.Listener):
 
         :param msg:
         """
-        if ((msg.arbitration_id == 0x18ffe277)
-                or (msg.arbitration_id == 0x18ff7527)
-                or (msg.arbitration_id == 0x18ff6476)
-                or (msg.arbitration_id == 0x18ff0975)):
+        if (
+            (msg.arbitration_id == 0x18FFE277)
+            or (msg.arbitration_id == 0x18FF7527)
+            or (msg.arbitration_id == 0x18FF6476)
+            or (msg.arbitration_id == 0x18FF0975)
+        ):
             self.msg_buffer.appendleft(msg)
             self.last_message_time = time.time()
-#             print('msg in buffer1')
+
+    #             print('msg in buffer1')
 
     def msgreceive(self, msg_id, index, bytenr, explevel, mask):
         """
@@ -42,25 +46,24 @@ class CANbus(can.Listener):
         while notReceived:
             if self._can.msg_buffer:
                 msg = self._can.msg_buffer.pop()
-                if msg.arbitration_id == 0x18ffe277:
+                if msg.arbitration_id == 0x18FFE277:
                     data = msg.data
                     ERPM = (data[3] << 8) + data[2]
                     self._can.current_spd = int(ERPM)
-                if msg.arbitration_id == 0x18ff7527:
+                if msg.arbitration_id == 0x18FF7527:
                     data = msg.data
-                    self._can.reverserEngaged = ((data[4] & 0x01))
-                    self._can.feederreverserEngaged = ((data[4] & 0x05))
-                if msg.arbitration_id == 0x18ff6476:
+                    self._can.reverserEngaged = data[4] & 0x01
+                    self._can.feederreverserEngaged = data[4] & 0x05
+                if msg.arbitration_id == 0x18FF6476:
                     data = msg.data
-                    self._can.ThreshingRotorStatus = ((data[4] & 0x1C))
-                if msg.arbitration_id == 0x18ff0975:
+                    self._can.ThreshingRotorStatus = data[4] & 0x1C
+                if msg.arbitration_id == 0x18FF0975:
                     data = msg.data
-                    self._can.ThreshingFeederStatus = ((data[7] & 0x70))
-
+                    self._can.ThreshingFeederStatus = data[7] & 0x70
 
             else:
                 notReceived = 0
 
     def RecvCAN(self):
-        self.msgreceive(0x18ffe277, -1, 0, 0, 0)
+        self.msgreceive(0x18FFE277, -1, 0, 0, 0)
         threading.Timer(0.01, self.RecvCAN).start()

@@ -10,10 +10,10 @@ class hdhr_plant:
     def __init__(self, ob1, ob2):
         self._hdhr = ob1
         self._io = ob2
-        #print("init")
+        # print("init")
 
-    def volt_to_pot(self,volt):
-        pot_value = round((volt/1000)*255/5)
+    def volt_to_pot(self, volt):
+        pot_value = round((volt / 1000) * 255 / 5)
         return pot_value
 
     def calculate_hdr_volt(self):
@@ -108,11 +108,11 @@ class hdhr_plant:
                 self._hdhr.hdhr_ext1_volt = 0
                 self._hdhr.hdhr_ext2_volt = 0
                 self._hdhr.hdhr_type_volt = 0
-                
+
             pot_value = self.volt_to_pot(self._hdhr.hdhr_type_volt)
             self._hdhr.hdhr_type_volt = pot_value
 
         # ~ if self._hdhr.testing_active == 0:
-            # ~ self._io.data_to_board(55, 1-self._hdhr.hdhr_ext1_volt)
-            # ~ self._io.data_to_board(56, 1-self._hdhr.hdhr_ext2_volt)
-            # ~ self._io.data_to_board(79, pot_value)
+        # ~ self._io.data_to_board(55, 1-self._hdhr.hdhr_ext1_volt)
+        # ~ self._io.data_to_board(56, 1-self._hdhr.hdhr_ext2_volt)
+        # ~ self._io.data_to_board(79, pot_value)

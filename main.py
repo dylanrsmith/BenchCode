@@ -38,6 +38,7 @@ if gd_obj.testing_active == 0:
     # start IO control
     io = IOCtrl(gd_obj)
     from startup_init import *
+
     st = start_init(gd_obj, io)
     st.init_key()
     st.init_freq()
@@ -58,7 +59,7 @@ rs = rsch_plant(gd_obj, io)
 gt = ghts_plant(gd_obj, io)
 rsck = rsck_plant(gd_obj, io)
 ghps = ghps_plant(gd_obj)
-thcc = thcc_plant(gd_obj,io)
+thcc = thcc_plant(gd_obj, io)
 gdpb = gdpb_plant(gd_obj, io)
 gdhd = gdhd_plant(gd_obj, io)
 clfn = clfn_plant(gd_obj, io)
@@ -119,7 +120,7 @@ def ui_update_thread():
         ui.update_ui_ghcv()
         ui.update_ui_rsch()
         ui.update_ui_ghts()
-        #ui.update_ui_rsck()
+        # ui.update_ui_rsck()
         ui.update_ui_ghps()
         ui.update_ui_thcc()
         ui.update_ui_gdpb()
@@ -137,10 +138,10 @@ def ui_update_thread():
         ui.update_cc_console()
         ui.update_cpu()
         ui.update_ui_offline()
-        
+
         th1 = threading.Timer(0.01, ui_update_thread)
         th1.setDaemon(True)
-        th1.start()                                     # 1 Second Read Thread
+        th1.start()  # 1 Second Read Thread
     else:
         ui.update_ui_spn()
         ui.update_ui_dict()
@@ -149,7 +150,7 @@ def ui_update_thread():
         ui.update_ui_ghcv()
         ui.update_ui_rsch()
         ui.update_ui_ghts()
-        #ui.update_ui_rsck()
+        # ui.update_ui_rsck()
         ui.update_ui_ghps()
         ui.update_ui_thcc()
         ui.update_ui_gdpb()
@@ -226,7 +227,6 @@ def plant_model_update_thread():
         th2.start()
 
 
-
 if gd_obj.testing_active == 0:
     # Start Socket
     sc.accept_socket()
@@ -240,6 +240,5 @@ ui.mainloop()
 
 
 end = time.time()
-boot_time = end-start
+boot_time = end - start
 print("Boot Time = %s seconds" % boot_time)
-

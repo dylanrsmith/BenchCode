@@ -6,6 +6,7 @@ import time
 
 key_battery_init_count = 0
 
+
 class ui_callbacks:
 
     global _uc, _dv, io_ob, can2
@@ -57,7 +58,7 @@ class ui_callbacks:
         :type selected_val: String
         """
 
-        if (selected_val != "Normal"):
+        if selected_val != "Normal":
             for selected_val in self._uc.all_widgets:
                 selected_val.config(stat=tk.DISABLED)
 
@@ -65,13 +66,13 @@ class ui_callbacks:
             state = selected_val
             brd_num = self._uc.board_dict[sp]
             rel_num = self._uc.channel_dict[sp]
-            if state == 'Normal':
+            if state == "Normal":
                 self.can2.flip_one(brd_num, rel_num, 0)
-            elif state == 'Open_Circuit':
+            elif state == "Open_Circuit":
                 self.can2.flip_one(brd_num, rel_num, 1)
-            elif state == 'Ground':
+            elif state == "Ground":
                 self.can2.flip_one(brd_num, rel_num, 2)
-            elif state == 'Battery':
+            elif state == "Battery":
                 self.can2.flip_one(brd_num, rel_num, 3)
 
             time.sleep(5)
@@ -82,10 +83,10 @@ class ui_callbacks:
             indexOfSPN = self._uc.dig_ip_spn.index(spn)
 
             # Reset Option Menu Display Value
-            if state == 'Normal' or state == 'Open_Circuit':
+            if state == "Normal" or state == "Open_Circuit":
                 self._uc.dig_ip_option_var[indexOfSPN].set("")
 
-            if state == 'Ground' or state == 'Battery':
+            if state == "Ground" or state == "Battery":
                 self._uc.open_option_var[indexOfSPN].set("")
 
     def buttonVolt(self, i):
@@ -107,7 +108,7 @@ class ui_callbacks:
         rel_num = int(self._uc.channel_dict[sp])
         current_data = int(self._uc.UI_dict[sp])
         new_data = 1 - current_data
-        self._uc.volt_state[sp] = 1-self._uc.volt_state[sp]
+        self._uc.volt_state[sp] = 1 - self._uc.volt_state[sp]
         state = self._uc.volt_state[sp]
 
         self.pass_to_board(spn_number=sp, data=new_data)
@@ -125,7 +126,7 @@ class ui_callbacks:
         rel_num = int(self._uc.channel_dict[sp])
         current_data = int(self._uc.UI_dict[sp])
         new_data = 1 - current_data
-        self._uc.freq_state[sp] = 1-self._uc.freq_state[sp]
+        self._uc.freq_state[sp] = 1 - self._uc.freq_state[sp]
         state = self._uc.freq_state[sp]
 
         self.pass_to_board(spn_number=sp, data=new_data)
@@ -143,7 +144,7 @@ class ui_callbacks:
         rel_num = int(self._uc.channel_dict[sp])
         current_data = int(self._uc.UI_dict[sp])
         new_data = 1 - current_data
-        self._uc.pulse_state[sp] = 1-self._uc.pulse_state[sp]
+        self._uc.pulse_state[sp] = 1 - self._uc.pulse_state[sp]
         state = self._uc.pulse_state[sp]
 
         self.pass_to_board(spn_number=sp, data=new_data)
@@ -160,8 +161,8 @@ class ui_callbacks:
         brd_num = int(self._uc.board_dict[sp])
         rel_num = int(self._uc.channel_dict[sp])
         current_data = int(self._uc.UI_dict[sp])
-        new_data = 1-current_data
-        self._uc.pwm_state[sp] = 1-self._uc.pwm_state[sp]
+        new_data = 1 - current_data
+        self._uc.pwm_state[sp] = 1 - self._uc.pwm_state[sp]
         state = self._uc.pwm_state[sp]
 
         self.pass_to_board(spn_number=sp, data=new_data)
@@ -178,7 +179,7 @@ class ui_callbacks:
         :param selection: 'Normal' or 'Open-Circuit'
         :type selection: String
         """
-        selection = 'self._uc.' + selection
+        selection = "self._uc." + selection
         selInt = int(eval(selection))
         _uc.dig_ip_mode.update({i: selInt})
 
@@ -195,7 +196,7 @@ class ui_callbacks:
         :param selection: "Ground" or "Battery"
         :type selection: String
         """
-        selection = 'self._uc' + selection
+        selection = "self._uc" + selection
         self._uc.open_mode.update({i: selection})
 
     def open_button_callback(self):
@@ -227,22 +228,22 @@ class ui_callbacks:
         self._dv.calculate_speeds(self._uc.current_spd)
 
     def chopper_type_callback(self, selection):
-        selection = 'self._uc.' + selection
+        selection = "self._uc." + selection
         self._uc.chopper_type = int(eval(selection))
         self._dv.calculate_speeds(self._uc.current_spd)
 
     def HHMC_gear_callback(self, selection):
-        selection = 'self._uc.' + selection
+        selection = "self._uc." + selection
         self._uc.HHMC_gear = int(eval(selection))
         self._dv.calculate_speeds(self._uc.current_spd)
 
     def IC_gear_callback(self, selection):
-        selection = 'self._uc.' + selection
+        selection = "self._uc." + selection
         self._uc.IC_gear = int(eval(selection))
         self._dv.calculate_speeds(self._uc.current_spd)
 
     def aux_callback(self, selection):
-        selection = 'self._uc.' + selection
+        selection = "self._uc." + selection
         self._uc.Aux_PTO_enabled = int(eval(selection))
         if self._uc.Aux_PTO_enabled == 1:
             self._dv.calculate_speeds(self._uc.current_spd)
@@ -250,17 +251,17 @@ class ui_callbacks:
             self._dv.calculate_speeds(0)
 
     def feeder_callback(self, selection):
-        selection = 'self._uc.' + selection
+        selection = "self._uc." + selection
         self._uc.feeder_type = int(eval(selection))
         self._dv.calculate_speeds(self._uc.current_spd)
 
     def unload_type_callback(self, selection):
-        selection = 'self._uc.' + selection
+        selection = "self._uc." + selection
         self._uc.unload_rate = int(eval(selection))
         self._dv.calculate_speeds(self._uc.current_spd)
 
     def rotor_gear_box_callback(self, selection):
-        selection = 'self._uc.' + selection
+        selection = "self._uc." + selection
         self._uc.rotor_gear_box = float(eval(selection))
 
     def clrm_callback(self):
@@ -286,19 +287,21 @@ class ui_callbacks:
         self._uc.crop_load_rsch = int(self._uc.load.get())
 
     def rsch_type_callback(self, selection):
-        selection = 'self._uc.' + selection
+        selection = "self._uc." + selection
         self._uc.rsch_type = int(eval(selection))
 
     def rsch_gear_callback(self, selection):
-        selection = 'self._uc.' + selection
+        selection = "self._uc." + selection
         self._uc.rsch_gear = int(eval(selection))
 
     def ghts_callback(self):
         self._uc.ghts_enabled = int(self._uc.ghts_enabled_input.get())
         self._uc.ghts_pos_sensor_enabled = int(
-            self._uc.ghts_pos_sensor_enabled_input.get())
+            self._uc.ghts_pos_sensor_enabled_input.get()
+        )
         self._uc.ghts_cradle_sensor_enabled = int(
-            self._uc.ghts_cradle_sensor_enabled_input.get())
+            self._uc.ghts_cradle_sensor_enabled_input.get()
+        )
         self._uc.isswinginactive = int(self._uc.ghts_input_solenoid.get())
         self._uc.isswingoutactive = int(self._uc.ghts_output_solenoid.get())
         self._uc.ghts_travel_limiter = int(self._uc.ghts_travel_limit.get())
@@ -308,15 +311,13 @@ class ui_callbacks:
         self._uc.rsck_in_sol = int(self._uc.rsck_in_sol_var.get())
         self._uc.rsck_out_sol = int(self._uc.rsck_out_sol_var.get())
         self._uc.rsck_high_spd_sol = int(self._uc.rsck_high_spd_sol_var.get())
-        self._uc.rsck_travel_limiter = int(
-            self._uc.rsck_travel_limiter_var.get())
+        self._uc.rsck_travel_limiter = int(self._uc.rsck_travel_limiter_var.get())
 
     def ghps_callback(self):
         self._uc.ghps_enable = int(self._uc.ghps_enable_var.get())
         self._uc.ghps_h_curr = int(self._uc.ghps_h_curr_var.get())
         self._uc.ghps_h_pwm = int(self._uc.ghps_h_pwm_var.get())
-        self._uc.ghps_bridge_enable = int(
-            self._uc.ghps_bridge_enable_var.get())
+        self._uc.ghps_bridge_enable = int(self._uc.ghps_bridge_enable_var.get())
 
     def thcc_callback(self):
         self._uc.thcc_enable = int(self._uc.thcc_enable_var.get())
@@ -332,23 +333,29 @@ class ui_callbacks:
         self._uc.gdpb_enabled = int(self._uc.gdpb_enable_var.get())
         self._uc.gdpb_link_to_sensor = int(self._uc.gdpb_link_to_sensor_var.get())
         if self._uc.gdpb_link_to_sensor == 0:
-            self._uc.gdpb_park_brake_sensor = float(self._uc.gdpb_park_brake_sensor_var.get())
-    
+            self._uc.gdpb_park_brake_sensor = float(
+                self._uc.gdpb_park_brake_sensor_var.get()
+            )
+
     def gdhd_callback(self):
         self._uc.gdhd_enabled = int(self._uc.gdhd_enable_var.get())
-        self._uc.gdhd_max_pump_displacement = int(self._uc.gdhd_pump_displacement_var.get())
-        self._uc.gdhd_max_motor_displacement = int(self._uc.gdhd_motor_displacement_var.get())
-        
+        self._uc.gdhd_max_pump_displacement = int(
+            self._uc.gdhd_pump_displacement_var.get()
+        )
+        self._uc.gdhd_max_motor_displacement = int(
+            self._uc.gdhd_motor_displacement_var.get()
+        )
+
     def gdhd_gear_callback(self, selection):
-        selection = 'self._uc.' + selection
-        self._uc.gdhd_gear_state = int(eval(selection)) 
+        selection = "self._uc." + selection
+        self._uc.gdhd_gear_state = int(eval(selection))
 
     def rotor_gear_callback(self, selection):
-        selection = 'self._uc.' + selection
+        selection = "self._uc." + selection
         self._uc.thcc_rotor_gear = int(eval(selection))
 
     def thcc_stat_callback(self, selection):
-        selection = 'self._uc.' + selection
+        selection = "self._uc." + selection
         self._uc.thcc_bridge_enable = int(eval(selection))
 
     def clfn_callback(self):
@@ -359,24 +366,26 @@ class ui_callbacks:
         self._uc.rssp_enable = int(self._uc.rssp_enable_var.get())
         self._uc.rssp_right_pwm = int(self._uc.rssp_right_pwm_var.get())
         self._uc.rssp_left_pwm = int(self._uc.rssp_left_pwm_var.get())
-        self._uc.crop_load_right_rssp = int(
-            self._uc.crop_load_right_rssp_var.get())
-        self._uc.crop_load_left_rssp = int(
-            self._uc.crop_load_left_rssp_var.get())
+        self._uc.crop_load_right_rssp = int(self._uc.crop_load_right_rssp_var.get())
+        self._uc.crop_load_left_rssp = int(self._uc.crop_load_left_rssp_var.get())
 
     def hdhr_type_callback(self, selection):
-        selection = 'self._uc.' + selection
+        selection = "self._uc." + selection
         self._uc.hdhr_type = int(eval(selection))
 
     def hdhr_callback(self):
         self._uc.hdhr_enable = int(self._uc.hdhr_enable_var.get())
 
     def hdhc_callback(self):
-        self._uc.hdhc_lift_pressure_enabled = int(self._uc.hdhc_lift_prs_enable_var.get())
+        self._uc.hdhc_lift_pressure_enabled = int(
+            self._uc.hdhc_lift_prs_enable_var.get()
+        )
         self._uc.hdhc_frd_ang_enabled = int(self._uc.hdhc_frd_ang_enable_var.get())
-        self._uc.hdhc_gnd_height_enabled = int(self._uc.hdhc_gnd_height_enable_var.get())
+        self._uc.hdhc_gnd_height_enabled = int(
+            self._uc.hdhc_gnd_height_enable_var.get()
+        )
         self._uc.hdhc_lat_float_enabled = int(self._uc.hdhc_lat_float_enable_var.get())
-        
+
     def fffa_callback(self):
         self._uc.fffa_enabled = int(self._uc.fffa_enable_var.get())
         self._uc.fffa_block_enabled = int(self._uc.fffa_block_enable_var.get())
@@ -403,10 +412,8 @@ class ui_callbacks:
         self._uc.hdfn_vari_install = int(self._uc.hdfn_vari_install_var.get())
 
         self._uc.hdfn_sol_reel_up = int(self._uc.hdfn_sol_reel_up_var.get())
-        self._uc.hdfn_sol_reel_down = int(
-            self._uc.hdfn_sol_reel_down_var.get())
-        self._uc.hdfn_sol_reel_fore = int(
-            self._uc.hdfn_sol_reel_fore_var.get())
+        self._uc.hdfn_sol_reel_down = int(self._uc.hdfn_sol_reel_down_var.get())
+        self._uc.hdfn_sol_reel_fore = int(self._uc.hdfn_sol_reel_fore_var.get())
         self._uc.hdfn_sol_reel_aft = int(self._uc.hdfn_sol_reel_aft_var.get())
 
         self._uc.hdfn_swap_1 = int(self._uc.hdfn_swap_1_var.get())
@@ -424,7 +431,8 @@ class ui_callbacks:
     def agge_callback(self):
         self._uc.agge_enable = int(self._uc.agge_enable_var.get())
         self._uc.agge_steer_wheel_enable = int(
-            self._uc.agge_steer_wheel_enable_var.get())
+            self._uc.agge_steer_wheel_enable_var.get()
+        )
         self._uc.agge_sol_right = int(self._uc.agge_sol_right_var.get())
         self._uc.agge_sol_left = int(self._uc.agge_sol_left_var.get())
 
@@ -435,27 +443,27 @@ class ui_callbacks:
             self._uc.agge_wheel = 3500
 
     def agge_steering_left_callback(self):
-        self._uc.agge_steering_state = 1 # left
+        self._uc.agge_steering_state = 1  # left
         self._uc.agge_steering_trigger = 1
 
     def agge_steering_center_callback(self):
-        self._uc.agge_steering_state = 0 # center
+        self._uc.agge_steering_state = 0  # center
         self._uc.agge_steering_trigger = 1
 
     def agge_steering_right_callback(self):
-        self._uc.agge_steering_state = 2 # right
+        self._uc.agge_steering_state = 2  # right
         self._uc.agge_steering_trigger = 1
 
     def agge_token_callback(self, selection):
-        selection = 'self._uc.' + selection
+        selection = "self._uc." + selection
         self._uc.agge_calib_token = int(eval(selection))
 
     def agge_calib_callback(self, selection):
-        selection = 'self._uc.' + selection
+        selection = "self._uc." + selection
         self._uc.agge_calib_id = int(eval(selection))
 
     def agge_cid_callback(self, selection):
-        selection = 'self._uc.' + selection
+        selection = "self._uc." + selection
         self._uc.agge_cid = int(eval(selection))
 
     def rrts_callback(self):
@@ -472,26 +480,26 @@ class ui_callbacks:
             self._uc.rrts_rocktrap_close_sw = 1
         else:
             self._uc.rrts_rocktrap_close_sw = 0
-        
+
     def thresher_engage_callback(self):
         if self._uc.thresher_engage_state == 0:
             self._uc.thresher_engage_state = 1
             if self._uc.testing_active == 0:
-                self.io_ob.data_to_board(322,int(0))
+                self.io_ob.data_to_board(322, int(0))
         else:
             self._uc.thresher_engage_state = 0
             if self._uc.testing_active == 0:
-                self.io_ob.data_to_board(322,int(1))
-            
+                self.io_ob.data_to_board(322, int(1))
+
     def feeder_engage_callback(self):
         if self._uc.feeder_engage_state == 0:
             self._uc.feeder_engage_state = 1
             if self._uc.testing_active == 0:
-                self.io_ob.data_to_board(66,int(0))
+                self.io_ob.data_to_board(66, int(0))
         else:
             self._uc.feeder_engage_state = 0
             if self._uc.testing_active == 0:
-                self.io_ob.data_to_board(66,int(1))
+                self.io_ob.data_to_board(66, int(1))
 
     def key_callback(self):
         current = self._uc.KeyIsON
@@ -503,24 +511,23 @@ class ui_callbacks:
             print(self._uc.KeyIsON)
 
     def battery_key_callback(self):
-        #print("Battery Call Back")
-        self.Key_and_Battery_Button(switch='Battery')
+        # print("Battery Call Back")
+        self.Key_and_Battery_Button(switch="Battery")
 
-    def Key_and_Battery_Button(self,switch):
+    def Key_and_Battery_Button(self, switch):
 
-        if self._uc.Key_and_Battery_State == 3 and switch == 'Key':
+        if self._uc.Key_and_Battery_State == 3 and switch == "Key":
             self._uc.Key_and_Battery_State = 1
-            
-        if self._uc.Key_and_Battery_State == 1 and switch == 'Battery':
+
+        if self._uc.Key_and_Battery_State == 1 and switch == "Battery":
             self._uc.Key_and_Battery_State = 2
-            
-        if self._uc.Key_and_Battery_State == 2 and switch == 'Key':
+
+        if self._uc.Key_and_Battery_State == 2 and switch == "Key":
             self._uc.Key_and_Battery_State = 3
 
+        # print("Name of Button Pressed : \t",switch)
+        # print("Key_and_Battery_State : \t", self._uc.Key_and_Battery_State)
 
-        #print("Name of Button Pressed : \t",switch)
-        #print("Key_and_Battery_State : \t", self._uc.Key_and_Battery_State)
-        
         if self._uc.Key_and_Battery_State == 1:
             self.io_ob.Key_and_Battery_Write(Byte_1=5)
         if self._uc.Key_and_Battery_State == 2:
@@ -585,9 +592,21 @@ class ui_callbacks:
 
         Writes state of simMode to text file.
         """
-        all_widgets = list(itertools.chain(self._uc.dig_ip_option, self._uc.open_option, self._uc.volt_toggle,
-                           self._uc.pwm_ip_toggle, self._uc.freq_toggle, self._uc.pulse_toggle, self._uc.actuator_load, self._uc.actuator_set, self._uc.actuator_pos, self._uc.actuator_btn))
-        new = 1-self._uc.SimMode
+        all_widgets = list(
+            itertools.chain(
+                self._uc.dig_ip_option,
+                self._uc.open_option,
+                self._uc.volt_toggle,
+                self._uc.pwm_ip_toggle,
+                self._uc.freq_toggle,
+                self._uc.pulse_toggle,
+                self._uc.actuator_load,
+                self._uc.actuator_set,
+                self._uc.actuator_pos,
+                self._uc.actuator_btn,
+            )
+        )
+        new = 1 - self._uc.SimMode
         self._uc.SimMode = new
         file = open("SimMode.txt", "w")
         a = str(self._uc.SimMode)
@@ -609,7 +628,7 @@ class ui_callbacks:
             for i in range(len(all_widgets)):
                 try:
                     all_widgets[i].config(state=tk.DISABLED)
-                    if(all_widgets[i].__class__.__name__ != "OptionMenu"):
+                    if all_widgets[i].__class__.__name__ != "OptionMenu":
                         all_widgets[i].config(bg="azure3")
                 except AttributeError:
                     pass

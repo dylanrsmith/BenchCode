@@ -21,21 +21,34 @@ class global_defines:
     black = "#000000"
 
     style = ttk.Style()
-    style.theme_create("raspi", parent="alt", settings={
-        "TNotebook": {"configure": {"tabmargins": [3, 5, 3, 0]}},
-        "TNotebook.Tab": {
-            "configure": {"padding": [5, 1], "background": "lightblue", "foreground": black},
-            "map": {"background": [("selected", "SteelBlue1")],
-                    "expand": [("selected", [1, 1, 1, 0])]}}})
+    style.theme_create(
+        "raspi",
+        parent="alt",
+        settings={
+            "TNotebook": {"configure": {"tabmargins": [3, 5, 3, 0]}},
+            "TNotebook.Tab": {
+                "configure": {
+                    "padding": [5, 1],
+                    "background": "lightblue",
+                    "foreground": black,
+                },
+                "map": {
+                    "background": [("selected", "SteelBlue1")],
+                    "expand": [("selected", [1, 1, 1, 0])],
+                },
+            },
+        },
+    )
     style.theme_use("raspi")
 
     tc = ttk.Notebook(master)
 
     # DIG I/P
     tc_dig_ip = ttk.Frame(tc)
-    tc_dig_ip.pack(side='left')
-    dig_ip_canvas = Canvas(tc_dig_ip, width=6, height=6,
-                           scrollregion=(0, 0, 1450, 1100))
+    tc_dig_ip.pack(side="left")
+    dig_ip_canvas = Canvas(
+        tc_dig_ip, width=6, height=6, scrollregion=(0, 0, 1450, 1100)
+    )
     hbar = Scrollbar(tc_dig_ip, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=dig_ip_canvas.xview)
@@ -50,9 +63,10 @@ class global_defines:
 
     # DIG O/P
     tc_dig_op = ttk.Frame(tc)
-    tc_dig_op.pack(side='left')
-    dig_op_canvas = Canvas(tc_dig_op, width=6, height=6,
-                           scrollregion=(0, 0, 1450, 1100))
+    tc_dig_op.pack(side="left")
+    dig_op_canvas = Canvas(
+        tc_dig_op, width=6, height=6, scrollregion=(0, 0, 1450, 1100)
+    )
     hbar = Scrollbar(tc_dig_op, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=dig_op_canvas.xview)
@@ -67,9 +81,10 @@ class global_defines:
 
     # VOLTAGE
     tc_vol_ip = ttk.Frame(tc)
-    tc_vol_ip.pack(side='left')
-    vol_ip_canvas = Canvas(tc_vol_ip, width=6, height=6,
-                           scrollregion=(0, 0, 1450, 1100))
+    tc_vol_ip.pack(side="left")
+    vol_ip_canvas = Canvas(
+        tc_vol_ip, width=6, height=6, scrollregion=(0, 0, 1450, 1100)
+    )
     hbar = Scrollbar(tc_vol_ip, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=vol_ip_canvas.xview)
@@ -84,9 +99,10 @@ class global_defines:
 
     # PWM I/P
     tc_pwm_ip = ttk.Frame(tc)
-    tc_pwm_ip.pack(side='left')
-    pwm_ip_canvas = Canvas(tc_pwm_ip, width=6, height=6,
-                           scrollregion=(0, 0, 1450, 1100))
+    tc_pwm_ip.pack(side="left")
+    pwm_ip_canvas = Canvas(
+        tc_pwm_ip, width=6, height=6, scrollregion=(0, 0, 1450, 1100)
+    )
     hbar = Scrollbar(tc_pwm_ip, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=pwm_ip_canvas.xview)
@@ -101,9 +117,10 @@ class global_defines:
 
     # PWM O/P
     tc_pwm_op = ttk.Frame(tc)
-    tc_pwm_op.pack(side='left')
-    pwm_op_canvas = Canvas(tc_pwm_op, width=6, height=6,
-                           scrollregion=(0, 0, 1450, 1100))
+    tc_pwm_op.pack(side="left")
+    pwm_op_canvas = Canvas(
+        tc_pwm_op, width=6, height=6, scrollregion=(0, 0, 1450, 1100)
+    )
     hbar = Scrollbar(tc_pwm_op, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=pwm_op_canvas.xview)
@@ -118,9 +135,10 @@ class global_defines:
 
     # Frequency
     tc_freq_ip = ttk.Frame(tc)
-    tc_freq_ip.pack(side='left')
-    freq_ip_canvas = Canvas(tc_freq_ip, width=6, height=6,
-                            scrollregion=(0, 0, 1450, 1100))
+    tc_freq_ip.pack(side="left")
+    freq_ip_canvas = Canvas(
+        tc_freq_ip, width=6, height=6, scrollregion=(0, 0, 1450, 1100)
+    )
     hbar = Scrollbar(tc_freq_ip, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=freq_ip_canvas.xview)
@@ -135,9 +153,8 @@ class global_defines:
 
     # Pulse
     tc_pulse = ttk.Frame(tc)
-    tc_pulse.pack(side='left')
-    pulse_canvas = Canvas(tc_pulse, width=6, height=6,
-                          scrollregion=(0, 0, 1450, 1100))
+    tc_pulse.pack(side="left")
+    pulse_canvas = Canvas(tc_pulse, width=6, height=6, scrollregion=(0, 0, 1450, 1100))
     hbar = Scrollbar(tc_pulse, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=pulse_canvas.xview)
@@ -152,9 +169,8 @@ class global_defines:
 
     # Driveline
     tc_drive = ttk.Frame(tc)
-    tc_drive.pack(side='left')
-    drive_canvas = Canvas(tc_drive, width=6, height=6,
-                          scrollregion=(0, 0, 1450, 1100))
+    tc_drive.pack(side="left")
+    drive_canvas = Canvas(tc_drive, width=6, height=6, scrollregion=(0, 0, 1450, 1100))
     hbar = Scrollbar(tc_drive, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=drive_canvas.xview)
@@ -169,9 +185,10 @@ class global_defines:
 
     # UCM1
     tc_plant_model_ucm1 = ttk.Frame(tc)
-    tc_plant_model_ucm1.pack(side='left')
-    ucm1_canvas = Canvas(tc_plant_model_ucm1, width=6,
-                         height=6, scrollregion=(0, 0, 1450, 1100))
+    tc_plant_model_ucm1.pack(side="left")
+    ucm1_canvas = Canvas(
+        tc_plant_model_ucm1, width=6, height=6, scrollregion=(0, 0, 1450, 1100)
+    )
     hbar = Scrollbar(tc_plant_model_ucm1, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=ucm1_canvas.xview)
@@ -182,14 +199,14 @@ class global_defines:
     ucm1_canvas.config(xscrollcommand=hbar.set, yscrollcommand=vbar.set)
     ucm1_canvas.pack(side=LEFT, expand=True, fill=BOTH)
     plant_model_ucm1_frame = Frame(ucm1_canvas)
-    ucm1_canvas.create_window(
-        (0, 0), window=plant_model_ucm1_frame, anchor="nw")
+    ucm1_canvas.create_window((0, 0), window=plant_model_ucm1_frame, anchor="nw")
 
     # UCM2
     tc_plant_model_ucm2 = ttk.Frame(tc)
-    tc_plant_model_ucm2.pack(side='left')
-    ucm2_canvas = Canvas(tc_plant_model_ucm2, width=6,
-                         height=6, scrollregion=(0, 0, 1450, 1100))
+    tc_plant_model_ucm2.pack(side="left")
+    ucm2_canvas = Canvas(
+        tc_plant_model_ucm2, width=6, height=6, scrollregion=(0, 0, 1450, 1100)
+    )
     hbar = Scrollbar(tc_plant_model_ucm2, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=ucm2_canvas.xview)
@@ -200,14 +217,14 @@ class global_defines:
     ucm2_canvas.config(xscrollcommand=hbar.set, yscrollcommand=vbar.set)
     ucm2_canvas.pack(side=LEFT, expand=True, fill=BOTH)
     plant_model_ucm2_frame = Frame(ucm2_canvas)
-    ucm2_canvas.create_window(
-        (0, 0), window=plant_model_ucm2_frame, anchor="nw")
+    ucm2_canvas.create_window((0, 0), window=plant_model_ucm2_frame, anchor="nw")
 
     # UCM3
     tc_plant_model_ucm3 = ttk.Frame(tc)
-    tc_plant_model_ucm3.pack(side='left')
-    ucm3_canvas = Canvas(tc_plant_model_ucm3, width=6,
-                         height=6, scrollregion=(0, 0, 1450, 1100))
+    tc_plant_model_ucm3.pack(side="left")
+    ucm3_canvas = Canvas(
+        tc_plant_model_ucm3, width=6, height=6, scrollregion=(0, 0, 1450, 1100)
+    )
     hbar = Scrollbar(tc_plant_model_ucm3, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=ucm3_canvas.xview)
@@ -218,31 +235,32 @@ class global_defines:
     ucm3_canvas.config(xscrollcommand=hbar.set, yscrollcommand=vbar.set)
     ucm3_canvas.pack(side=LEFT, expand=True, fill=BOTH)
     plant_model_ucm3_frame = Frame(ucm3_canvas)
-    ucm3_canvas.create_window(
-        (0, 0), window=plant_model_ucm3_frame, anchor="nw")
+    ucm3_canvas.create_window((0, 0), window=plant_model_ucm3_frame, anchor="nw")
 
     # UCM4
-    tc_plant_model_ucm4=ttk.Frame(tc)
-    tc_plant_model_ucm4.pack(side='left')
-    ucm4_canvas = Canvas (tc_plant_model_ucm4,width = 6, height =6, scrollregion=(0,0,1450,1100))
+    tc_plant_model_ucm4 = ttk.Frame(tc)
+    tc_plant_model_ucm4.pack(side="left")
+    ucm4_canvas = Canvas(
+        tc_plant_model_ucm4, width=6, height=6, scrollregion=(0, 0, 1450, 1100)
+    )
     hbar = Scrollbar(tc_plant_model_ucm4, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=ucm4_canvas.xview)
-    vbar = Scrollbar(tc_plant_model_ucm4, orient = VERTICAL)
+    vbar = Scrollbar(tc_plant_model_ucm4, orient=VERTICAL)
     vbar.pack(side=RIGHT, fill=Y)
     vbar.config(command=ucm4_canvas.yview)
     ucm4_canvas.config(width=6, height=6)
     ucm4_canvas.config(xscrollcommand=hbar.set, yscrollcommand=vbar.set)
     ucm4_canvas.pack(side=LEFT, expand=True, fill=BOTH)
     plant_model_ucm4_frame = Frame(ucm4_canvas)
-    ucm4_canvas.create_window((0,0), window=plant_model_ucm4_frame, anchor="nw")
-
+    ucm4_canvas.create_window((0, 0), window=plant_model_ucm4_frame, anchor="nw")
 
     # Settings
     tc_settings = ttk.Frame(tc)
-    tc_settings.pack(side='left')
-    settings_canvas = Canvas(tc_settings, width=6,
-                             height=6, scrollregion=(0, 0, 1450, 1100))
+    tc_settings.pack(side="left")
+    settings_canvas = Canvas(
+        tc_settings, width=6, height=6, scrollregion=(0, 0, 1450, 1100)
+    )
     hbar = Scrollbar(tc_settings, orient=HORIZONTAL)
     hbar.pack(side=BOTTOM, fill=X)
     hbar.config(command=settings_canvas.xview)
@@ -260,9 +278,10 @@ class global_defines:
         if self.fei_compatible == 1:
             # Open_to Tab
             self.tc_open = ttk.Frame(self.tc)
-            self.tc_open.pack(side='left')
+            self.tc_open.pack(side="left")
             self.open_canvas = Canvas(
-                self.tc_open, width=6, height=6, scrollregion=(0, 0, 1450, 1100))
+                self.tc_open, width=6, height=6, scrollregion=(0, 0, 1450, 1100)
+            )
             self.hbar = Scrollbar(self.tc_open, orient=HORIZONTAL)
             self.hbar.pack(side=BOTTOM, fill=X)
             self.hbar.config(command=self.open_canvas.xview)
@@ -272,14 +291,14 @@ class global_defines:
             self.open_canvas.config(width=6, height=6)
             self.open_canvas.pack(side=LEFT, expand=True, fill=BOTH)
             self.open_frame = Frame(self.open_canvas)
-            self.open_canvas.create_window(
-                (0, 0), window=self.open_frame, anchor="nw")
+            self.open_canvas.create_window((0, 0), window=self.open_frame, anchor="nw")
 
             # Actuator Tab
             self.tc_actuator = ttk.Frame(self.tc)
-            self.tc_actuator.pack(side='left')
+            self.tc_actuator.pack(side="left")
             self.actuator_canvas = Canvas(
-                self.tc_actuator, width=6, height=6, scrollregion=(0, 0, 1450, 1100))
+                self.tc_actuator, width=6, height=6, scrollregion=(0, 0, 1450, 1100)
+            )
             self.hbar = Scrollbar(self.tc_actuator, orient=HORIZONTAL)
             self.hbar.pack(side=BOTTOM, fill=X)
             self.hbar.config(command=self.actuator_canvas.xview)
@@ -291,24 +310,25 @@ class global_defines:
             self.actuator_canvas.pack(side=LEFT, expand=True, fill=BOTH)
             self.actuator_frame = Frame(self.actuator_canvas)
             self.actuator_canvas.create_window(
-                (0, 0), window=self.actuator_frame, anchor="nw")
+                (0, 0), window=self.actuator_frame, anchor="nw"
+            )
 
-            self.tc.add(self.tc_open, text='Open')
-            self.tc.add(self.tc_actuator, text='Actuator')
+            self.tc.add(self.tc_open, text="Open")
+            self.tc.add(self.tc_actuator, text="Actuator")
 
-        self.tc.add(self.tc_dig_ip, text='DIG I/P')
-        self.tc.add(self.tc_dig_op, text='DIG O/P')
-        self.tc.add(self.tc_vol_ip, text='VOLTAGE')
-        self.tc.add(self.tc_pwm_ip, text='PWM I/P')
-        self.tc.add(self.tc_pwm_op, text='PWM O/P')
-        self.tc.add(self.tc_freq_ip, text='Freq')
-        self.tc.add(self.tc_pulse, text='Pulse')
-        self.tc.add(self.tc_drive, text='Driveline')
-        self.tc.add(self.tc_plant_model_ucm1, text='PlantModel_UCM1')
-        self.tc.add(self.tc_plant_model_ucm2, text='PlantModel_UCM2')
-        self.tc.add(self.tc_plant_model_ucm3, text='PlantModel_UCM3')
-        self.tc.add(self.tc_plant_model_ucm4, text='PlantModel_UCM4')
-        self.tc.add(self.tc_settings, text='Settings')
+        self.tc.add(self.tc_dig_ip, text="DIG I/P")
+        self.tc.add(self.tc_dig_op, text="DIG O/P")
+        self.tc.add(self.tc_vol_ip, text="VOLTAGE")
+        self.tc.add(self.tc_pwm_ip, text="PWM I/P")
+        self.tc.add(self.tc_pwm_op, text="PWM O/P")
+        self.tc.add(self.tc_freq_ip, text="Freq")
+        self.tc.add(self.tc_pulse, text="Pulse")
+        self.tc.add(self.tc_drive, text="Driveline")
+        self.tc.add(self.tc_plant_model_ucm1, text="PlantModel_UCM1")
+        self.tc.add(self.tc_plant_model_ucm2, text="PlantModel_UCM2")
+        self.tc.add(self.tc_plant_model_ucm3, text="PlantModel_UCM3")
+        self.tc.add(self.tc_plant_model_ucm4, text="PlantModel_UCM4")
+        self.tc.add(self.tc_settings, text="Settings")
 
         self.tc.pack(expand=1, fill="both")
 
@@ -355,8 +375,23 @@ class global_defines:
     config_dict = {}
 
     # Create a list of all buttons and options for disabling at once.
-    all_widgets = list(itertools.chain(dig_ip_button, dig_ip_options, dig_op_button, open_option, open_button,
-                       volt_button, volt_toggle, pwm_ip_button, pwm_ip_toggle, freq_button, freq_toggle, button_pulse, pulse_toggle))
+    all_widgets = list(
+        itertools.chain(
+            dig_ip_button,
+            dig_ip_options,
+            dig_op_button,
+            open_option,
+            open_button,
+            volt_button,
+            volt_toggle,
+            pwm_ip_button,
+            pwm_ip_toggle,
+            freq_button,
+            freq_toggle,
+            button_pulse,
+            pulse_toggle,
+        )
+    )
 
     # Parse Strings
     dig_ip_str = "DigitalInput"
@@ -372,8 +407,14 @@ class global_defines:
     time_dict = {}  # Dictionary containing CAN timestamps
     board_dict = {}  # Dictionary with SPN : Board Number pairs
     # Actuator Widgets
-    actuator_dict = {0: 0, 1: "actuator_1", 2: "actuator_2",
-                     3: "actuator_3", 4: "actuator_4", 5: "actuator_5"}
+    actuator_dict = {
+        0: 0,
+        1: "actuator_1",
+        2: "actuator_2",
+        3: "actuator_3",
+        4: "actuator_4",
+        5: "actuator_5",
+    }
     actuator_label = []
     actuator_load = []
     actuator_pos = []
@@ -423,17 +464,40 @@ class global_defines:
     volt_scale_default_dict = {}
 
     # driveline
-    sp_name = ['Aux_PTO', 'Aux_PTO_Thresher', 'Pumps_ZE', 'Cross_Over_Belt', 'Unload_Belt_Drive',
-               'Integral_Chopper',
-               'HHMC', 'Unloading_stubshaft',
-               'Unloading_Belt_Drive_2', 'Unloading_Gbx', 'Unl_Cross_Auger_Rear', 'Unloading_Gbx_2',
-               'Unl_Cross_Auger_Rear',
-               'Beater_Belt_Drive', 'Elevator_Drive_Belt', 'Elevator_Cross_Shaft',
-               'Grain_Elev_Top_Shaft', 'Bubble_Up', 'Cleaning_Belt_Drive', 'Tailings_Cross_Auger_Rethresher',
-               'Tailing_Gearbox', 'Tailings_Incline_Auger',
-               'Eccentric', 'Main_Clean_Grain_Cross_Auger', 'Auger_Belt_Drive', 'XA_Clean_Grain_Cross_Auger',
-               'Feeder_Hydromech', 'Rotor_RPM', 'Clutch_RPM', 'Feeder_Header_Gbx', 'Feeder_Jack_Shaft',
-               'Feeder_Top_Shaft']
+    sp_name = [
+        "Aux_PTO",
+        "Aux_PTO_Thresher",
+        "Pumps_ZE",
+        "Cross_Over_Belt",
+        "Unload_Belt_Drive",
+        "Integral_Chopper",
+        "HHMC",
+        "Unloading_stubshaft",
+        "Unloading_Belt_Drive_2",
+        "Unloading_Gbx",
+        "Unl_Cross_Auger_Rear",
+        "Unloading_Gbx_2",
+        "Unl_Cross_Auger_Rear",
+        "Beater_Belt_Drive",
+        "Elevator_Drive_Belt",
+        "Elevator_Cross_Shaft",
+        "Grain_Elev_Top_Shaft",
+        "Bubble_Up",
+        "Cleaning_Belt_Drive",
+        "Tailings_Cross_Auger_Rethresher",
+        "Tailing_Gearbox",
+        "Tailings_Incline_Auger",
+        "Eccentric",
+        "Main_Clean_Grain_Cross_Auger",
+        "Auger_Belt_Drive",
+        "XA_Clean_Grain_Cross_Auger",
+        "Feeder_Hydromech",
+        "Rotor_RPM",
+        "Clutch_RPM",
+        "Feeder_Header_Gbx",
+        "Feeder_Jack_Shaft",
+        "Feeder_Top_Shaft",
+    ]
 
     sp_val = []
     drive_label = []
@@ -547,7 +611,7 @@ class global_defines:
     ghts_pwm = 0
     cradle_status = 0
 
-    #Update values from new code (18052022)
+    # Update values from new code (18052022)
     ghts_position = 200
     ghts_position_volt = 1470
 
@@ -615,7 +679,6 @@ class global_defines:
     rsck_label_in_current = 0
     rsck_label_out_current = 0
 
-
     # ghps
     ghps_enable = 1
     ghps_curr = 0
@@ -653,8 +716,7 @@ class global_defines:
     thcc_bridge_enable = 0
     thcc_rotor_gear = 0
 
-
-    #added from new code:
+    # added from new code:
     thcc_set_pos = 0
     thcc_pot_volt = 0
     thcc_pot = 153
@@ -663,7 +725,6 @@ class global_defines:
     thcc_time_taken = 0
     thcc_time_pos = 0
     thcc_sensor_link = 1
-
 
     thcc_enable_var = tk.StringVar()
     thcc_h_curr_var = tk.StringVar()
@@ -689,37 +750,36 @@ class global_defines:
     rotor_gear = tk.StringVar()
     thcc_stat = tk.StringVar()
 
-
-    #Added from new code :[gdpb, gdgs, gdhd]
-    #gdpb
+    # Added from new code :[gdpb, gdgs, gdhd]
+    # gdpb
     gdpb_enable_var = tk.StringVar()
     gdpb_link_to_sensor_var = tk.StringVar()
-    gdpb_park_brake_sensor_var = tk.StringVar()  
+    gdpb_park_brake_sensor_var = tk.StringVar()
 
     gdpb_disenage_sol_label = 0
-    gdpb_park_brake_sensor = 0.5 
+    gdpb_park_brake_sensor = 0.5
     gdpb_enabled = 1
-    gdpb_link_to_sensor = 1 
-    gdpb_disenage_sol = 0 
-    gdpb_RH_brake_pressure_state = 0 
-    gdpb_LH_brake_pressure_state = 0 
+    gdpb_link_to_sensor = 1
+    gdpb_disenage_sol = 0
+    gdpb_RH_brake_pressure_state = 0
+    gdpb_LH_brake_pressure_state = 0
     gdpb_park_brake_sensor_label = 0.5
-    
-    #gdgs
+
+    # gdgs
     gdgs_enable_var = tk.StringVar()
     gdgs_link_to_gearshift_var = tk.StringVar()
     gdgs_electric_shift_pos_sensor_var = tk.StringVar()
 
     gdgs_enabled = 1
     gdgs_gear_shift_inc = 0
-    gdgs_gear_shift_dec = 0 
+    gdgs_gear_shift_dec = 0
     gdgs_electric_shift_pos_sensor = 2.5
-    gdgs_link_to_elec_pos_sensor = 1 
-    gdgs_ground_drive_shift_label = 0  
+    gdgs_link_to_elec_pos_sensor = 1
+    gdgs_ground_drive_shift_label = 0
     gdgs_electric_shift_pos_sensor_label = 2.5
-    
-    #gdhd
-    gdhd_enable_var = tk.StringVar() 
+
+    # gdhd
+    gdhd_enable_var = tk.StringVar()
     gdhd_motor_displacement_var = tk.StringVar()
     gdhd_pump_displacement_var = tk.StringVar()
     gdhd_enabled = 1
@@ -729,17 +789,15 @@ class global_defines:
     gdhd_rev_sol_label = 0
     gdhd_ground_speed_label = 0
     gdhd_gear_speed_label = 0
-    
+
     gdhd_fwd_sol = 0
     gdhd_rev_sol = 0
     gdhd_ground_speed = 0
     gdhd_gear_speed = 0
-    
+
     gdhd_max_pump_displacement = 175
     gdhd_max_motor_displacement = 215
     gdhd_gear_state = 1
-
-
 
     # clfn
     clfn_enable = 1
@@ -809,8 +867,8 @@ class global_defines:
     SPARE19 = 19
     SPARE20 = 20
 
-    #Following code up until hdfn is added from new code
-        # hdhc
+    # Following code up until hdfn is added from new code
+    # hdhc
     hdhc_lift_prs_enable_var = tk.StringVar()
     hdhc_frd_ang_enable_var = tk.StringVar()
     hdhc_gnd_height_enable_var = tk.StringVar()
@@ -855,7 +913,7 @@ class global_defines:
     hdhc_rh_height_tilt_volt_pot_label = 0
     hdhc_lateral_position_volt_pot_label = 0
     #################################################################
-    
+
     # fffa
     fffa_enable_var = tk.StringVar()
     fffa_block_enable_var = tk.StringVar()
@@ -867,17 +925,17 @@ class global_defines:
     fffa_min_position_label = 0
     fffa_max_position_label = 0
     fffa_sol_fore_label = 0
-    fffa_sol_aft_label = 0    
+    fffa_sol_aft_label = 0
     fffa_min_position = 500
     fffa_max_position = 4400
     fffa_travel_rate = 1
     fffa_sol_fore = 0
     fffa_sol_aft = 0
     fffa_position_volt = 500
-    
+
     fffa_position_pot_label = 0
     fffa_position_pot = 0
-    
+
     # gdst
     gdst_enable_var = tk.StringVar()
     gdst_left_track_var = tk.StringVar()
@@ -919,7 +977,6 @@ class global_defines:
     RightFrontDisp_pot = 0
     RightRearDisp_pot = 0
     #################################################################
-    
 
     # hdfn
     hdfn_hor_enable = 1
@@ -1017,7 +1074,7 @@ class global_defines:
     agge_wheel_button = 0
     agge_angle_label = 0
 
-    #from new code:
+    # from new code:
     agge_steer_right = 0
     agge_steer_left = 0
     agge_steering_wheel_override = 0
@@ -1025,7 +1082,6 @@ class global_defines:
     agge_steering_trigger = 0
     agge_right_steer_sol_label = 0
     agge_left_steer_sol_label = 0
-
 
     NONE = 0
     COARSE_RIGHT = 1
@@ -1037,20 +1093,20 @@ class global_defines:
     DONE = 7
 
     STEER_CALIB = 0x101B
-    WHEEL_CALIB = 0X101C
+    WHEEL_CALIB = 0x101C
 
-    CALIB_NONE = 0X00
-    CALIB_COARSE_RIGHT = 0X0A
-    CALIB_COARSE_LEFT = 0X0F
-    CALIB_FINE_RIGHT = 0X14
-    CALIB_FINE_LEFT = 0X19
-    CALIB_TEST_RIGHT = 0X1E
-    CALIB_TEST_LEFT = 0X22
-    CALIB_DONE = 0XDC
+    CALIB_NONE = 0x00
+    CALIB_COARSE_RIGHT = 0x0A
+    CALIB_COARSE_LEFT = 0x0F
+    CALIB_FINE_RIGHT = 0x14
+    CALIB_FINE_LEFT = 0x19
+    CALIB_TEST_RIGHT = 0x1E
+    CALIB_TEST_LEFT = 0x22
+    CALIB_DONE = 0xDC
 
     STEER_VALVE_STEP = 0
 
-    #rrts
+    # rrts
     rrts_enable_var = tk.StringVar()
     rrts_rocktrap_open_sw = 0
     rrts_rocktrap_close_sw = 0
@@ -1071,11 +1127,10 @@ class global_defines:
 
     Key_and_Battery_State = 0
 
-    #CC console states
+    # CC console states
     thresher_engage_button = 0
     thresher_engage_state = 0
-    feeder_engage_state =0
-
+    feeder_engage_state = 0
 
     # This variable will control the ui Simulator mode or not.
     # IF simmode=0,gray out all widgets,if simmode=1
@@ -1097,11 +1152,10 @@ class global_defines:
     feed_roll_var = tk.StringVar()
 
     # CAN
-    can_bus = can.interface.Bus(channel='can0', bustype='socketcan')
+    can_bus = can.interface.Bus(channel="can0", bustype="socketcan")
     msg = can.Message(data=[0, 0, 0, 0, 0, 0, 0, 0], is_extended_id=True)
     id_prefix = 0x18DA
     id_suffix = 0xF9
-
 
     if testing_active == 0:
         import can
@@ -1112,8 +1166,9 @@ class global_defines:
 
         try:
             canbus1 = can.interface.Bus(
-                channel='slcan0', bustype='socketcan', bitrate=500000)
+                channel="slcan0", bustype="socketcan", bitrate=500000
+            )
         except OSError:
-            print('Cannot find PiCAN board.')
+            print("Cannot find PiCAN board.")
             exit()
         msg_buffer = deque(maxlen=10)

@@ -1,5 +1,4 @@
-
-class start_init():
+class start_init:
     global _stg, _sti
 
     def __init__(self, ob1, ob2):
@@ -27,5 +26,3 @@ class start_init():
     def init_volt(self):
         for i in self._stg.vol_ip_spn:
             self._sti.data_to_board(i, self._stg.volt_scale_default_dict[i])
-
-

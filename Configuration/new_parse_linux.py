@@ -10,13 +10,13 @@ import datetime
 
 class parse_excel:
     # predefined strings
-    write_potmeter = 'writepotmeter'
-    write_i2cbus2bytes = 'writei2cbus2bytes'
-    input_variables = 'inputvariables'
-    adc_read = 'adc_channel_read'
-    Board_Number = 'Board number'
-    IC_Number = 'IC number'
-    Byte_value = 'Byte value'
+    write_potmeter = "writepotmeter"
+    write_i2cbus2bytes = "writei2cbus2bytes"
+    input_variables = "inputvariables"
+    adc_read = "adc_channel_read"
+    Board_Number = "Board number"
+    IC_Number = "IC number"
+    Byte_value = "Byte value"
 
     op_list = [0, 0, 0, 0, 0]
 
@@ -24,13 +24,13 @@ class parse_excel:
     global df
 
     def __init__(self):
-#        path = os.path.dirname(__file__)
-#        path = path + "/ES-NG001-overview_subsystems_distributedarchitecture.xlsm"
+        #        path = os.path.dirname(__file__)
+        #        path = path + "/ES-NG001-overview_subsystems_distributedarchitecture.xlsm"
         path = "ES-NG001-overview_subsystems_distributedarchitecture.xlsm"
-        print("Path : ",path)
-        self.df = pd.read_excel(path, 'SPN', header=1)
+        print("Path : ", path)
+        self.df = pd.read_excel(path, "SPN", header=1)
         self.df = self.df.fillna("-1")
-        #print(self.df)
+        # print(self.df)
 
     def calculate_bit_pos(self, data):
         """
@@ -38,7 +38,7 @@ class parse_excel:
         :param data:
         :return:
         """
-        new_val = data[2:] #scrap 0b
+        new_val = data[2:]  # scrap 0b
         byte_val = int(new_val, 2)
         for i in range(16):
             a = pow(2, i)
@@ -56,15 +56,15 @@ class parse_excel:
         :return:
         """
         self.error_status = 0
-        #print("\n", SPN_Number)
+        # print("\n", SPN_Number)
 
         new_spn_Number = SPN_Number
-        func_string = self.df.loc[new_spn_Number, 'def function in Python']
-        #print("\n\n func string for ", SPN_Number, " is : ", func_string)
+        func_string = self.df.loc[new_spn_Number, "def function in Python"]
+        # print("\n\n func string for ", SPN_Number, " is : ", func_string)
 
-        stat = (func_string == "-1")
+        stat = func_string == "-1"
         if stat == True:
-            #print("string is NaN")
+            # print("string is NaN")
             str_6 = "[0, 0, 0, 0, 0]"
             return str_6
 
@@ -75,13 +75,17 @@ class parse_excel:
             self.op_list[2] = self.df.loc[SPN_Number, "Bus Number"]  # bus no
             if self.Board_Number in func_string:
 
-                self.op_list[3] = int(self.df.loc[SPN_Number, "Board Number"])  # bit pos
+                self.op_list[3] = int(
+                    self.df.loc[SPN_Number, "Board Number"]
+                )  # bit pos
 
             elif self.IC_Number in func_string:
 
                 self.op_list[3] = self.df.loc[SPN_Number, "IC Number"]  # bit pos
 
-            self.op_list[4] = self.df.loc[SPN_Number, "Potmeter Number"]  # potmeter Number
+            self.op_list[4] = self.df.loc[
+                SPN_Number, "Potmeter Number"
+            ]  # potmeter Number
 
             return str(self.op_list)
 
@@ -100,7 +104,9 @@ class parse_excel:
             self.op_list[0] = 1  # input variable identifier
             self.op_list[1] = self.df.loc[SPN_Number, "Rack Number"]  # Rack Number
             self.op_list[2] = int(self.df.loc[SPN_Number, "IC Address"], 16)  # ic addr
-            self.op_list[3] = self.df.loc[SPN_Number, "Place in 16 bit answer [0..15]"]  # bit pos
+            self.op_list[3] = self.df.loc[
+                SPN_Number, "Place in 16 bit answer [0..15]"
+            ]  # bit pos
             self.op_list[4] = 0
 
             return str(self.op_list)
@@ -117,7 +123,7 @@ class parse_excel:
 
         else:
             str_5 = "[0, 0, 0, 0, 0]"
-#            print("empty")
+            #            print("empty")
             return str_5
 
     def error_handle(self, data):
@@ -162,15 +168,15 @@ pe = parse_excel()  # creat object
 
 ct = datetime.datetime.now()
 
-file_obj = open(r"hashmap.txt", 'a+')
+file_obj = open(r"hashmap.txt", "a+")
 file_obj.close()
 
 file_obj = open("hashmap.txt", "r+")
 file_obj.truncate(0)
 file_obj.close()
 
-file_obj = open(r"hashmap.txt", 'a+')
-file_obj.write('#Hashmap file for NGC generated on : ' + str(ct))
+file_obj = open(r"hashmap.txt", "a+")
+file_obj.write("#Hashmap file for NGC generated on : " + str(ct))
 
 for i in range(1027):
     j = i + 1
@@ -181,20 +187,20 @@ for i in range(1027):
     b = f'"{str_temp}"'
     c = f'"{str_error}"'
     try:
-        file_obj.write('\n' + str_spn + " = " + b)
+        file_obj.write("\n" + str_spn + " = " + b)
     except:
-        file_obj.write('\n' + str_spn + " = " + c)
+        file_obj.write("\n" + str_spn + " = " + c)
 
 file_obj.close()
 
-#if os.path.exists("hashmap.py"):
+# if os.path.exists("hashmap.py"):
 #    os.remove("hashmap.py")
-#else:
+# else:
 #    print("The file does not exist")
 
 path = os.path.dirname(__file__)
-#old_path = path + "/hashmap.txt"
-#new_path = path + "/hashmap.py"
+# old_path = path + "/hashmap.txt"
+# new_path = path + "/hashmap.py"
 old_path = "hashmap.txt"
 new_path = "hashmap.py"
 os.rename(old_path, new_path)

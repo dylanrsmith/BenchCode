@@ -1,4 +1,4 @@
-#Hashmap file for NGC generated on : 2022-04-06 14:21:42.526187
+# Hashmap file for NGC generated on : 2022-04-06 14:21:42.526187
 SPN1 = "[4, 1, 36, 6, 0]"
 SPN2 = "[0, 0, 0, 0, 0]"
 SPN3 = "[0, 0, 0, 0, 0]"

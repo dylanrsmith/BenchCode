@@ -10,6 +10,7 @@ class HwConnect:
 
     Using SPI and I2C interfaces.
     """
+
     i2cbusRack1 = 1  # smbus.SMBus(11)
     i2cbusRack2 = 1  # smbus.SMBus(12)
     i2cbusRack3 = 1  # smbus.SMBus(13)
@@ -21,7 +22,7 @@ class HwConnect:
 
     # A0
     GPIO.setup(4, GPIO.OUT, initial=GPIO.LOW)
-    time.sleep(.10)
+    time.sleep(0.10)
 
     # A1
     GPIO.setup(23, GPIO.OUT, initial=GPIO.LOW)
