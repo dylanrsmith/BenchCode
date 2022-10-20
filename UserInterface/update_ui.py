@@ -165,8 +165,6 @@ class update_ui:
         self._ui.pto_lsd_label.insert(0, "{:.2f}".format(float(self._ui.current_spd)))
         self._ui.pto_hsd_label.delete(0, 100)
         self._ui.pto_hsd_label.insert(0, "{:.2f}".format(float(self._ui.PTO_HSD)))
-        # self._ui.Aux_PTO_enabled_label.delete(0,100)
-        # self._ui.Aux_PTO_enabled_label.insert(0, int(self._ui.Aux_PTO_enabled))
 
     def update_ui_clrm(self):
         if self._ui.clrm_enabled == 1:
@@ -266,28 +264,6 @@ class update_ui:
             self._ui.ghps_bridge_button.config(bg="Red")
         else:
             self._ui.ghps_bridge_button.config(bg="Green")
-
-    # def update_ui_thcc(self):
-    #     self._ui.thcc_curr_label.delete(0, 100)
-    #     self._ui.thcc_curr_label.insert(
-    #         0, "{:.2f}".format(float(self._ui.thcc_curr)))
-
-    #     self._ui.thcc_pwm_label.delete(0, 100)
-    #     self._ui.thcc_pwm_label.insert(
-    #         0, "{:.2f}".format(float(self._ui.thcc_pwm)))
-
-    #     self._ui.thcc_pos_label.delete(0, 100)
-    #     self._ui.thcc_pos_label.insert(
-    #         0, "{:.2f}".format(float(self._ui.thcc_pos)))
-
-    #     self._ui.thcc_pos_volt_label.delete(0, 100)
-    #     self._ui.thcc_pos_volt_label.insert(
-    #         0, "{:.2f}".format(float(self._ui.thcc_pos_volt)))
-
-    #     if self._ui.thcc_bridge_enable == 0:
-    #         self._ui.thcc_bridge_button.config(bg="Red")
-    #     else:
-    #         self._ui.thcc_bridge_button.config(bg="Green")
 
     def update_ui_thcc(self):
         self._ui.thcc_pos_label.delete(0, 100)
@@ -461,7 +437,6 @@ class update_ui:
         self._ui.gdst_RightRearDisp_pot_label.insert(
             0, "{:.2f}".format(float(self._ui.RightRearDisp_pot))
         )
-        #################################################################
 
     def update_ui_fffa(self):
         self._ui.fffa_min_position_label.delete(0, 100)

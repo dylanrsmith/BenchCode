@@ -28,7 +28,6 @@ class generate_ui:
         self._ge.can2 = CAN_FEI(ob1)
 
     # Generates first 7 UI Tabs
-
     def generate_spn_ui(self):
         """
         The function `generate_spn_ui` is responsible for creating these UI tabs and their widgets:
@@ -388,7 +387,6 @@ class generate_ui:
                 self._ge.can2.flip_all_off(i)
 
     # Open_To Tab:
-
     def generate_open_ui(self):
         """
         Function for generating components in the 'Open' UI tab
@@ -465,7 +463,6 @@ class generate_ui:
                 label.grid(row=i, column=0)
 
     # Actuator Tab
-
     def generate_actuator_ui(self):
         """
         Generates Widgets under 'Actuator' UI Tab.
@@ -526,7 +523,6 @@ class generate_ui:
                 pass
 
     # Driveline Tab
-
     def generate_driveline_ui(self):
         for i in range(len(self._ge.sp_name)):
             self._ge.drive_label.append(0)
@@ -724,7 +720,6 @@ class generate_ui:
         self._ge.Aux_PTO_enabled_label_str.grid(row=14, column=4)
 
     # UCM_1 Tab
-
     def generate_clrm_ui(self):
 
         # This will create a LabelFrame
@@ -1297,7 +1292,6 @@ class generate_ui:
         self._ge.hdhc_lateral_position_volt_pot_label.insert(
             0, self._ge.hdhc_lateral_position_volt_pot
         )
-        ####################################################################
 
     def generate_ui_fffa(self):
         label_frame_fffa = tk.LabelFrame(self._ge.plant_model_ucm1_frame, text="FFFA")
@@ -1881,7 +1875,6 @@ class generate_ui:
         self._ge.rrts_rocktrap_close_sol_label.insert(0, "0")
 
     # UCM_2 Tab
-
     def generate_ghcv_ui(self):
 
         # This will create a LabelFrame
@@ -2116,7 +2109,6 @@ class generate_ui:
         self._ge.clfn_RPM_label.insert(0, "0")
 
     # UCM_3 Tab
-
     def generate_ui_ghts(self):
 
         # This will create a LabelFrame
@@ -2976,7 +2968,6 @@ class generate_ui:
         self._ge.clfn_RPM_label.insert(0, "0")
 
     # Settings Tab
-
     def generate_setting_ui(self):
 
         # Settings Container
@@ -3009,6 +3000,7 @@ class generate_ui:
             width=4,
             bd=6,
             fg="Black",
+            font=("Geneva", 6),
             bg="Red",
             command=self.ui_call.battery_key_callback,
         )
@@ -3076,37 +3068,19 @@ class generate_ui:
             # error, missing selection parameter     #error, missing selection parameter
             self._ge.reset_can_button.grid(row=6, column=2)
 
+
     # New CSS console
     def generate_cc_console_ui(self):
         label_frame_cc_console = tk.LabelFrame(
             self._ge.setting_frame, text="CSS Console"
         )
-
         label_frame_cc_console.pack(expand="yes", fill="both")
-
-        self._ge.thresher_engage_button = tk.Button(
-            label_frame_cc_console,
-            height=1,
-            width=4,
-            bd=6,
-            bg="Red",
-            fg="black",
-            command=self.ui_call.thresher_engage_callback,
-        )
 
         # Thresher
         label = tk.Label(
             label_frame_cc_console, text="Thresher Engage", bg="azure3", width=20
         )
-
         label.grid(row=1, column=1)
-        self._ge.thresher_engage_button.grid(row=1, column=2)
-
-        # Feeder
-        label = tk.Label(
-            label_frame_cc_console, text="Feeder Engage", bg="azure3", width=20
-        )
-        label.grid(row=2, column=1)
         self._ge.thresher_engage_button = tk.Button(
             label_frame_cc_console,
             height=1,
@@ -3114,6 +3088,7 @@ class generate_ui:
             bd=6,
             bg="Red",
             fg="black",
+            font=("Geneva", 6),
             command=self.ui_call.thresher_engage_callback,
         )
         self._ge.thresher_engage_button.grid(row=1, column=2)
@@ -3129,6 +3104,7 @@ class generate_ui:
             width=4,
             bd=6,
             fg="black",
+            font=("Geneva", 6),
             bg="Red",
             command=self.ui_call.feeder_engage_callback,
         )
