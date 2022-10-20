@@ -1162,13 +1162,13 @@ class global_defines:
         import os
         from collections import deque
 
-        os.system("sudo /sbin/ip link set can0 up type can bitrate 500000")
+        # os.system("sudo /sbin/ip link set can0 up type can bitrate 500000")
 
-        try:
-            canbus1 = can.interface.Bus(
-                channel="slcan0", bustype="socketcan", bitrate=500000
-            )
-        except OSError:
-            print("Cannot find PiCAN board.")
-            exit()
-        msg_buffer = deque(maxlen=10)
+        # try:
+        #     canbus1 = can.interface.Bus(
+        #         channel="slcan0", bustype="socketcan", bitrate=500000
+        #     )
+        # except OSError:
+        #     print("Cannot find PiCAN board.")
+        #     exit()
+        # msg_buffer = deque(maxlen=10)

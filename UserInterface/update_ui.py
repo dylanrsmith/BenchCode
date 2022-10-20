@@ -580,7 +580,8 @@ class update_ui:
                         if widg.__class__.__name__ != "OptionMenu":
                             widg.config(bg="azure3")
                 except AttributeError:
-                    pass
+                    print("Encountered AttributeError in update_ui_offline")
+
 
     def mainloop(self):
         """
